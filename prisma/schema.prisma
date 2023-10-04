@@ -12,31 +12,18 @@ datasource db {
 
 model User {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
   userName String
   password String
   userImg  String?
-  email    String   @unique
-  role     Roles    @default(USER)
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-  Mood     Mood[]
-  Diary    Diary[]
-  Post Post[]
-}
+  email    String  @unique
+  role     Roles   @default(USER)
 
-model Diary {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId   String   @db.ObjectId
-  user     User     @relation(fields: [userId], references: [id])
-  moodId   String   @db.ObjectId
-  mood     Mood     @relation(fields: [moodId], references: [id])
-  img      String?
-  content  String
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-
-  @@unique([userId, id])
-  @@unique([moodId, id])
+  Mood  Mood[]
+  Diary Diary[]
+  Post  Post[]
 }
 
 enum Roles {
@@ -44,24 +31,57 @@ enum Roles {
   PSICOLOGO
 }
 
-model Mood {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String   @db.ObjectId
-  user       User     @relation(fields: [userId], references: [id])
-  mood       String
-  moodRecord Int
-  content    String
-  createAt   DateTime @default(now())
-  updateAt   DateTime @updatedAt
-  Diary      Diary[]
+model Diary {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  
+  img      String?
+  content  String
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  Mood Mood[]
 
   @@unique([userId, id])
 }
 
 model Post {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String   @db.ObjectId
-  user       User     @relation(fields: [userId], references: [id])
-  
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createAt   DateTime @default(now())
+  updateAt   DateTime @updatedAt
+
+  userId  String  @db.ObjectId
+  user    User    @relation(fields: [userId], references: [id])
+  content String?
+  title   String
+  img     String?
+
+  Mood Mood[]
+
   @@unique([userId, id])
+}
+
+model Mood {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createAt   DateTime @default(now())
+  updateAt   DateTime @updatedAt
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  postId String @db.ObjectId
+  post   Post   @relation(fields: [postId], references: [id])
+
+  diaryId String @db.ObjectId
+  diary   Diary  @relation(fields: [diaryId], references: [id])
+
+  mood       String
+  moodRecord Int //eto va del 1 al 10
+  content    String //eto e del chat por si acaso
+
+  @@unique([userId, id])
+  @@unique([postId, id])
+  @@unique([diaryId, id])
 }
