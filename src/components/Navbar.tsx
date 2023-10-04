@@ -1,8 +1,8 @@
-import { getServerSession } from "next-auth"
-import Link from "next/link"
+import { getServerSession } from "next-auth";
+import Link from "next/link";
 
 export const Navbar = async () => {
-    const session = await getServerSession()
+  const session = await getServerSession();
   return (
     <nav className="bg-zinc-900 p-4">
       <div className="container mx-auto flex justify-between">
@@ -33,5 +33,5 @@ export const Navbar = async () => {
         </ul>
       </div>
     </nav>
-  )
-}
+  );
+};
