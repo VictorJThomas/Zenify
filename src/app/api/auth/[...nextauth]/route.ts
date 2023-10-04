@@ -19,11 +19,18 @@ export const authOptions = {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials, req) {
-        
+      async authorize(credentials) {
+
       }
     })
   ],
+  session: {
+    strategy: "jwt"
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === "development",
 };
 
-export default NextAuth(authOptions)
+const handler = NextAuth(authOptions)
+
+export {handler as GET, handler as POST}

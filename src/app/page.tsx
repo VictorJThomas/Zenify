@@ -1,5 +1,11 @@
-export default function HomePage() {
+import Link from "next/link";
+
+export default function Home() {
   return (
-    <div className="text-xl">HomePage</div>
+    <main className="w-full">
+      <h1>Zenify</h1>
+      <Link href="/register">Register Page</Link>
+      <Link href="/login">Login Page</Link>
+    </main>
   )
 }
