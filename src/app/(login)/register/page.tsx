@@ -1,35 +1,40 @@
 "use client";
 
+import axios, { AxiosError } from "axios";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 const RegisterPage = () => {
   const router = useRouter();
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [error, setError] = useState();
 
-  const registerUser = async (e: { preventDefault: () => void; })  => {
-    e.preventDefault()
-    try{
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({data})
-      })
-  
-      const userInfo = await response.json()
-      console.log(userInfo);
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const formData = new FormData(event.currentTarget);
+      const signupResponse = await axios.post("/api/register", {
+        email: formData.get("email"),
+        name: formData.get("name"),
+        password: formData.get("password"),
+      });
+      console.log(signupResponse);
+      const res = await signIn("credentials", {
+        email: signupResponse.data.email,
+        password: formData.get("password"),
+        redirect: false,
+      });
 
-      router.push("/login")
-    } catch (e) {
-      console.error(e);
+      if (res?.ok) return router.push("/dashboard");
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        const errorMessage = error.response?.data.message;
+        setError(errorMessage);
+      }
     }
-  }
+  };
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -39,7 +44,7 @@ const RegisterPage = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={registerUser}>
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="name"
@@ -54,8 +59,6 @@ const RegisterPage = () => {
                 type="name"
                 autoComplete="name"
                 required
-                value={data.name}
-                onChange={(e) => {setData({...data, name: e.target.value})}}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -72,8 +75,6 @@ const RegisterPage = () => {
                 type="email"
                 autoComplete="email"
                 required
-                value={data.email}
-                onChange={(e) => {setData({...data, email: e.target.value})}}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -87,7 +88,6 @@ const RegisterPage = () => {
               >
                 Password
               </label>
-             
             </div>
             <div className="mt-2">
               <input
@@ -96,8 +96,6 @@ const RegisterPage = () => {
                 type="password"
                 autoComplete="current-password"
                 required
-                value={data.password}
-                onChange={(e) => {setData({...data, password: e.target.value})}}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -117,4 +115,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage
+export default RegisterPage;

@@ -11,18 +11,18 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
   hashedPassword String?
-  image         String?
+  image          String?
 
   accounts Account[]
   sessions Session[]
 
-  post     Post[]
-  mood     Mood[]
+  post  Post[]
+  mood  Mood[]
   diary Diary[]
 }
 
@@ -44,11 +44,11 @@ model Post {
 }
 
 model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @map("user_id") @db.ObjectId
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @map("user_id") @db.ObjectId
 
-  type              Roles   @default(USER)
-  
+  type Roles @default(USER)
+
   provider          String
   providerAccountId String  @map("provider_account_id")
   refresh_token     String? @db.ObjectId
@@ -75,22 +75,6 @@ model Session {
   @@map("sessions")
 }
 
-// model User {
-//   id       String   @id @default(auto()) @map("_id") @db.ObjectId
-//   createAt DateTime @default(now())
-//   updateAt DateTime @updatedAt
-
-//   userName String
-//   password String
-//   userImg  String?
-//   email    String  @unique
-//   role     Roles   @default(USER)
-
-//   Mood  Mood[]
-//   Diary Diary[]
-//   Post  Post[]
-// }
-
 enum Roles {
   USER
   PSICOLOGO
@@ -101,8 +85,8 @@ model Diary {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  img      String?
-  content  String
+  img     String?
+  content String
 
   userId String @db.ObjectId
   user   User   @relation(fields: [userId], references: [id])

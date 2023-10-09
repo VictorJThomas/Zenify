@@ -1,8 +1,11 @@
+"use client"
+
 import { getServerSession } from "next-auth";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 
 export const Navbar = async () => {
-  const session = await getServerSession();
+  const session = getServerSession();
   return (
     <nav className="bg-zinc-900 p-4">
       <div className="container mx-auto flex justify-between">
@@ -11,17 +14,23 @@ export const Navbar = async () => {
         </Link>
 
         <ul className="flex gap-x-2">
-          {session ? (
+          {await session ? (
             <>
               <li className="px-3 py-1">
-                <Link href="/dashboard/profile">Perfil</Link>
+                <Link href="/dashboard">Perfil</Link>
               </li>
+              <button
+                onClick={ () => {
+                   signOut({
+                    callbackUrl: "/",
+                  });
+                }}
+              >
+                Logout
+              </button>
             </>
           ) : (
             <>
-              <li className="px-3 py-1">
-                <Link href="/about">About</Link>
-              </li>
               <li className="bg-indigo-500 px-3 py-1">
                 <Link href="/">Login</Link>
               </li>
