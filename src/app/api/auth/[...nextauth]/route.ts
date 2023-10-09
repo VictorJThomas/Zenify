@@ -7,6 +7,14 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+interface usser {
+    id: string;
+    name: string | null;
+    email: string | null;
+    emailVerified: Date | null;
+    hashedPassword: string | null;
+    image: string | null;
+}
 export const authOptions: any = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -15,9 +23,9 @@ export const authOptions: any = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     CredentialProvider({
-      name: "Credentials",
-      id: "credentials",
-      credentials: {
+        name: "Credentials",
+        id: "credentials",
+        credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
