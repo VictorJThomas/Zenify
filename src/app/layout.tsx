@@ -20,17 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main>
-          <Provider>
-            <div className="w-screen flex flex-3 justify-between p-8">
-              <LeftPanel />
-              <main className="p-4 basis-1/1 w-full bg-zinc-100">
-                {children}
-              </main>
-              <RightPanel/>     
-            </div>     
-          </Provider>
-        </main>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );
