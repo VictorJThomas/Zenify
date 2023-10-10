@@ -24,7 +24,7 @@ export default function RootLayout({
           <Provider>
             <div className="w-screen flex flex-3 justify-between p-8">
               <LeftPanel />
-              <main className="p-4 basis-1/1 w-full">
+              <main className="p-4 basis-1/1 w-full bg-zinc-100">
                 {children}
               </main>
               <RightPanel/>     
