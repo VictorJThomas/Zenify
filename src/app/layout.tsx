@@ -2,7 +2,8 @@ import Provider from "@/context/SessionProvider";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Navbar } from "@/components/Navbar";
+import RightPanel from "@/components/RightPanel";
+import LeftPanel from "@/components/LeftPanel";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <main>
-          <Provider>{children}</Provider>
+          <Provider>
+            <div className="w-screen flex flex-3 justify-between p-8">
+              <LeftPanel />
+              <main className="p-4 basis-1/1 w-full">
+                {children}
+              </main>
+              <RightPanel/>     
+            </div>     
+          </Provider>
         </main>
       </body>
     </html>
