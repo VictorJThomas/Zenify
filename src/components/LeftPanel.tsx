@@ -1,4 +1,3 @@
-import { signOut } from "next-auth/react";
 import ProfileCard from "./ProfileCard";
 import LogoutButton from "./LogoutButton";
 
