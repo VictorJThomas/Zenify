@@ -1,4 +1,6 @@
+import { signOut } from "next-auth/react";
 import ProfileCard from "./ProfileCard";
+import LogoutButton from "./LogoutButton";
 
 const LeftPanel = () => {
   return (
@@ -12,6 +14,7 @@ const LeftPanel = () => {
         perferendis eius vitae provident beatae! Nostrum, quaerat dolorem unde
         ullam totam labore!
       </div>
+      <LogoutButton/>
     </aside>
   );
 };

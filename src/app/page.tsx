@@ -3,7 +3,7 @@ import RightPanel from "@/components/RightPanel";
 import Link from "next/link";
 
 export default function Home({ children }: { children: React.ReactNode }) {
-  let href = "/dashboard"
+  let href = "/login"
 
   return (
     <div className=" h-[calc(100vh)] bg-zinc-200 flex justify-center items-center text-black">
