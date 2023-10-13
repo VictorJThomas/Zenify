@@ -1,5 +1,3 @@
-import LeftPanel from "@/components/LeftPanel";
-import RightPanel from "@/components/RightPanel";
 import Link from "next/link";
 
 export default function Home({ children }: { children: React.ReactNode }) {
