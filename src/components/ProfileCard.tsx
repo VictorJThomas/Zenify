@@ -12,7 +12,8 @@ const ProfileCard = () => {
             <div className="bg-zinc-200 align-middle">
                 <Image src={userImage} alt={`${session?.user?.email} image`} width={100} height={100}/>
             </div>
-            <div>{session?.user?.name}</div>
+            <div>{session?.user?.name}</div> <br />
+            <div>{session?.user?.email}</div> <br />
         </div>
     )
 }
