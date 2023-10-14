@@ -1,18 +1,20 @@
 import Link from "next/link";
 
 export default function Home({ children }: { children: React.ReactNode }) {
-  let href = "/login"
+  let href = "/login";
 
   return (
-    <div className=" h-[calc(100vh)] bg-zinc-200 flex justify-center items-center text-black">
-      <div className="w-full max-w-[600px] mx-auto mb-20">
-        <h1 className="text-6xl mb-4">Zenify</h1>
-        <p className="text-2xl text-black/60 mb-4">
-          Bienvenido a Zenify!
-        </p>
-        <div>
+    <div className="landing-container w-screen h-screen">
+      <div className="container">
+        <p className="letter">Zenify</p>
+        <div className="moon">
+          <div className="orbit">
+            <p>O</p>
+          </div>
+        </div>
+        <div className="button">
           <Link href={href}>
-            <button className="bg-blue-600 px-4 py-2 rounded-lg text-xl">
+            <button className="bg-blue-950 px-8 py-1 rounded-2xl text-2xl">
               Iniciar
             </button>
           </Link>
