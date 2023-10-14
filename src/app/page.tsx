@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-export default function Home({ children }: { children: React.ReactNode }) {
-  let href = "/login";
+export default function Home() {
+  let href = "/chat";
 
   return (
     <div className="landing-container w-screen h-screen">

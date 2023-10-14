@@ -7,14 +7,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-interface usser {
-    id: string;
-    name: string | null;
-    email: string | null;
-    emailVerified: Date | null;
-    hashedPassword: string | null;
-    image: string | null;
-}
 export const authOptions: any = {
   adapter: PrismaAdapter(prisma),
   providers: [

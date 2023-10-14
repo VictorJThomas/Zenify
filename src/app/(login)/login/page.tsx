@@ -22,12 +22,9 @@ const LoginPage = () => {
     });
     if (res?.error) setError(res.error as string);
 
-    if (res?.ok) return router.push("/dashboard");
+    if (res?.ok) return router.push("/chat");
   };
 
-  const signUpRedirect = () => {
-    router.push("/register")
-  }
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
