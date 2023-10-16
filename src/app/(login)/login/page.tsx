@@ -1,30 +1,36 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
+import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const session = useSession()
   const [data, setData] = useState({
     email: "",
     password: "",
   });
 
+  useEffect(() => {
+    if(session?.status === 'authenticated'){
+      router.push('/dashboard')
+    }
+  })
+
   const loginUser = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const res = await signIn("credentials", {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      redirect: false,
-    });
+    event.preventDefault()
+    const res = await signIn('credentials',
+      {...data, redirect: false}
+    )
     if (res?.error) setError(res.error as string);
 
     if (res?.ok) return router.push("/chat");
-  };
-
+  }
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -44,7 +50,6 @@ const LoginPage = () => {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  required                  
                   value={data.email}
                   onChange={(e) => {
                     setData({ ...data, email: e.target.value });
@@ -65,7 +70,6 @@ const LoginPage = () => {
                     setData({ ...data, password: e.target.value });
                   }}
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required
                 />
               </div>
               <button
@@ -74,16 +78,18 @@ const LoginPage = () => {
               >
                 Sign in
               </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet?{" "}
-                <a
-                  href="/register"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Sign up
-                </a>
-              </p>
+
             </form>
+            <GoogleSignInButton>Sign in with Google</GoogleSignInButton>
+            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              Don’t have an account yet?{" "}
+              <Link
+                href="/register"
+                className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              >
+                Sign up
+              </Link>
+            </p>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 import axios, { AxiosError } from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -13,15 +14,16 @@ const RegisterPage = () => {
     event.preventDefault();
     try {
       const formData = new FormData(event.currentTarget);
+      const { email, name, password } = Object.fromEntries(formData.entries());
       const signupResponse = await axios.post("/api/register", {
-        email: formData.get("email"),
-        name: formData.get("name"),
-        password: formData.get("password"),
+        email,
+        name,
+        password,
       });
       console.log(signupResponse);
       const res = await signIn("credentials", {
         email: signupResponse.data.email,
-        password: formData.get("password"),
+        password,
         redirect: false,
       });
 
@@ -100,7 +102,6 @@ const RegisterPage = () => {
               />
             </div>
           </div>
-
           <div>
             <button
               type="submit"
@@ -109,6 +110,7 @@ const RegisterPage = () => {
               Sign Up
             </button>
           </div>
+          <GoogleSignInButton>Sign in with Google</GoogleSignInButton>
         </form>
       </div>
     </div>

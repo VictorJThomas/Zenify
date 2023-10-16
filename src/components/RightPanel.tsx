@@ -1,13 +1,11 @@
 "use client"
 
-import { useDiary } from "@/context/DiaryContext";
+
 import { AiOutlinePlusSquare } from "react-icons/ai";
 
 const RightPanel = () => {
 
-  const {diary, loadDiary} = useDiary()
-  
-  console.log("Diarios:" + loadDiary);
+
 
   return (
     <aside className="p-4 basis-1/2 max-w-[40vh] bg-zinc-50 h-[calc(90vh)] rounded-xl">

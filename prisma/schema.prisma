@@ -17,50 +17,43 @@ model User {
   emailVerified  DateTime?
   hashedPassword String?
   image          String?
-
-  accounts Account[]
-  sessions Session[]
-
-  post  Post[]
-  mood  Mood[]
-  diary Diary[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  
+  accounts        Account[]
+  posts           Post[]
+  moods           Mood[]
+  diaries         Diary[]
+  sessions        Session[]
 }
 
 model Post {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
-
-  userId String @map("user_id") @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
-
-  content String?
-  title   String
-  img     String?
-
-  Mood Mood[]
-
+  userId   String   @map("user_id") @db.ObjectId
+  user     User     @relation(fields: [userId], references: [id])
+  content  String?
+  title    String
+  image    String?
+  moods    Mood[]
   @@unique([userId, id])
 }
 
 model Account {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @map("user_id") @db.ObjectId
-
-  type Roles @default(USER)
-
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String   @map("user_id") @db.ObjectId
+  type              String
   provider          String
-  providerAccountId String  @map("provider_account_id")
-  refresh_token     String? @db.ObjectId
-  access_token      String? @db.ObjectId
-  expires_at        Int?
-  token_type        String?
+  providerAccountId String   @map("provider_account_id")
+  refreshToken      String?  @db.String
+  access_token      String?  @db.String
+  expiresAt         Int?
+  tokenType         String?
   scope             String?
-  id_token          String? @db.ObjectId
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  idToken           String?  @db.String
+  sessionState      String?
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@unique([provider, providerAccountId])
   @@map("accounts")
 }
@@ -71,11 +64,10 @@ model Session {
   userId       String   @map("user_id") @db.ObjectId
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@map("sessions")
 }
 
-enum Roles {
+enum Role {
   USER
   PSICOLOGO
 }
@@ -84,37 +76,28 @@ model Diary {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
-
-  img     String?
-  content String
-
-  userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
-
-  Mood Mood[]
-
+  image    String?
+  content  String
+  userId   String   @db.ObjectId
+  user     User     @relation(fields: [userId], references: [id])
+  moods    Mood[]
   @@unique([userId, id])
 }
 
 model Mood {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-
-  userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
-
-  postId String @db.ObjectId
-  post   Post   @relation(fields: [postId], references: [id])
-
-  diaryId String @db.ObjectId
-  diary   Diary  @relation(fields: [diaryId], references: [id])
-
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt   DateTime @default(now())
+  updateAt   DateTime @updatedAt
+  userId     String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id])
+  postId     String   @db.ObjectId
+  post       Post     @relation(fields: [postId], references: [id])
+  diaryId    String   @db.ObjectId
+  diary      Diary    @relation(fields: [diaryId], references: [id])
   mood       String
   moodRecord Int
   content    String
-
   @@unique([diaryId, id])
   @@unique([userId, id])
   @@unique([postId, id])
-}
+} 

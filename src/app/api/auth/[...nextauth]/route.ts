@@ -15,31 +15,34 @@ export const authOptions: any = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     CredentialProvider({
-        name: "Credentials",
-        id: "credentials",
-        credentials: {
+      name: "Credentials",
+      id: "credentials",
+      credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) {
-          return null;
+          throw new Error("Please enter an email and password");
         }
+
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials?.email,
+            email: credentials.email,
           },
         });
 
-        if (!user) throw new Error("Invalid Credentials");
+        if (!user || !user?.hashedPassword) throw new Error("User not found");
 
-        const passwordsMatch = bcrypt.compare(
-          credentials!.password,
+        const passwordsMatch = await bcrypt.compare(
+          credentials.password,
           user.hashedPassword
         );
 
-        if (!passwordsMatch) throw new Error("Invalid credentials");
+        if (!passwordsMatch) {
+          throw new Error("Incorrect password");
+        }
 
         console.log(user);
 
@@ -47,21 +50,12 @@ export const authOptions: any = {
       },
     }),
   ],
-  pages: {
-    signIn: "/login",
-  },
   session: {
     strategy: "jwt",
   },
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.user = user;
-      return token;
-    },
-    async session({ session, token }) {
-      session.user = token.user as any;
-      return session;
-    },
+  secret: process.env.SECRET,
+  pages: {
+    signIn: "/login",
   },
 };
 

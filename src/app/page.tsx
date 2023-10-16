@@ -14,7 +14,7 @@ export default function Home() {
         </div>
         <div className="button">
           <Link href={href}>
-            <button className="bg-blue-950 px-8 py-1 rounded-2xl text-2xl">
+            <button className="bg-blue-950 px-8 py-1 shadow-2xl shadow-blue-800 rounded-xl text-2xl hover:bg-blue-900">
               Iniciar
             </button>
           </Link>

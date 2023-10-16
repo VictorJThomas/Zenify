@@ -6,7 +6,8 @@ import imageDefault from "@/../public/assets/imageDefault.svg"
 
 const ProfileCard = () => {
     const {data: session} = useSession()
-    const userImage = session?.user?.image || imageDefault;
+    const userImage = session?.user?.image || imageDefault ;
+    const sessionsJson = JSON.stringify(session)
     return (
         <div className="w-full pb-8">
             <div className="bg-zinc-200 align-middle">
