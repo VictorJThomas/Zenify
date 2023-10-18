@@ -62,7 +62,7 @@ const LoginPage: React.FC<{}> = () => {
                         height="121"
                       />
                       <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
-                        We are The Lotus Team
+                        We are Zenify!
                       </h4>
                     </div>
 

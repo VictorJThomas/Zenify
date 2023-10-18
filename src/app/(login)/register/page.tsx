@@ -24,8 +24,8 @@ const RegisterPage = () => {
 
   useEffect(() => {
     const init = async () => {
-      const { Datepicker, Input, initTE } = await import("tw-elements");
-      initTE({ Datepicker, Input });
+      const { Input, initTE } = await import("tw-elements");
+      initTE({ Input });
     };
     init();
   })
@@ -33,8 +33,6 @@ const RegisterPage = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      // const formData = new FormData(event.currentTarget);
-      // const { email, name, password } = Object.fromEntries(formData.entries());
       const { email, name, password } = data
       const signupResponse = await axios.post("/api/register", {
         email,
@@ -78,7 +76,7 @@ const RegisterPage = () => {
                         height="121"
                       />
                       <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
-                        We are The Lotus Team
+                        We are Zenify!
                       </h4>
                     </div>
 
