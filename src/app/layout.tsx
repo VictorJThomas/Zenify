@@ -2,7 +2,7 @@ import Provider from "@/context/SessionProvider";
 import "./globals.css";
 import type { Metadata } from "next";
 import {Montserrat} from "next/font/google"
-import ToasterContext from "@/context/ToasterContext";
+import "tw-elements/dist/css/tw-elements.min.css";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -20,7 +20,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
         <Provider>
-          <ToasterContext/>
           {children}
         </Provider>
       </body>
