@@ -24,7 +24,7 @@ const LeftPanel = () => {
   ]
 
   return (
-    <aside className="w-[253px] py-[25px] px-[20px] flex-col justify-between self-stretch flex-shrink-0 bg-zinc-50 rounded-xl">
+    <aside className="w-[270px] py-[25px] px-[20px] flex-col justify-between self-stretch flex-shrink-0 bg-zinc-50 rounded-xl">
       <ProfileCard/>
       <div>
         {menu.map((item) => (
