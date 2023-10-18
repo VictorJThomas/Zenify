@@ -1,5 +1,6 @@
 "use client";
 
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -94,9 +95,9 @@ const LoginPage: React.FC<{}> = () => {
                         >Password
                         </label>
                       </div>
-                      <div className="mb-12 pb-1 pt-1 text-center">
+                      <div className="mb-3 pb-1 pt-1 text-center">
                         <button
-                          className="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
+                          className="inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
                           type="submit"
                           data-te-ripple-init
                           data-te-ripple-color="light"
@@ -107,6 +108,12 @@ const LoginPage: React.FC<{}> = () => {
                         </button>
                         <a href="#!">Forgot password?</a>
                       </div>
+                      <div className="flex mb-4 items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                        <p className="mx-4 mb-0 text-center font-semibold">
+                          OR
+                        </p>
+                      </div>
+                      <GoogleSignInButton/>
                       <div className="flex items-center justify-between pb-6">
                         <p className="mb-0 mr-2">Dont have an account?</p>
                         <Link
@@ -126,14 +133,25 @@ const LoginPage: React.FC<{}> = () => {
                   style={{ background: "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)" }}>
                   <div className="px-4 py-6 text-white md:mx-6 md:p-12">
                     <h4 className="mb-6 text-xl font-semibold">
-                      We are more than just a company
+                      Welcome to Zenify - Your Personal Journal Companion
                     </h4>
-                    <p className="text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing
-                      elit, sed do eiusmod tempor incididunt ut labore et
-                      dolore magna aliqua. Ut enim ad minim veniam, quis
-                      nostrud exercitation ullamco laboris nisi ut aliquip ex
-                      ea commodo consequat.
+                    <p className="text-sm mb-8">
+                      Unleash your creativity and capture life&apos;s moments with Zenify. Write, reflect, and set goals in your private digital sanctuary. Start your journaling journey today!
+                    </p>
+                    <p className="text-sm pb-2">
+                      📝 Create Daily Entries: Capture your thoughts, experiences, and emotions.
+                    </p>
+                    <p className="text-sm pb-2">
+                      📚 Organize and Reflect: Easily browse past entries and see how far you&apos;ve come.
+                    </p>
+                    <p className="text-sm pb-2">
+                      🎯 Set Goals: Track your progress and celebrate your achievements.
+                    </p>
+                    <p className="text-sm pb-2">
+                      🌟 Find Inspiration: Explore prompts and quotes to spark your creativity.
+                    </p>
+                    <p className="text-sm pb-2">
+                      🔒 Secure and Private: Your data is safe and completely confidential.
                     </p>
                   </div>
                 </div>
