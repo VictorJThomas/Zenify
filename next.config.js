@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        domains: ['lh3.googleusercontent.com', 'tecdn.b-cdn.net'],
-      },
-}
+  images: {
+    domains: [
+      "lh3.googleusercontent.com",
+      "tecdn.b-cdn.net",
+      "res.cloudinary.com",
+      "avatars.githubusercontent.com",
+    ],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
