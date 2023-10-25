@@ -5,9 +5,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div>
       <main>
-        <div className="w-screen flex flex-3 justify-between p-8">
+        <div className="flex flex-3 gap-[20px] h-screen w-full justify-between">
           <LeftPanel />
-          <main className="p-4 mx-2 rounded-xl basis-1/1 w-full bg-zinc-100">
+          <main className="flex-shrink-0 flex-col max-w-[1200px] min-w-[1200px] align-center self-stretch gap-[22px] py-[40px] px-[30px] rounded-xl bg-zinc-100">
             {children}
           </main>
           <RightPanel />

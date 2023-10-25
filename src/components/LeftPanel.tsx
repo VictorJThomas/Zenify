@@ -3,6 +3,7 @@ import LogoutButton from "./LogoutButton";
 import Link from "next/link";
 
 const LeftPanel = () => {
+
   const menu = [
     {
       name: 'Posts',
@@ -23,7 +24,7 @@ const LeftPanel = () => {
   ]
 
   return (
-    <aside className="p-4 basis-1/3  bg-zinc-50 h-[calc(90vh)] rounded-xl">
+    <aside className="w-[270px] py-[25px] px-[20px] flex-col justify-between self-stretch flex-shrink-0 bg-zinc-50 rounded-xl">
       <ProfileCard/>
       <div>
         {menu.map((item) => (
