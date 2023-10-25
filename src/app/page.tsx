@@ -3,7 +3,7 @@ import Link from "next/link";
 export const revalidate = 60;
 
 export default function Home() {
-  let href = "/chat/conversations";
+  let href = "/conversations";
 
   return (
     <div className="landing-container w-full h-screen">
