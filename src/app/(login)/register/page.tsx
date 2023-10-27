@@ -7,20 +7,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
+import { Message } from "@prisma/client";
+import { toast } from "react-hot-toast";
 
 type RegisterType = {
   name: string;
   email: string;
   password: string;
-}
+};
 const RegisterPage = () => {
   const router = useRouter();
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
   const [data, setData] = useState<RegisterType>({
     name: "",
     email: "",
-    password: ""
-  })
+    password: "",
+  });
 
   useEffect(() => {
     const init = async () => {
@@ -28,16 +30,16 @@ const RegisterPage = () => {
       initTE({ Input });
     };
     init();
-  })
+  });
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const { email, name, password } = data
+      const { email, name, password } = data;
       const signupResponse = await axios.post("/api/register", {
         email,
         name,
-        password
+        password,
       });
       console.log(signupResponse);
       const res = await signIn("credentials", {
@@ -47,23 +49,21 @@ const RegisterPage = () => {
       });
 
       if (res?.ok) return router.push("/dashboard");
-    } catch (error) {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        const errorMessage = error.response?.data.message;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        const errorMessage = e.response?.data.message;
         setError(errorMessage);
       }
+      toast.error(error);
     }
   };
 
   return (
     <section className="gradient-form h-full bg-neutral-200 dark:bg-neutral-700">
       <div className="container h-full p-10">
-        <div
-          className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
+        <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
           <div className="w-full">
-            <div
-              className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
+            <div className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
               <div className="g-0 lg:flex lg:flex-wrap">
                 <div className="px-4 md:px-0 lg:w-6/12">
                   <div className="md:mx-6 md:p-12">
@@ -88,12 +88,11 @@ const RegisterPage = () => {
                           className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                           value={data.name}
                           onChange={(e) => {
-                            setData({ ...data, name: e.target.value })
+                            setData({ ...data, name: e.target.value });
                           }}
                         />
-                        <label
-                          className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary-600 peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >Name
+                        <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary-600 peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">
+                          Name
                         </label>
                       </div>
                       <div className="relative mb-4" data-te-input-wrapper-init>
@@ -102,25 +101,25 @@ const RegisterPage = () => {
                           className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                           value={data.email}
                           onChange={(e) => {
-                            setData({ ...data, email: e.target.value })
+                            setData({ ...data, email: e.target.value });
                           }}
                         />
-                        <label
-                          className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary-600 peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >Email address
+                        <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary-600 peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">
+                          Email address
                         </label>
                       </div>
                       <div className="relative mb-4" data-te-input-wrapper-init>
                         <input
                           type="password"
+                          minLength={6}
                           className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                           value={data.password}
                           onChange={(e) => {
-                            setData({ ...data, password: e.target.value })
-                          }} />
-                        <label
-                          className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary-600 peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >Password
+                            setData({ ...data, password: e.target.value });
+                          }}
+                        />
+                        <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary-600 peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">
+                          Password
                         </label>
                       </div>
                       <div className="mb-3 pb-1 pt-1 text-center">
@@ -130,8 +129,10 @@ const RegisterPage = () => {
                           data-te-ripple-init
                           data-te-ripple-color="light"
                           style={{
-                            background: "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)"
-                          }}>
+                            background:
+                              "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
+                          }}
+                        >
                           Register
                         </button>
                         <a href="#!">Terms and Conditions</a>
@@ -149,7 +150,8 @@ const RegisterPage = () => {
                           href="/login"
                           className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                           data-te-ripple-init
-                          data-te-ripple-color="light">
+                          data-te-ripple-color="light"
+                        >
                           Login
                         </Link>
                       </div>
@@ -158,15 +160,24 @@ const RegisterPage = () => {
                 </div>
                 <div
                   className="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
-                  style={{ background: "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)" }}>
+                  style={{
+                    background:
+                      "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
+                  }}
+                >
                   <div className="px-4 py-6 text-white md:mx-6 md:p-12">
                     <h4 className="mb-6 text-xl font-semibold">
                       Welcome to Zenify - Your Personal Journal Companion
                     </h4>
                     <p className="text-sm mt-4">
-                      📝 Begin your journey of self-discovery with Zenify. Write down your thoughts, set goals, and track your progress. We&apos;re here to help you on your path to personal growth.
+                      📝 Begin your journey of self-discovery with Zenify. Write
+                      down your thoughts, set goals, and track your progress.
+                      We&apos;re here to help you on your path to personal
+                      growth.
                     </p>
-                    <p className="text-sm mt-8">🌐 Join us today and start writing your story with Zenify.</p>
+                    <p className="text-sm mt-8">
+                      🌐 Join us today and start writing your story with Zenify.
+                    </p>
                   </div>
                 </div>
               </div>
