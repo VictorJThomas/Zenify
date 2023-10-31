@@ -15,7 +15,8 @@ model User {
   name           String?
   email          String?   @unique
   emailVerified  DateTime?
-  hashedPassword String?
+  hashedPassword String
+  active         Boolean         @default(false)
   image          String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
@@ -25,6 +26,19 @@ model User {
   moods           Mood[]
   diaries         Diary[]
   sessions        Session[]
+  activateToken ActivateToken[]
+}
+
+model ActivateToken{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  token String @unique
+  activateAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id") @db.ObjectId
 }
 
 model Post {

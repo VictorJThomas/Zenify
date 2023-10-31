@@ -1,144 +1,95 @@
 import bcrypt from "bcrypt";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { writeFile } from "fs/promises";
+import path, { resolve } from "path";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: "dxzrvw668",
+  api_key: "846899137971279",
+  api_secret: "_RPb8aOkSOlB8YFI7QT1cShHxWQ",
+});
 
 const prisma = new PrismaClient();
 
-interface Params {
-    params: { id: string};
-}
-
 export async function GET() {
-    try {
-        const diaries = await prisma.diary.findMany()
-        return NextResponse.json(diaries, {status: 201});
-    } catch (error) {
-        if (error instanceof Error){
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
+  try {
+    const diaries = await prisma.diary.findMany();
+    return NextResponse.json(diaries, { status: 201 });
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        {
+          message: error.message,
+        },
+        {
+          status: 500,
         }
+      );
     }
+  }
 }
 
-export async function GETBYID(request:Request, { params }: Params) {
-    try {
-        const diary = await prisma.diary.findFirst({
-            where: {
-                id: String(params.id),
-            },
-        });
-        if (!diary) return NextResponse.json({message: "diary not found"}, {status: 404});
-        return NextResponse.json(diary, {status: 201});
-    } catch (error) {
-        if (error instanceof Error){
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
-        }
+export async function POST(request: Request) {
+  try {
+    const { content } = await request.json();
+    const data = await request.formData();
+    const file = data.get("file");
+
+    if (!file) {
+      const diary = await prisma.diary.create({
+        data: {
+          content: content,
+        },
+      });
+      return NextResponse.json(diary, { status: 201 });
     }
-}
 
-export async function POST(request:Request) {
-    try {
-        const {img, content, user } = await request.json()
+    if (file instanceof Blob) {
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
 
-        const diary = await prisma.diary.create({
-            data: {
-                img : img,
-                content : content,
-                userId : user,
-            },
-            });
-            return NextResponse.json(diary, {status: 201}
-            )
-    } catch (error) {
-        if (error instanceof Error){
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
-        }
-    }
-}
-
-export async function PUT(request:Request, { params }: Params) {
-    try {
-        const {img, content } = await request.json();
-
-        const updatedDiary = await prisma.diary.update({
-            where: {
-                id: String(params.id),
-            },
-            data: {
-                img: img,
-                content: content,
+      const response = await new Promise((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream({}, (err, result) => {
+            if (err) {
+              reject(err);
             }
-        });
-        if (!updatedDiary) return NextResponse.json({message: "diary not found"}, {status: 404});
-        return NextResponse.json(updatedDiary);
-    } catch (error) {
-        if (error instanceof Error){
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
-        }
+            resolve(result);
+          })
+          .end(buffer);
+      });
+
+      const diary = await prisma.diary.create({
+        data: {
+          image: response.secure_url,
+          content: content,
+        },
+      });
+      return NextResponse.json(diary, { status: 201 });
+    } else {
+      // The file is a string.
+      const diary = await prisma.diary.create({
+        data: {
+          content: content,
+        },
+      });
+      return NextResponse.json(diary, { status: 201 });
     }
-}
-
-export async function DELETE(request:Request, { params }: Params) {
-    try {
-        const deletediary = await prisma.diary.delete({
-            where: {
-                id : String(params.id),
-            },
-        });
-    
-        if (!deletediary) return NextResponse.json({message: "diary not found"}, {status: 404});
-        return NextResponse.json
-    } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code = "P2025")
-            return NextResponse.json(
-                {
-                    message: "diary not found",
-                },
-                {
-                    status : 404,
-                }
-            );
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
-        }
+  } catch (error) {
+    if (error) {
+      return NextResponse.json({message: error})
     }
+    //   if (error instanceof Error) {
+    //     return NextResponse.json(
+    //       {
+    //         message: error.message,
+    //       },
+    //       {
+    //         status: 500,
+    //       }
+    //     );
+    //   }
+  }
 }
-
-
-
-
-
