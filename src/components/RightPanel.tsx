@@ -1,14 +1,30 @@
 "use client"
 
 import { AiOutlinePlusSquare } from "react-icons/ai";
-import {DiaryContext} from "@/context/DiaryContext"
 import { useContext, useEffect } from "react"
 import DiaryCard from "./DiaryCard";
+import DiaryF from "./DiaryForm"
+import { useState } from "react"
+import DiaryForm from "./DiaryForm";
+import DiaryList from "./DiaryList";
 
-async function RightPanel(){
-  //const diaries = await loadDiaries();
-  const {diaries, loadDiaries} = useContext(DiaryContext)
+type DiaryType = {
+  id: string;
+  createAt: Date;
+  updateAt: Date;
+  image: string | null;
+  content: string;
+  userId: string;
+}
 
+function RightPanel(){
+  const [diaries, setDiaries] = useState<DiaryType[]>([]);
+
+  async function loadDiaries() {
+    const res = await fetch("api/diary")
+    const data = await res.json();
+    setDiaries(data);
+  }
   useEffect(() => {
     loadDiaries();
   }, []);
@@ -19,14 +35,13 @@ async function RightPanel(){
           <div className="cursor-pointer overflow-hidden rounded-lg bg-zinc-200 shadow hover:bg-zinc-300 hover:scale-105">
             <div className="">
               <AiOutlinePlusSquare size="30"/>
+              <DiaryForm/>
             </div>
           </div>
         </div>
         <div>
-          {diaries.map((DiaryList) => (
-            <div key={DiaryList.id}>
-              <p>{DiaryList.content}</p>
-            </div>
+          {diaries.map((diary) => (
+              <DiaryList key={diary.id} diary={diary}/>
           ))}
         </div>
       </aside>

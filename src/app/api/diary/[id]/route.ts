@@ -59,36 +59,3 @@ export async function PUT(request:Request, { params }: Params) {
         }
     }
 }
-
-export async function DELETE(request:Request, { params }: Params) {
-    try {
-        const deletediary = await prisma.diary.delete({
-            where: {
-                id : String(params.id),
-            },
-        });
-    
-        if (!deletediary) return NextResponse.json({message: "diary not found"}, {status: 404});
-        return NextResponse.json
-    } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code = "P2025")
-            return NextResponse.json(
-                {
-                    message: "diary not found",
-                },
-                {
-                    status : 404,
-                }
-            );
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
-        }
-    }
-}
