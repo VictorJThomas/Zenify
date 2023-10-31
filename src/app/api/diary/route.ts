@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import path, { resolve } from "path";
 import { v2 as cloudinary } from "cloudinary";
+import { use } from "react";
 
 cloudinary.config({
   cloud_name: "dxzrvw668",
@@ -36,13 +37,16 @@ export async function POST(request: Request) {
     const { content } = await request.json();
     const data = await request.formData();
     const file = data.get("file");
+    const user = "65330ba39291bdb1230d1f46"
 
     if (!file) {
       const diary = await prisma.diary.create({
         data: {
           content: content,
+          userId: user
         },
       });
+      console.log(diary)
       return NextResponse.json(diary, { status: 201 });
     }
 
@@ -51,7 +55,7 @@ export async function POST(request: Request) {
       const buffer = Buffer.from(bytes);
 
       const response = await new Promise((resolve, reject) => {
-        cloudinary.uploader
+        const Repon = cloudinary.uploader
           .upload_stream({}, (err, result) => {
             if (err) {
               reject(err);
@@ -60,36 +64,37 @@ export async function POST(request: Request) {
           })
           .end(buffer);
       });
-
+      console.log(response)
       const diary = await prisma.diary.create({
         data: {
           image: response.secure_url,
           content: content,
+          userId: user
         },
       });
+      console.log(diary)
       return NextResponse.json(diary, { status: 201 });
     } else {
       // The file is a string.
       const diary = await prisma.diary.create({
         data: {
           content: content,
+          userId: user
         },
       });
+      console.log(diary)
       return NextResponse.json(diary, { status: 201 });
     }
   } catch (error) {
-    if (error) {
-      return NextResponse.json({message: error})
-    }
-    //   if (error instanceof Error) {
-    //     return NextResponse.json(
-    //       {
-    //         message: error.message,
-    //       },
-    //       {
-    //         status: 500,
-    //       }
-    //     );
-    //   }
+       if (error instanceof Error) {
+         return NextResponse.json(
+           {
+             message: error.message,
+           },
+           {
+             status: 500,
+           }
+         );
+       }
   }
 }

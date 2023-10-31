@@ -35,15 +35,15 @@ function RightPanel(){
           <div className="cursor-pointer overflow-hidden rounded-lg bg-zinc-200 shadow hover:bg-zinc-300 hover:scale-105">
             <div className="">
               <AiOutlinePlusSquare size="30"/>
-              <DiaryForm/>
             </div>
           </div>
         </div>
-        <div>
+        <div>          
           {diaries.map((diary) => (
               <DiaryList key={diary.id} diary={diary}/>
           ))}
         </div>
+        <DiaryForm/>
       </aside>
     );
 }

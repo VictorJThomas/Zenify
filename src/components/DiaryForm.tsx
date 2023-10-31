@@ -3,6 +3,7 @@ import axios from "axios";
 import { CldUploadButton } from "next-cloudinary";
 import { HiPhoto } from "react-icons/hi2";
 
+
 function DiaryForm() {
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -73,5 +74,4 @@ function DiaryForm() {
     </div>
   );
 }
-
 export default DiaryForm;
