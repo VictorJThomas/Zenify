@@ -84,7 +84,8 @@ function DiaryForm() {
               height="600"
               src={image}
               sizes="100vw"
-              alt="Description of my image"
+              className="p-4 rounded-sm"
+              alt={image}
             />
             <div className="flex gap-2 ">
               <CldUploadButton
