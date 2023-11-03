@@ -7,6 +7,7 @@ import DiaryF from "./DiaryForm"
 import { useState } from "react"
 import DiaryForm from "./DiaryForm";
 import DiaryList from "./DiaryList";
+import { CldImage } from "next-cloudinary";
 
 type DiaryType = {
   id: string;
