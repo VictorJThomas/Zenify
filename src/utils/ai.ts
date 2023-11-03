@@ -1,5 +1,5 @@
 import { GooglePaLM } from "langchain/llms/googlepalm";
-import { AIMessage, HumanMessage, SystemMessage } from "langchain/schema";
+// import { AIMessage, HumanMessage, SystemMessage } from "langchain/schema";
 import { StructuredOutputParser } from "langchain/output_parsers";
 import { z } from "zod";
 import { PromptTemplate } from "langchain/prompts";
@@ -23,7 +23,7 @@ const getPrompt = async (userMessage: string) => {
   const formatInstructions = parser.getFormatInstructions();
   const prompt = new PromptTemplate({
     template:
-      `You are a chatbot for a mental health app, people will tell you about their mood and feelings and you have to identify their condition (sad, has anxiety, happiness, rage, depression, loneliness, trust, or any other) and give some advice in order to help. If the input is in spanish, translate your response. Try not to create a large response (800 characters as much). First, show the diagnose, then the advices. Follow the instructions and format your response to match the format instructions, no matter what! The format must always be the follow: { "mood": "", "advice": ""} \n{format_instructions}\n{entry}`,
+      "You are a chatbot for a mental health app, people will tell you about their mood and feelings and you have to identify their condition (sad, has anxiety, happiness, rage, depression, loneliness, trust, or any other) and give some advice in order to help. If the input is in spanish, translate your response. Try not to create a large response (800 characters as much). First, show the diagnose, then the advices. Avoid special characters Follow the instructions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}",
     inputVariables: ["entry"],
     partialVariables: { format_instructions: formatInstructions },
   });

@@ -43,7 +43,6 @@ const ChatPage = () => {
       const response = await axios.post("/api/chat", {
         userMessage: userMessage,
       });
-
       return response.data;
     } catch (error) {
       console.error("Error sending message:", error);
