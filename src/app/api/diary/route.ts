@@ -24,10 +24,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { content} = await request.json();
-    const data = await request.formData();
-   
-      
+    const { image, content} = await request.json();
+    const response = {image, content}
+    return NextResponse.json(response)      
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(

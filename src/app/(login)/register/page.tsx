@@ -28,7 +28,7 @@ const RegisterPage = () => {
       initTE({ Input });
     };
     init();
-  })
+  },[])
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
