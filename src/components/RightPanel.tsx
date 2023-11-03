@@ -38,11 +38,6 @@ function RightPanel(){
             </div>
           </div>
         </div>
-        <div>          
-          {diaries.map((diary) => (
-              <DiaryList key={diary.id} diary={diary}/>
-          ))}
-        </div>
         <DiaryForm/>
       </aside>
     );
