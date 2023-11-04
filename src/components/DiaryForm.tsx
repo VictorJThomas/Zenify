@@ -1,43 +1,49 @@
-import { FormEvent, useState } from "react";
+"use client"
+
+import { useState } from "react";
 import axios from "axios";
 import { CldImage, CldUploadButton } from "next-cloudinary";
 import { HiPhoto } from "react-icons/hi2";
 import { useSession } from "next-auth/react";
 
 function DiaryForm() {
-  const [file, setFile] = useState(null);
   const [content, setContent] = useState("");
   const [image, setImage] = useState("zenify/iuwojntnxlltocmrurfd");
-  
 
-  const {data: session} = useSession()
-  const user = session?.user?.email
+  const { data: session } = useSession();
+  const email = session?.user?.email;
 
-  const onSubmit = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault()
-    try{
+  const onSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    try {
       const response = await axios.post("/api/diary", {
         content: content,
         image: image,
-        user: user
-      })
+        email: email,
+      });
       console.log(response);
-    }catch(e){
-      console.error(e)
-    }
-  }
-
-
-  const handleUpload = async (result: any) => {
-    try {
-      setImage(result.info.secure_url)
-      console.log(image);
     } catch (e) {
       console.error(e);
     }
   };
 
+  const onGetUser = async (e: {preventDefault: () => void}) => {
+    try{
+      const response = await axios.get("/api/diary", )
+      console.log(response);
+    }catch (e){
+      console.log(e);
+    }
+  }
 
+  const handleUpload = async (result: any) => {
+    try {
+      setImage(result.info.secure_url);
+      console.log(image);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <div
