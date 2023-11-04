@@ -24,6 +24,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const { image, content, email} = await request.json();
+
     const userFound = await prisma.user.findUnique({
       where: {
         email: email,
@@ -41,17 +42,15 @@ export async function POST(request: Request) {
       )
     }
 
-    const diary = await prisma.diary.create({
-      data: {
-        image: image,
-        content: content,
-        userId: userFound.id
-      }
-    })
-
-    console.log(diary);
-    const response = {image, content}
-    return NextResponse.json(response)      
+    // const diary = await prisma.diary.create({
+    //   data: {
+    //     image: image,
+    //     content: content,
+        
+    //   }
+    // })
+    const response = {image, content, email}
+    return NextResponse.json( response, {status: 201})      
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
