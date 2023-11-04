@@ -5,13 +5,14 @@ import { HiPhoto } from "react-icons/hi2";
 import { useSession } from "next-auth/react";
 
 function DiaryForm() {
-  const [file, setFile] = useState(null);
   const [content, setContent] = useState("");
   const [image, setImage] = useState("zenify/iuwojntnxlltocmrurfd");
   
 
   const {data: session} = useSession()
   const user = session?.user?.email
+
+  console.log(session);
 
   const onSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault()

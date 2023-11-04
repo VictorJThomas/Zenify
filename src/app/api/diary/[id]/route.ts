@@ -30,32 +30,3 @@ export async function GET(request:Request, { params }: Params) {
         }
     }
 }
-
-export async function PUT(request:Request, { params }: Params) {
-    try {
-        const {img, content } = await request.json();
-
-        const updatedDiary = await prisma.diary.update({
-            where: {
-                id: String(params.id),
-            },
-            data: {
-                image: img,
-                content: content,
-            }
-        });
-        if (!updatedDiary) return NextResponse.json({message: "diary not found"}, {status: 404});
-        return NextResponse.json(updatedDiary);
-    } catch (error) {
-        if (error instanceof Error){
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
-        }
-    }
-}

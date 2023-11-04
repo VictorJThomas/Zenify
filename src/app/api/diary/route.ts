@@ -29,7 +29,17 @@ export async function POST(request: Request) {
         email: email,
       },
     });
-   
+
+    if(!userFound){
+      return NextResponse.json(
+        {
+        message: "User not found",
+        },
+        {
+          status: 404,
+        }
+      )
+    }
 
     const diary = await prisma.diary.create({
       data: {
@@ -39,7 +49,7 @@ export async function POST(request: Request) {
       }
     })
 
-    console.log(userFound);
+    console.log(diary);
     const response = {image, content}
     return NextResponse.json(response)      
   } catch (error) {
