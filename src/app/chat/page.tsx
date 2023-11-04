@@ -6,6 +6,8 @@ import axios from "axios";
 import { Message } from "@/types";
 
 const ChatPage = () => {
+
+
   const [message, setMessage] = useState<string>("");
   const [history, setHistory] = useState<Message[]>([]);
   const lastMessageRef = useRef<HTMLDivElement | null>(null);

@@ -2,18 +2,24 @@ import { FormEvent, useState } from "react";
 import axios from "axios";
 import { CldImage, CldUploadButton } from "next-cloudinary";
 import { HiPhoto } from "react-icons/hi2";
+import { useSession } from "next-auth/react";
 
 function DiaryForm() {
   const [file, setFile] = useState(null);
   const [content, setContent] = useState("");
   const [image, setImage] = useState("zenify/iuwojntnxlltocmrurfd");
+  
+
+  const {data: session} = useSession()
+  const user = session?.user?.email
 
   const onSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault()
     try{
       const response = await axios.post("/api/diary", {
         content: content,
-        image: image
+        image: image,
+        user: user
       })
       console.log(response);
     }catch(e){
