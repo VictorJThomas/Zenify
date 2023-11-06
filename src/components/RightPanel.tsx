@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import DiaryForm from "./DiaryForm";
 import axios from "axios";
+import DiaryList from "./DiaryList";
 
 type DiaryType = {
   id: string;
@@ -18,11 +19,24 @@ type DiaryType = {
 function RightPanel() {
   const [diaries, setDiaries] = useState<DiaryType[]>([]);
 
+  const adaptDiaryData = (data:any) => {
+    return {
+      id: data.id,
+      createAt: new Date(data.createAt),
+      updateAt: new Date(data.updateAt),
+      image: data.image,
+      content: data.content,
+      userId: data.userId,
+    }
+  }
+
   async function loadDiaries() {
     try{
       const res = await axios.get("/api/diary");
-      console.log(res)
-
+      const adaptedData = res.data.map((item: any) => adaptDiaryData(item));
+      // console.log(res.data)
+      setDiaries(adaptedData)
+      // console.log(diaries);
     } catch (e){
       console.log(e);
     }
@@ -53,6 +67,11 @@ function RightPanel() {
           </button>
         </div>
         <DiaryForm />
+        <div>
+          {diaries.map((diary) => (
+            <DiaryList key={diary.id} diary={diary} />
+          ))}
+        </div>
       </div>
     </aside>
   );

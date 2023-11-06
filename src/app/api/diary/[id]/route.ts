@@ -4,15 +4,16 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-interface Params {
-    params: { id: string};
-}
+// interface Params {
+//     params: { id: string};
+// }
 
-export async function GET(request:Request, { params }: Params) {
+export async function GET(request:Request) {
+    const { id } = await request.json();
     try {
-        const diary = await prisma.diary.findFirst({
+        const diary = await prisma.diary.findUnique({
             where: {
-                id: String(params.id),
+                id: id,
             },
         });
         if (!diary) return NextResponse.json({message: "diary not found"}, {status: 404});
