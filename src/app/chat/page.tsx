@@ -92,7 +92,7 @@ const ChatPage = () => {
                       {message.role === "user" ? "You" : "AI Assistant"}
                     </p>
                     {typeof message.content === "string" ? (
-                      message.content // Display regular text content
+                      message.content 
                     ) : (
                       <>
                         <p>Mood: {message.content.mood}</p>

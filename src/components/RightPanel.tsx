@@ -34,9 +34,7 @@ function RightPanel() {
     try{
       const res = await axios.get("/api/diary");
       const adaptedData = res.data.map((item: any) => adaptDiaryData(item));
-      // console.log(res.data)
       setDiaries(adaptedData)
-      // console.log(diaries);
     } catch (e){
       console.log(e);
     }
@@ -49,7 +47,7 @@ function RightPanel() {
       initTE({ Modal, Ripple });
     };
     init();
-  }, []);
+  });
 
   return (
     <aside className="w-[290px] py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  bg-zinc-50 rounded-xl">
@@ -67,12 +65,12 @@ function RightPanel() {
           </button>
         </div>
         <DiaryForm />
-        <div>
+      </div>
+      <div className="overflow-y-scroll max-h-[700px] p-4">
           {diaries.map((diary) => (
             <DiaryList key={diary.id} diary={diary} />
           ))}
         </div>
-      </div>
     </aside>
   );
 }
