@@ -4,6 +4,7 @@ import { AiOutlinePlusSquare } from "react-icons/ai";
 import { useEffect } from "react";
 import { useState } from "react";
 import DiaryForm from "./DiaryForm";
+import axios from "axios";
 
 type DiaryType = {
   id: string;
@@ -18,9 +19,13 @@ function RightPanel() {
   const [diaries, setDiaries] = useState<DiaryType[]>([]);
 
   async function loadDiaries() {
-    const res = await fetch("api/diary");
-    const data = await res.json();
-    setDiaries(data);
+    try{
+      const res = await axios.get("/api/diary");
+      console.log(res)
+
+    } catch (e){
+      console.log(e);
+    }
   }
 
   useEffect(() => {
