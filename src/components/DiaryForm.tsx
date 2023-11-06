@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import { CldImage, CldUploadButton } from "next-cloudinary";
 import { HiPhoto } from "react-icons/hi2";
@@ -14,6 +14,8 @@ function DiaryForm() {
   const { data: session } = useSession();
   const user = session?.user
 
+  const submitRef = useRef<HTMLButtonElement | null>(null)
+
   const onSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
@@ -24,6 +26,9 @@ function DiaryForm() {
       });
       toast.success("Created!");
       console.log(response);
+      if (submitRef.current) {
+        submitRef.current.click();
+      }
     } catch (e) {
       console.error(e);
     }
@@ -122,6 +127,7 @@ function DiaryForm() {
           </div>
           <div className="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
             <button
+              ref={submitRef}
               type="button"
               className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
               data-te-modal-dismiss
