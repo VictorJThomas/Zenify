@@ -5,23 +5,24 @@ import axios from "axios";
 import { CldImage, CldUploadButton } from "next-cloudinary";
 import { HiPhoto } from "react-icons/hi2";
 import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
 
 function DiaryForm() {
   const [content, setContent] = useState("");
   const [image, setImage] = useState("zenify/iuwojntnxlltocmrurfd");
 
   const { data: session } = useSession();
-  const email = session?.user?.email;
+  const user = session?.user
 
-  console.log(session);
   const onSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
       const response = await axios.post("/api/diary", {
         content: content,
         image: image,
-        email: email,
+        user: user,
       });
+      toast.success("Created!");
       console.log(response);
     } catch (e) {
       console.error(e);
