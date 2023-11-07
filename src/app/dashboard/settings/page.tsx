@@ -1,6 +1,13 @@
+import ProfilePictureAndName from "@/components/ProfilePictureAndName"
+
+
 const SettingsPage = () => {
     return (
-        <div>Settings Page</div>
+        <div>Account Management
+            <div>
+                <ProfilePictureAndName></ProfilePictureAndName>
+            </div>
+        </div>
     )
 }
 

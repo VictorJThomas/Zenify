@@ -59,7 +59,7 @@ function RightPanel() {
           <button
             className="rounded-full bg-zinc-300 p-3 text-xs font-medium uppercase leading-normal text-white shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-0 active:bg-primary-800"
             data-te-toggle="modal"
-            data-te-target="#exampleModalWithIcon"
+            data-te-target="#diaryform"
             data-te-ripple-init
             data-te-ripple-color="light"
           >

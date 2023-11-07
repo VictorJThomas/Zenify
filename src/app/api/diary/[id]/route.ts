@@ -4,10 +4,6 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-// interface Params {
-//     params: { id: string};
-// }
-
 export async function GET(request:Request) {
     const { id } = await request.json();
     try {

@@ -47,7 +47,7 @@ function DiaryForm() {
     <div
       data-te-modal-init
       className="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
-      id="exampleModalWithIcon"
+      id="diaryform"
       aria-labelledby="exampleModalWithIconLabel"
       aria-hidden="true"
     >
