@@ -5,7 +5,11 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const diaries = await prisma.diary.findMany();
+    const diaries = await prisma.diary.findMany({
+      orderBy:{ 
+        createAt: 'desc'
+      }
+    });
     return NextResponse.json(diaries, { status: 201 });
   } catch (error) {
     if (error instanceof Error) {

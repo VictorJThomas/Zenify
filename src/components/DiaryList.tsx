@@ -1,11 +1,11 @@
 import { Diary } from "@prisma/client";
 import DiaryCard from "./DiaryCard";
 
-function DiaryList({ diary }: { diary: Diary }) {
-  
+function DiaryList({ diary, onCardClick }: { diary: Diary, onCardClick: () => void }) {
+
   return (
-    <div className="scroll-smooth focus:scroll-auto">
-      <DiaryCard diary={diary}/>
+    <div className="snap-center" onClick={onCardClick}>
+      <DiaryCard diary={diary} />
     </div>
   );
 }

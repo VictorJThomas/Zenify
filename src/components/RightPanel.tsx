@@ -6,6 +6,8 @@ import { useState } from "react";
 import DiaryForm from "./DiaryForm";
 import axios from "axios";
 import DiaryList from "./DiaryList";
+import { Diary } from "@prisma/client";
+import DiaryView from "./DiaryView";
 
 type DiaryType = {
   id: string;
@@ -18,6 +20,8 @@ type DiaryType = {
 
 function RightPanel() {
   const [diaries, setDiaries] = useState<DiaryType[]>([]);
+  const [selectedDiary, setSelectedDiary] = useState<Diary | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const adaptDiaryData = (data:any) => {
     return {
@@ -49,6 +53,16 @@ function RightPanel() {
     init();
   });
 
+  const handleCardClick = (diary: Diary) => {
+    setSelectedDiary(diary);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedDiary(null);
+    setIsModalOpen(false);
+  };
+
   return (
     <aside className="w-[290px] py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  bg-zinc-50 rounded-xl">
       <div className="flex flex-2 gap-4 m-4 justify-center">
@@ -66,11 +80,12 @@ function RightPanel() {
         </div>
         <DiaryForm />
       </div>
-      <div className="overflow-y-scroll max-h-[700px] p-4">
+      <div className="overflow-y-scroll max-h-[700px] scroll-smooth focus:scroll-auto snap-mandatory snap-y p-4">
           {diaries.map((diary) => (
-            <DiaryList key={diary.id} diary={diary} />
+            <DiaryList key={diary.id} diary={diary} onCardClick={() => handleCardClick(diary)}/>
           ))}
-        </div>
+      </div>
+      <DiaryView isOpen={isModalOpen} onClose={closeModal} diary={selectedDiary}/>
     </aside>
   );
 }
