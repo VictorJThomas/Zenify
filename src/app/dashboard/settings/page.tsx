@@ -1,3 +1,4 @@
+import AccountSignIn from "@/components/AccountSignIn"
 import PersonalInformation from "@/components/PersonalInformation"
 import ProfilePictureAndName from "@/components/ProfilePictureAndName"
 
@@ -10,6 +11,9 @@ const SettingsPage = () => {
             </div>
             <div>
                 <PersonalInformation></PersonalInformation>
+            </div>
+            <div>
+                <AccountSignIn></AccountSignIn>
             </div>
         </div>
     )
