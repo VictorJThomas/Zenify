@@ -18,13 +18,17 @@ const LeftPanel = () => {
       url: 'professionals'
     },
     {
+      name: 'ChatBot',
+      url: 'chat'
+    },
+    {
       name: 'Settings',
       url: 'settings'
     },
   ]
 
   return (
-    <aside className="w-[270px] py-[25px] px-[20px] flex-col justify-between self-stretch flex-shrink-0 bg-zinc-50 rounded-xl">
+    <aside className="w-[270px] py-[25px] h-screen px-[20px] flex-col justify-between self-stretch flex-shrink-0 bg-zinc-50 rounded-xl">
       <ProfileCard/>
       <div>
         {menu.map((item) => (
@@ -35,7 +39,9 @@ const LeftPanel = () => {
         </Link>
         ))}
       </div>
-      <LogoutButton/>
+      <div className="mt-96 flex flex-col justify-between">
+        <LogoutButton/>
+      </div>
     </aside>
   );
 };

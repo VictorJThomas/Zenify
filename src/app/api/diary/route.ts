@@ -5,7 +5,11 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const diaries = await prisma.diary.findMany();
+    const diaries = await prisma.diary.findMany({
+      orderBy:{ 
+        createAt: 'desc'
+      }
+    });
     return NextResponse.json(diaries, { status: 201 });
   } catch (error) {
     if (error instanceof Error) {
@@ -44,11 +48,24 @@ export async function POST(request: Request) {
 
     const userId = userFound.id;
 
+    const mood = await prisma.mood.findMany({
+      where: {
+        userId: userId
+      },
+      orderBy: {
+        createAt: 'desc'
+      },
+      take: 1
+    })
+
+    const lastMood = mood[0]?.mood
+
     const diary = await prisma.diary.create({
       data: {
         image: image,
         content: content,
         userId: userId,
+        mood: lastMood
       },
     });
 

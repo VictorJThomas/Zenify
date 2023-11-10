@@ -6,6 +6,8 @@ import { useState } from "react";
 import DiaryForm from "./DiaryForm";
 import axios from "axios";
 import DiaryList from "./DiaryList";
+import { Diary } from "@prisma/client";
+import DiaryView from "./DiaryView";
 
 type DiaryType = {
   id: string;
@@ -14,10 +16,13 @@ type DiaryType = {
   image: string | null;
   content: string;
   userId: string;
+  mood: string;
 };
 
 function RightPanel() {
   const [diaries, setDiaries] = useState<DiaryType[]>([]);
+  const [selectedDiary, setSelectedDiary] = useState<Diary | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const adaptDiaryData = (data:any) => {
     return {
@@ -27,16 +32,16 @@ function RightPanel() {
       image: data.image,
       content: data.content,
       userId: data.userId,
+      mood: data.mood
     }
   }
 
   async function loadDiaries() {
     try{
       const res = await axios.get("/api/diary");
+      console.log(res);
       const adaptedData = res.data.map((item: any) => adaptDiaryData(item));
-      // console.log(res.data)
       setDiaries(adaptedData)
-      // console.log(diaries);
     } catch (e){
       console.log(e);
     }
@@ -49,7 +54,17 @@ function RightPanel() {
       initTE({ Modal, Ripple });
     };
     init();
-  }, []);
+  });
+
+  const handleCardClick = (diary: Diary) => {
+    setSelectedDiary(diary);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedDiary(null);
+    setIsModalOpen(false);
+  };
 
   return (
     <aside className="w-[290px] py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  bg-zinc-50 rounded-xl">
@@ -67,12 +82,13 @@ function RightPanel() {
           </button>
         </div>
         <DiaryForm />
-        <div>
-          {diaries.map((diary) => (
-            <DiaryList key={diary.id} diary={diary} />
-          ))}
-        </div>
       </div>
+      <div className="overflow-y-scroll max-h-[700px] scroll-smooth focus:scroll-auto snap-mandatory snap-y p-4">
+          {diaries.map((diary) => (
+            <DiaryList key={diary.id} diary={diary} onCardClick={() => handleCardClick(diary)}/>
+          ))}
+      </div>
+      <DiaryView isOpen={isModalOpen} onClose={closeModal} diary={selectedDiary}/>
     </aside>
   );
 }

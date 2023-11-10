@@ -1,15 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { User } from "@prisma/client";
 
-const prisma = new PrismaClient()
-
-export const getUserId = async (user: any) => {
-  const userFound = await prisma.user.findUnique({
-    where: {
-      email: user,
-    },
-  });
-
-  const userId = userFound.id
-
-  return userId
+export const getUserId = (user: User | { id: string }): string => {
+  if ("id" in user) {
+    // If user object is provided, use its ID
+    return user.id;
+  } else {
+    // If only the ID is provided, use it directly
+    return user.id;
+  }
 };

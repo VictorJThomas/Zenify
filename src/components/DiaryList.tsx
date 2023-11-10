@@ -1,30 +1,11 @@
 import { Diary } from "@prisma/client";
-import { useContext, useEffect } from "react";
-import { HiTrash, HiPencil } from "react-icons/hi";
-import Image from "next/image"
-import imageDefault from "@/../public/assets/imageDefault.svg"
-import { CldImage } from "next-cloudinary";
+import DiaryCard from "./DiaryCard";
 
-function DiaryList({ diary }: { diary: Diary }) {
-
-  console.log(diary)
-  const diaryImage = diary.image || imageDefault
+function DiaryList({ diary, onCardClick }: { diary: Diary, onCardClick: () => void }) {
 
   return (
-    <div>
-      <div key={diary.id} className="bg-slate-300 p-4 my-2 flex justify-between">
-        <div>
-        <CldImage
-          width="960"
-          height="600"
-          src={diaryImage}
-          sizes="100vw"
-          alt="Description of my image"
-        />
-          <p>{diary.content}</p>
-          <p>{new Date(diary.createAt).toLocaleDateString()}</p>
-        </div>
-      </div>
+    <div className="snap-center" onClick={onCardClick}>
+      <DiaryCard diary={diary} />
     </div>
   );
 }

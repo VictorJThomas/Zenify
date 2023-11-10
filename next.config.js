@@ -8,6 +8,7 @@ const nextConfig = {
       "avatars.githubusercontent.com",
     ],
   },
+  swcMinify: true
 };
 
 module.exports = nextConfig;
