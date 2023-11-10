@@ -1,14 +1,11 @@
-import ResetPassword from "@/components/ResetPassword"
-
+import ResetPassword from "@/components/ResetPassword";
 
 const changePassword = () => {
-    return (
-        <div>
-            <div>
-                <ResetPassword></ResetPassword>
-            </div>
-        </div>
-    )
-}
+  return (
+    <div>
+      <ResetPassword />
+    </div>
+  );
+};
 
-export default changePassword
+export default changePassword;

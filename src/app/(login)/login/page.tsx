@@ -26,8 +26,8 @@ const LoginPage: React.FC<{}> = () => {
       router.push("/dashboard");
     }
     const init = async () => {
-      const { Datepicker, Input, initTE } = await import("tw-elements");
-      initTE({ Datepicker, Input });
+      const { Input, initTE } = await import("tw-elements");
+      initTE({ Input });
     };
     init();
   });
@@ -42,7 +42,7 @@ const LoginPage: React.FC<{}> = () => {
     }
 
     if (res?.ok) {
-      toast.success("Successfully toasted!");
+      toast.success("Successfully sign in!");
       router.push("/chat");
     }
   };
@@ -105,7 +105,7 @@ const LoginPage: React.FC<{}> = () => {
                           data-te-ripple-color="light"
                           style={{
                             background:
-                              "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
+                              "linear-gradient(to right, #EF6351, #F38375, #F7A399, #FBC3BC)",
                           }}
                         >
                           Log in
@@ -123,7 +123,7 @@ const LoginPage: React.FC<{}> = () => {
                         <Link
                           type="button"
                           href="/register"
-                          className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                          className="inline-block rounded border-2 border-red-300 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-red-800 transition duration-150 ease-in-out hover:border-red-200 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-red-600 focus:border-red-600 focus:text-red-800 focus:outline-none focus:ring-0 active:border-red-600 active:text-red-800 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                           data-te-ripple-init
                           data-te-ripple-color="light"
                         >
@@ -137,11 +137,11 @@ const LoginPage: React.FC<{}> = () => {
                   className="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
                   style={{
                     background:
-                      "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
+                      "linear-gradient(to right,  #EF6351, #F38375, #F7A399, #FBC3BC)",
                   }}
                 >
                   <div className="px-4 py-6 text-white md:mx-6 md:p-12">
-                    <h4 className="mb-6 text-xl font-semibold">
+                    <h4 className="mb-6 text-xl font-bold">
                       Welcome to Zenify - Your Personal Journal Companion
                     </h4>
                     <p className="text-sm mb-8">

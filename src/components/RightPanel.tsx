@@ -39,7 +39,6 @@ function RightPanel() {
   async function loadDiaries() {
     try{
       const res = await axios.get("/api/diary");
-      console.log(res);
       const adaptedData = res.data.map((item: any) => adaptDiaryData(item));
       setDiaries(adaptedData)
     } catch (e){

@@ -11,7 +11,7 @@ const DiaryCard = ({ diary }: { diary: Diary }) => {
   return (
     <div
       key={diary.id}
-      className="relative hover:cursor-pointer rounded-xl my-2 flex justify-between overflow-hidden transition duration-300 ease-in-out hover:scale-105"
+      className="relative hover:cursor-pointer rounded-xl my-2 flex justify-between overflow-hidden transition duration-300 ease-in-out hover:scale-105 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
     >
       <CldImage
         className="max-h-[100px] rounded-xl object-cover h-auto "
