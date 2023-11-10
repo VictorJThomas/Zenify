@@ -31,6 +31,7 @@ const DiaryCard = ({ diary }: { diary: Diary }) => {
             ? diary.content.slice(0, maxContentLength) + '...'
             : diary.content}
         </p>
+        <p className="text-[0.70rem]">{diary.mood}</p>
       </div>
     </div>
   );

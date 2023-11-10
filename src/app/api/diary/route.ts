@@ -48,11 +48,24 @@ export async function POST(request: Request) {
 
     const userId = userFound.id;
 
+    const mood = await prisma.mood.findMany({
+      where: {
+        userId: userId
+      },
+      orderBy: {
+        createAt: 'desc'
+      },
+      take: 1
+    })
+
+    const lastMood = mood[0]?.mood
+
     const diary = await prisma.diary.create({
       data: {
         image: image,
         content: content,
         userId: userId,
+        mood: lastMood
       },
     });
 

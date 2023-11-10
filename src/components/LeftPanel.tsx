@@ -18,6 +18,10 @@ const LeftPanel = () => {
       url: 'professionals'
     },
     {
+      name: 'ChatBot',
+      url: 'chat'
+    },
+    {
       name: 'Settings',
       url: 'settings'
     },

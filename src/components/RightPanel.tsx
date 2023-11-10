@@ -16,6 +16,7 @@ type DiaryType = {
   image: string | null;
   content: string;
   userId: string;
+  mood: string;
 };
 
 function RightPanel() {
@@ -31,12 +32,14 @@ function RightPanel() {
       image: data.image,
       content: data.content,
       userId: data.userId,
+      mood: data.mood
     }
   }
 
   async function loadDiaries() {
     try{
       const res = await axios.get("/api/diary");
+      console.log(res);
       const adaptedData = res.data.map((item: any) => adaptDiaryData(item));
       setDiaries(adaptedData)
     } catch (e){
