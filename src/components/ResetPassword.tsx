@@ -1,12 +1,11 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Email from "next-auth/providers/email";
 
-function AccountSignIn() {
+function ResetPassword() {
   const { data: session } = useSession();
   const user = session?.user;
   const [password, setPassword] = useState("");
@@ -22,7 +21,7 @@ function AccountSignIn() {
         confirmPassword: confirmPassword,
         user: user,
       });
-      toast.success("Updated!");
+      toast.success("Password Reset!");
       console.log(response);
     } catch (e) {
       console.error(e);
@@ -31,18 +30,7 @@ function AccountSignIn() {
   return (
     <div className="w-full text-center pb-8">
       <div>
-        <h1>Account Sign-In</h1>
-      </div>
-      <div>
         <h1>Change Password</h1>
-        <div className="flex flex-2 gap-4 m-4 justify-center">
-            <label className="resize-none w-full p-1 rounded-md shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] hover:ring-2">
-              Email
-            </label>
-            <label className="resize-none w-full p-1 rounded-md shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] hover:ring-2">
-            {session?.user?.email}
-            </label>
-        </div>
             <div className="flex flex-2 gap-4 m-4 justify-center">
                 <div className="relative mb-4" data-te-input-wrapper-init>
                 <input
@@ -92,11 +80,11 @@ function AccountSignIn() {
           onClick={onSubmit}
           disabled={!password}
         >
-          Save changes
+          Change Email
         </button>
       </div>
     </div>
   );
 }
 
-export default AccountSignIn;
+export default ResetPassword;

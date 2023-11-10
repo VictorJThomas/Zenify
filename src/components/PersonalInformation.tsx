@@ -55,8 +55,8 @@ function PersonalInformation() {
             >
               Save changes
             </button>
-          </div>
-      </div>
+        </div>
+    </div>
   );
 }
 

@@ -6,14 +6,40 @@ const prisma = new PrismaClient();
 
 export async function PUT(request: Request) {
     try {
-      const {password, user }  = await request.json();
+      const {currentPassword,confirmPassword,password, user }  = await request.json();
 
       if (password.length < 6)
       return NextResponse.json(
         { message: "Password must be at least 6 characters" },
         { status: 400 }
       );
-      
+
+      if (!password || !confirmPassword || !currentPassword ) {
+        return NextResponse.json(
+          { message: "missing fields"},
+          { status: 400 }
+        );
+      }
+
+      const userFound = await prisma.user.findUnique({
+        where: {
+            id: user.id,
+        },
+        });
+
+        if (!userFound) {
+          return NextResponse.json(
+            { message: "The user not exist"},
+            { status: 400 }
+          );
+        }
+
+        if (password !== confirmPassword) {
+          return NextResponse.json(
+            { message: "The passwords not match" },
+            { status: 400 }
+          );
+        }
       const hashedPassword = await bcrypt.hash(password, 12);
 
       const updatedUser = await prisma.user.update({
