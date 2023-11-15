@@ -9,7 +9,7 @@ export default function LogoutButton() {
     return (
       <div className="">
         <button
-          className="my-2 w-full rounded-lg p-2 text-left text-lg font-medium hover:bg-blue-100 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
+          className="my-2 w-full rounded-lg p-2 text-left text-lg font-medium hover:bg-blue-100"
           onClick={() => signOut()}
         >
           Sign out

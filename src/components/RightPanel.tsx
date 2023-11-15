@@ -24,7 +24,7 @@ function RightPanel() {
   const [selectedDiary, setSelectedDiary] = useState<Diary | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const adaptDiaryData = (data:any) => {
+  const adaptDiaryData = (data: any) => {
     return {
       id: data.id,
       createAt: new Date(data.createAt),
@@ -32,28 +32,42 @@ function RightPanel() {
       image: data.image,
       content: data.content,
       userId: data.userId,
-      mood: data.mood
-    }
-  }
+      mood: data.mood,
+    };
+  };
 
-  async function loadDiaries() {
-    try{
+  const loadDiaries = async () => {
+    try {
       const res = await axios.get("/api/diary");
       const adaptedData = res.data.map((item: any) => adaptDiaryData(item));
-      setDiaries(adaptedData)
-    } catch (e){
+      setDiaries(adaptedData);
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
-    loadDiaries();
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("/api/diary");
+        const adaptedData = res.data.map((item: any) => adaptDiaryData(item));
+        setDiaries(adaptedData);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    try {
+      fetchData();
+    } catch (e) {
+      console.log(e);
+    }
     const init = async () => {
       const { Modal, Ripple, initTE } = await import("tw-elements");
       initTE({ Modal, Ripple });
     };
     init();
-  });
+  }, []);
 
   const handleCardClick = (diary: Diary) => {
     setSelectedDiary(diary);
@@ -64,7 +78,7 @@ function RightPanel() {
     setSelectedDiary(null);
     setIsModalOpen(false);
   };
-
+  //  loadDiaries()
   return (
     <aside className="w-[290px] py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  bg-zinc-50 rounded-xl">
       <div className="flex flex-2 gap-4 m-4 justify-center">
@@ -83,11 +97,19 @@ function RightPanel() {
         <DiaryForm />
       </div>
       <div className="overflow-y-scroll max-h-[700px] scroll-smooth focus:scroll-auto snap-mandatory snap-y p-4">
-          {diaries.map((diary) => (
-            <DiaryList key={diary.id} diary={diary} onCardClick={() => handleCardClick(diary)}/>
-          ))}
+        {diaries.map((diary) => (
+          <DiaryList
+            key={diary.id}
+            diary={diary}
+            onCardClick={() => handleCardClick(diary)}
+          />
+        ))}
       </div>
-      <DiaryView isOpen={isModalOpen} onClose={closeModal} diary={selectedDiary}/>
+      <DiaryView
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        diary={selectedDiary}
+      />
     </aside>
   );
 }

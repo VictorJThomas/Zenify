@@ -60,7 +60,7 @@ const LeftPanel = () => {
           </Link>
         ))}
       </div>
-      <div className="mt-96 flex flex-col justify-between">
+      <div className="mt-[26rem] flex flex-col justify-between">
         <LogoutButton />
       </div>
     </aside>
