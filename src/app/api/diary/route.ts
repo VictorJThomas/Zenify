@@ -1,27 +1,63 @@
 import { PrismaClient } from "@prisma/client";
+import { getSession } from "next-auth/react";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function GET() {
+export async function PATCH(request: Request) {  
   try {
+    const { userEmail } = await request.json()
+    if (!userEmail) {
+      return NextResponse.json(
+        {
+          message: 'User parameter is required.',
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const userId = await prisma.user.findUnique({
+      where: {
+        email: userEmail,
+      },
+    });
+
+    if (!userId) {
+      return NextResponse.json(
+        {
+          message: 'User not found.',
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+
     const diaries = await prisma.diary.findMany({
+      where: {
+        userId: userId.id
+      },
       orderBy:{ 
         createAt: 'desc'
       }
     });
-    return NextResponse.json(diaries, { status: 201 });
+    return NextResponse.json({diaries},{ status: 201 });
   } catch (error) {
+    console.error('Error fetching diaries:', error);
     if (error instanceof Error) {
       return NextResponse.json(
         {
-          message: error.message,
+          message: 'Internal server error.'
         },
         {
           status: 500,
         }
       );
     }
+  } finally {
+    await prisma.$disconnect()
   }
 }
 

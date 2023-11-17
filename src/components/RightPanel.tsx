@@ -6,8 +6,10 @@ import { useState } from "react";
 import DiaryForm from "./DiaryForm";
 import axios from "axios";
 import DiaryList from "./DiaryList";
-import { Diary } from "@prisma/client";
+import { Diary, PrismaClient } from "@prisma/client";
 import DiaryView from "./DiaryView";
+import { useSession } from "next-auth/react";
+import { useDiaries } from "@/hooks/useDiaries";
 
 type DiaryType = {
   id: string;
@@ -19,10 +21,13 @@ type DiaryType = {
   mood: string;
 };
 
-function RightPanel() {
+const RightPanel = () => {
   const [diaries, setDiaries] = useState<DiaryType[]>([]);
   const [selectedDiary, setSelectedDiary] = useState<Diary | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { data: session } = useSession();
+  const userEmail = session?.user?.email;
 
   const adaptDiaryData = (data: any) => {
     return {
@@ -36,10 +41,17 @@ function RightPanel() {
     };
   };
 
+
   const loadDiaries = async () => {
     try {
-      const res = await axios.get("/api/diary");
-      const adaptedData = res.data.map((item: any) => adaptDiaryData(item));
+      // if (!userEmail) {
+      //   console.log(userEmail)
+      //   console.error('User is undefined.');
+      //   return;
+      // }
+      const res = await axios.patch('/api/diary', {userEmail: userEmail});
+      console.log(res.data.diaries)
+      const adaptedData = res.data.diaries.map((item: any) => adaptDiaryData(item));
       setDiaries(adaptedData);
     } catch (e) {
       console.log(e);
@@ -47,27 +59,16 @@ function RightPanel() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get("/api/diary");
-        const adaptedData = res.data.map((item: any) => adaptDiaryData(item));
-        setDiaries(adaptedData);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    try {
-      fetchData();
-    } catch (e) {
-      console.log(e);
+    if(userEmail){
+      loadDiaries()
     }
+    // loadDiaries();
     const init = async () => {
       const { Modal, Ripple, initTE } = await import("tw-elements");
       initTE({ Modal, Ripple });
     };
     init();
-  }, []);
+  }, [userEmail]);
 
   const handleCardClick = (diary: Diary) => {
     setSelectedDiary(diary);
@@ -78,7 +79,11 @@ function RightPanel() {
     setSelectedDiary(null);
     setIsModalOpen(false);
   };
-  //  loadDiaries()
+
+  const handleDiaryCreated = () => {
+    loadDiaries();
+  };
+
   return (
     <aside className="w-[290px] py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  bg-zinc-50 rounded-xl">
       <div className="flex flex-2 gap-4 m-4 justify-center">
@@ -94,7 +99,7 @@ function RightPanel() {
             <AiOutlinePlusSquare size="30" />
           </button>
         </div>
-        <DiaryForm />
+        <DiaryForm onDiaryCreated={handleDiaryCreated}/>
       </div>
       <div className="overflow-y-scroll max-h-[700px] scroll-smooth focus:scroll-auto snap-mandatory snap-y p-4">
         {diaries.map((diary) => (
@@ -112,6 +117,6 @@ function RightPanel() {
       />
     </aside>
   );
-}
+};
 
 export default RightPanel;

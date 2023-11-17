@@ -7,12 +7,16 @@ import { HiPhoto } from "react-icons/hi2";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 
-function DiaryForm() {
+interface DiaryFormProps {
+  onDiaryCreated?: () => void;
+}
+
+function DiaryForm({onDiaryCreated}: DiaryFormProps) {
   const [content, setContent] = useState("");
   const [image, setImage] = useState("zenify/iuwojntnxlltocmrurfd");
-
   const { data: session } = useSession();
   const user = session?.user
+  
 
   const submitRef = useRef<HTMLButtonElement | null>(null)
 
@@ -24,6 +28,9 @@ function DiaryForm() {
         image: image,
         user: user,
       });
+      if(onDiaryCreated){
+        onDiaryCreated()
+      }
       toast.success("Created!");
       console.log(response);
       if (submitRef.current) {
