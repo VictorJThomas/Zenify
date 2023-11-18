@@ -1,9 +1,9 @@
-import ResetPassword from "@/components/ResetPassword";
+import ChangePassWord from "@/components/ChangePassword";
 
 const changePassword = () => {
   return (
     <div>
-      <ResetPassword />
+      <ChangePassWord />
     </div>
   );
 };

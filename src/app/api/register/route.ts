@@ -15,7 +15,7 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     
-    if (!email || !password ||!confirmPassWord ||!birthdate ||!gender){
+    if (!email || !password /*||!confirmPassWord ||!birthdate ||!gender*/){
       return NextResponse.json(
         { message: "missing fields"},
         { status: 400 }
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (password !== confirmPassWord){
+    /*if (password !== confirmPassWord){
       return NextResponse.json(
         {
           message: "The passwords not match",
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
           status: 400,
         }
       );
-    }
+    }*/
 
     const userFound = await prisma.user.findUnique({
       where: {
