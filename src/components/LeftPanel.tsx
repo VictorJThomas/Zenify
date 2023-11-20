@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import ProfileCard from "./ProfileCard";
 import LogoutButton from "./LogoutButton";
@@ -9,61 +9,64 @@ import { CiChat1 } from "react-icons/ci";
 import { SlSettings } from "react-icons/sl";
 import { usePathname } from "next/navigation";
 
-
 const LeftPanel = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const menu = [
     {
       name: "Posts",
       url: "dashboard/post",
-      icon: <RiHome2Line/>,
+      icon: <RiHome2Line />,
     },
     {
       name: "Focus Mode",
       url: "dashboard/focus",
-      icon: <RiFocusLine/>,
+      icon: <RiFocusLine />,
     },
     {
       name: "Professionals",
       url: "dashboard/professionals",
-      icon: <BsPeople/>,
+      icon: <BsPeople />,
     },
     {
       name: "ChatBot",
       url: "chat",
-      icon: <CiChat1/>,
+      icon: <CiChat1 />,
     },
     {
       name: "Settings",
       url: "dashboard/settings",
-      icon: <SlSettings/>,
+      icon: <SlSettings />,
     },
   ];
 
   const isActive = (url: string) => pathname === `/${url}`;
 
   return (
-    <aside className="w-[270px] py-[25px] h-screen px-[20px] flex-col justify-between self-stretch flex-shrink-0 bg-zinc-50 rounded-xl">
-      <ProfileCard />
-      <div>
-        {menu.map((item) => (
-          <Link key={item.url} href={`/${item.url}`}>
-            <button
-              className={`my-2 w-full rounded-lg p-2 text-left text-lg font-medium shadow-[0_10px_90px_0px_rgba(0,0,0,0.15)] hover:bg-blue-100 flex items-center ${
-                isActive(item.url) ? "bg-blue-100" : ""
-              }`}
-            >
-              {item.icon}
-              <span className="ml-2">{item.name}</span>
-            </button>
-          </Link>
-        ))}
-      </div>
-      <div className="mt-[26rem] flex flex-col justify-between">
-        <LogoutButton />
-      </div>
-    </aside>
+    <>
+      <aside className="h-screen w-[270px] py-[25px] px-[20px] flex-col justify-between self-stretch flex-shrink-0 bg-slate-100 bg-opacity-80 rounded-r-xl">
+        <ProfileCard />
+        <div>
+          {menu.map((item) => (
+            <Link key={item.url} href={`/${item.url}`}>
+              <button
+                className={`my-2 w-full rounded-lg p-2 text-left text-lg font-medium hover:bg-blue-100 flex items-center ${
+                  isActive(item.url) ? "bg-blue-100" : ""
+                }`}
+              >
+                {item.icon}
+                <span className="ml-2 ">
+                  {item.name}
+                </span>
+              </button>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-[26rem] flex flex-col justify-between">
+          <LogoutButton />
+        </div>
+      </aside>
+    </>
   );
 };
 

@@ -6,10 +6,9 @@ import { useState } from "react";
 import DiaryForm from "./DiaryForm";
 import axios from "axios";
 import DiaryList from "./DiaryList";
-import { Diary, PrismaClient } from "@prisma/client";
+import { Diary } from "@prisma/client";
 import DiaryView from "./DiaryView";
 import { useSession } from "next-auth/react";
-import { useDiaries } from "@/hooks/useDiaries";
 
 type DiaryType = {
   id: string;
@@ -44,11 +43,6 @@ const RightPanel = () => {
 
   const loadDiaries = async () => {
     try {
-      // if (!userEmail) {
-      //   console.log(userEmail)
-      //   console.error('User is undefined.');
-      //   return;
-      // }
       const res = await axios.patch('/api/diary', {userEmail: userEmail});
       console.log(res.data.diaries)
       const adaptedData = res.data.diaries.map((item: any) => adaptDiaryData(item));
@@ -62,7 +56,6 @@ const RightPanel = () => {
     if(userEmail){
       loadDiaries()
     }
-    // loadDiaries();
     const init = async () => {
       const { Modal, Ripple, initTE } = await import("tw-elements");
       initTE({ Modal, Ripple });
@@ -85,7 +78,7 @@ const RightPanel = () => {
   };
 
   return (
-    <aside className="w-[290px] py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  bg-zinc-50 rounded-xl">
+    <aside className="sticky top-0 right-0 w-[290px] bg-slate-100 bg-opacity-40 h-screen py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  rounded-l-xl">
       <div className="flex flex-2 gap-4 m-4 justify-center">
         <div className="font-semibold text-xl pt-2">Diary</div>
         <div className="">

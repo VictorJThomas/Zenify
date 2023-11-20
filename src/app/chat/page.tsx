@@ -63,7 +63,7 @@ const ChatPage = () => {
   return (
     <main className="h-screen bg-white p-6 flex flex-col">
       <div className="flex flex-col gap-8 w-full items-center flex-grow max-h-full">
-        <h1 className="text-4xl text-transparent font-extralight bg-clip-text bg-gradient-to-r from-violet-800 to-fuchsia-500">
+        <h1 className="text-4xl text-transparent font-extralight bg-clip-text bg-gradient-to-r from-[#4F80CF] to-[#70160A]">
           ChatBot
         </h1>
         <form
@@ -91,7 +91,7 @@ const ChatPage = () => {
                         : "rounded-tr-xl rounded-b-xl"
                     }`}
                   >
-                    <p className="text-sm font-medium text-violet-500 mb-2">
+                    <p className="text-sm font-medium text-[#3B71CA] mb-2">
                       {message.role === "user" ? "You" : "AI Assistant"}
                     </p>
                     {typeof message.content === "string" ? (
@@ -115,7 +115,7 @@ const ChatPage = () => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Type a message"
-                className="w-full h-full overflow-hidden rounded-full border border-slate-900/10 bg-white pl-6 pr-24 py-[25px] text-base placeholder:text-slate-400 focus:border-violet-500 focus:outline-none focus:ring-4 focus:ring-violet-500/10 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
+                className="w-full h-full overflow-hidden rounded-full border border-slate-900/10 bg-white pl-6 pr-24 py-[25px] text-base placeholder:text-slate-400 focus:border-[#3B71CA] focus:outline-none focus:ring-4 focus:ring-[#3B71CA]/10 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
@@ -128,7 +128,7 @@ const ChatPage = () => {
                   e.preventDefault();
                   handleUserMessage();
                 }}
-                className="flex w-14 h-14 items-center justify-center rounded-full px-3 text-sm bg-violet-600 font-semibold text-white hover:bg-violet-700 active:bg-violet-800 absolute right-2 bottom-2 disabled:bg-violet-100 disabled:text-violet-400"
+                className="flex w-14 h-14 items-center justify-center rounded-full px-3 text-sm bg-[#3B71CA] font-semibold text-white hover:bg-[#3B71CA]  active:bg-[#3F74CA] absolute right-2 bottom-2 disabled:bg-[#B6CDF7] disabled:text-[#488DDA]"
                 type="submit"
                 aria-label="Send"
                 disabled={!message || loading}
