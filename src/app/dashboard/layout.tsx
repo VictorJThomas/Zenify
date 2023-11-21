@@ -42,7 +42,7 @@ export default function DashboardLayout({
 
   return (
     <div>
-      <div className="relative bg-gradient-to-r from-indigo-200 via-red-200 to-yellow-100">
+      <div className="relative bg-gradient-to-r from-indigo-200  to-red-200">
         <div className="flex items-start gap-4 w-full justify-between align-center relative ">
           {!isSidebarVisible ? (
             <div></div>
@@ -55,7 +55,7 @@ export default function DashboardLayout({
           <main
             className={`flex-shrink-0 p-4 flex-col ${
               isSidebarVisible ? "w-[1500px] ml-[34px]" : "w-[1500px]"
-            }  align-center self-stretch py-[40px] px-[30px] rounded-xl bg-slate-100 bg-opacity-40 overflow-y-auto`}
+            }  align-center self-stretch py-[40px] px-[30px] rounded-xl bg-slate-100 bg-opacity-30 overflow-y-auto`}
           >
             <button
               className="rounded px-5 mx-10 my-5 py-2 text-xs font-medium uppercase leading-tight text-black transition duration-150 ease-in-out hover:bg-neutral-500 hover:shadow-lg focus:bg-slate-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-neutral-500"

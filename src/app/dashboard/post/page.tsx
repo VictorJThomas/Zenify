@@ -29,12 +29,12 @@ const PostPage = () => {
           Loneliness
         </button>
       </div>
-      <div className="grid grid-cols-5 grid-rows-4 gap-x-5 gap-y-3  my-5">
-        <div className="bg-[#4781EB] col-span-1 row-span-1 h-96">1</div>
+      <div className="grid grid-cols-5 grid-rows-4 gap-x-5 gap-y-3 h-[400px] my-5">
+        <div className="bg-[#4781EB] col-span-1 row-span-1 ">1</div>
         <div className="bg-[#4781EB] col-span-3 row-span-2 ">2</div>
-        <div className="bg-[#4781EB] col-span-1 row-span-1 h-60">3</div>
-        <div className="bg-[#4781EB] col-span-1 row-span-1 h-60">4</div>
-        <div className="bg-[#4781EB] col-span-1 row-span-1 h-96">5</div>
+        <div className="bg-[#4781EB] col-span-1 row-span-1 ">3</div>
+        <div className="bg-[#4781EB] col-span-1 row-span-1 ">4</div>
+        <div className="bg-[#4781EB] col-span-1 row-span-1 ">5</div>
       </div>
       <hr className="border-1" />
       <div className="flex items-center gap-3 my-8">
