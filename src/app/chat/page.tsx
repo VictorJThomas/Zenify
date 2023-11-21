@@ -61,13 +61,13 @@ const ChatPage = () => {
   }, []);
 
   return (
-    <main className="h-screen bg-white p-6 flex flex-col">
-      <div className="flex flex-col gap-8 w-full items-center flex-grow max-h-full">
+    <main className="h-screen bg-gradient-to-r from-indigo-200 to-red-200 p-6 flex flex-col">
+      <div className="flex flex-col gap-8 w-full items-center flex-grow max-h-full ">
         <h1 className="text-4xl text-transparent font-extralight bg-clip-text bg-gradient-to-r from-[#4F80CF] to-[#70160A]">
           ChatBot
         </h1>
         <form
-          className="rounded-2xl border-purple-700 border-opacity-5 border lg:w-3/4 flex-grow flex flex-col bg-[url('/images/bg.png')] bg-cover max-h-full overflow-clip"
+          className="bg-zinc-200 bg-opacity-50 rounded-2xl border-purple-700 border-opacity-5 border lg:w-3/4 flex-grow flex flex-col bg-[url('/images/bg.png')] bg-cover max-h-full overflow-clip"
           onSubmit={(e) => {
             e.preventDefault();
             handleUserMessage();
@@ -115,7 +115,7 @@ const ChatPage = () => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Type a message"
-                className="w-full h-full overflow-hidden rounded-full border border-slate-900/10 bg-white pl-6 pr-24 py-[25px] text-base placeholder:text-slate-400 focus:border-[#3B71CA] focus:outline-none focus:ring-4 focus:ring-[#3B71CA]/10 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
+                className="w-full h-full overflow-hidden rounded-3xl border border-slate-900/10 bg-white pl-6 pr-24 py-[25px] text-base placeholder:text-slate-400 focus:border-[#3B71CA] focus:outline-none focus:ring-4 focus:ring-[#3B71CA]/10 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();

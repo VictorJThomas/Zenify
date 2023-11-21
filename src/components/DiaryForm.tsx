@@ -84,7 +84,7 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
         } h-full w-full overflow-y-auto overflow-x-hidden outline-none`}
       >
         <div className="flex items-center justify-center h-full">
-          <div className="w-[500px] bg-white p-4 rounded-md shadow-lg"  ref={(node) => node && node.classList.add("modal-content-form")}>
+          <div className="w-[500px] bg-zinc-200 bg-opacity-70 p-4 rounded-md shadow-lg"  ref={(node) => node && node.classList.add("modal-content-form")}>
             <div className="relative">
               <div className="flex justify-between items-center border-b-2 pb-4">
                 <h5 className="text-xl font-medium leading-normal text-neutral-800">
@@ -132,7 +132,7 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
                     />
                   </CldUploadButton>
                   <textarea
-                    className="resize-none w-full p-1 rounded-md shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] hover:ring-2"
+                    className="resize-none w-full overflow-hidden bg-white py-4 px-4 text-base placeholder:text-slate-400 focus:border-[#3B71CA] focus:outline-none focus:ring-4 focus:ring-[#3B71CA]/10 rounded-3xl shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] hover:ring-2"
                     placeholder="Write about your day..."
                     value={content}
                     onChange={(e) => setContent(e.target.value)}

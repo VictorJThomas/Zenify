@@ -89,7 +89,7 @@ const RightPanel = () => {
         <div className="font-semibold text-xl pt-2">Diary</div>
         <div className="">
           <button
-            className="rounded-full bg-zinc-300 p-3 text-xs font-medium uppercase leading-normal text-white shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-0 active:bg-primary-800"
+            className="rounded-full bg-zinc-300 bg-opacity-40 p-3 text-xs font-medium uppercase leading-normal text-black shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] transition duration-150 ease-in-out hover:text-white focus:text-white active:text-white hover:bg-zinc-600 focus:bg-zinc-600 focus:outline-none focus:ring-0 active:bg-zinc-800"
             onClick={openFormModal}
           >
             <AiOutlinePlusSquare size="30" />
