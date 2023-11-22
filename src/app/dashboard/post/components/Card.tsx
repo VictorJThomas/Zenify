@@ -8,6 +8,7 @@ type Props = {
   imageHeight: string;
   isSmallCard?: boolean;
   isLongForm?: boolean;
+  post: Post;
 };
 
 const Card = ({
@@ -15,15 +16,19 @@ const Card = ({
   imageHeight,
   isSmallCard = false,
   isLongForm = false,
+  post,
 }: Props) => {
-;
+  const {id, title, author, createAt, image, snippet} = post || {}
+
+  const date = new Date(createAt)
   const options = { year: "numeric", month: "long", day: "numeric" } as any;
+  const formattedDate = date.toLocaleDateString("en-US", options)
 
   return (
     <div className={className}>
       <Link
         className="basis-full hover:opacity-70"
-        href="/dashboard/post"
+        href={`${process.env.NEXT_PUBLIC_URL}/dashboard/post/${id}`}
       >
         <div className={`relative w-auto mb-3 ${imageHeight}`}>
           image
@@ -41,27 +46,27 @@ const Card = ({
         </div>
       </Link>
       <div className="basis-full">
-        <Link href="/dashboard/post">
+        <Link href={`${process.env.NEXT_PUBLIC_URL}/dashboard/post/${id}`}>
           <h4
-            className={`font-bold hover:text-green-700
+            className={`font-bold hover:text-slate-950
             ${isSmallCard ? "text-base" : "text-lg"}
             ${isSmallCard ? "line-clamp-2" : ""}
           `}
           >
-            Title
+            {title}
           </h4>
         </Link>
 
         <div className={`${isSmallCard ? "my-3" : "flex my-4"} gap-3`}>
-          <h5 className="font-semibold text-xs">Author</h5>
-          <h6 className="text-wh-300 text-xs">Date</h6>
+          <h5 className="font-semibold text-xs">{author}</h5>
+          <h6 className="text-black text-xs">{formattedDate}</h6>
         </div>
         <p
-          className={`text-wh-500 ${
+          className={`text-black ${
             isLongForm ? "line-clamp-5" : "line-clamp-3"
           }`}
         >
-          Snippet
+          {snippet}
         </p>
       </div>
     </div>

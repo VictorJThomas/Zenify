@@ -3,16 +3,35 @@ import MainSection from "./components/MainSection";
 import SecondSection from "./components/SecondSection";
 import Tags from "./components/Tags";
 import { Post } from "@prisma/client";
+import { getUserId } from "@/actions/getUserId";
+
+export const revalidate = 60;
 
 const getPosts = async () => {
-  const posts: Array<Post> = await prisma.post.findMany()
+  const id = await getUserId()
+
+  const moodFound = await prisma.mood.findFirst({
+    where: {
+      userId: id
+    },
+    orderBy: {
+      createAt: 'desc'
+    }
+  })
+
+  const mood = moodFound?.mood
+
+  const posts: Array<Post> = await prisma.post.findMany({
+    where: {
+      category: mood
+    }
+  })
 
   return posts
 }
 
 const PostPage = async () => {
   const posts = await getPosts();
-
   const formatPosts = () => {
     
   }
@@ -21,8 +40,8 @@ const PostPage = async () => {
     <div className="w-full px-10 max-h-[50%]">
       <h1 className="text-6xl">Welcome!</h1>
       <Tags />
-      <MainSection/>
-      <SecondSection />
+      {/* <MainSection posts={posts}/> */}
+      <SecondSection posts={posts} />
     
     </div>
   );

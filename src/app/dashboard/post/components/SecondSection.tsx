@@ -1,6 +1,12 @@
+import { Post } from "@prisma/client";
 import Card from "./Card";
 
-const SecondSection = () => {
+type MainSectionProps = {
+  className?: string;
+  posts: Post[];
+};
+
+const SecondSection = ({className, posts}: MainSectionProps) => {
   return (
     <section className="">      
       {/* HEADER */}
@@ -13,11 +19,12 @@ const SecondSection = () => {
 
       {/* CARDS ROW */}
       <div className="sm:flex justify-between gap-8">
-        <Card className="bg-[#4781EB] basis-1/3 mt-5 sm:mt-0" imageHeight="h-80" />
-        <Card className="bg-[#4781EB] basis-1/3 mt-5 sm:mt-0" imageHeight="h-80" />
-        <Card className="bg-[#4781EB] basis-1/3 mt-5 sm:mt-0" imageHeight="h-80" />
+        <Card post={posts[0]} className="bg-[#4781EB] basis-1/3 mt-5 sm:mt-0 p-6" imageHeight="h-80" />
+        <Card post={posts[1]} className="bg-[#4781EB] basis-1/3 mt-5 sm:mt-0 p-6" imageHeight="h-80" />
+        <Card post={posts[2]} className="bg-[#4781EB] basis-1/3 mt-5 sm:mt-0 p-6" imageHeight="h-80" />
       </div>
       <Card
+        post={posts[3]}
         className="bg-[#4781EB] sm:flex justify-between items-center gap-3 mt-7 mb-5"
         imageHeight="h-80"
       />
