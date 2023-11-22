@@ -8,7 +8,6 @@ import axios from "axios";
 import DiaryList from "./DiaryList";
 import { Diary } from "@prisma/client";
 import DiaryView from "./DiaryView";
-import { useSession } from "next-auth/react";
 
 type DiaryType = {
   id: string;
@@ -26,9 +25,6 @@ const RightPanel = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
 
-  const { data: session } = useSession();
-  const userEmail = session?.user?.email;
-
   const adaptDiaryData = (data: any) => {
     return {
       id: data.id,
@@ -44,7 +40,7 @@ const RightPanel = () => {
 
   const loadDiaries = async () => {
     try {
-      const res = await axios.patch('/api/diary', {userEmail: userEmail});
+      const res = await axios.get('/api/diary');
       console.log(res.data.diaries)
       const adaptedData = res.data.diaries.map((item: any) => adaptDiaryData(item));
       setDiaries(adaptedData);
@@ -54,15 +50,13 @@ const RightPanel = () => {
   };
 
   useEffect(() => {
-    if(userEmail){
-      loadDiaries()
-    }
+    loadDiaries()
     const init = async () => {
       const { Modal, Ripple, initTE } = await import("tw-elements");
       initTE({ Modal, Ripple });
     };
     init();
-  }, [userEmail]);
+  }, []);
 
   const handleCardClick = (diary: Diary) => {
     setSelectedDiary(diary);
@@ -81,7 +75,6 @@ const RightPanel = () => {
   const openFormModal = () => {
     setIsFormModalOpen(true);
   };
-
 
   return (
     <aside className="sticky top-0 right-0 w-[290px] bg-slate-100 bg-opacity-30 h-screen py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  rounded-l-xl">
