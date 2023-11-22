@@ -22,7 +22,6 @@ model User {
   updatedAt      DateTime  @updatedAt
 
   accounts Account[]
-  posts    Post[]
   moods    Mood[]
   diaries  Diary[]
   sessions Session[]
@@ -32,13 +31,12 @@ model Post {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
-  userId   String   @map("user_id") @db.ObjectId
-  user     User     @relation(fields: [userId], references: [id])
-  content  String?
+  content  String?  @db.String
   title    String
-  image    String?
-
-  @@unique([userId, id])
+  image    String
+  category String
+  snippet  String   @db.String
+  author   String
 }
 
 model Account {
