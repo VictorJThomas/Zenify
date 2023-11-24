@@ -9,6 +9,10 @@ export async function PUT(request: Request) {
     const { currentPassword, confirmPassword, password, user} =
       await request.json();
 
+    if (!currentPassword == user.password){
+      return NextResponse.json({ message: "current password not match" }, { status: 400 });
+    }
+
     if (password.length < 6)
       return NextResponse.json(
         { message: "Password must be at least 6 characters" },

@@ -21,6 +21,7 @@ model User {
   birthDate      DateTime? @unique
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  role UserRole @default(CLIENT)
 
   accounts Account[]
   posts    Post[]
@@ -72,9 +73,10 @@ model Session {
   @@map("sessions")
 }
 
-enum Role {
-  USER
-  PSICOLOGO
+enum UserRole {
+  ADMIN
+  CLIENT
+  PSYCHOLOGIST
 }
 
 model Diary {
