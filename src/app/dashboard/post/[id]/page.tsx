@@ -1,5 +1,7 @@
+import { FormattedPost } from "@/types";
 import { prisma } from "@/utils/prisma";
 import { Post as PostType } from "@prisma/client";
+import Content from "./Content";
 
 type Props = {
   params: { id: string };
@@ -28,7 +30,7 @@ const getPost = async (id: string) => {
 
 const Post = async ({ params }: Props) => {
   const { id } = params;
-  const post = await getPost(id);
+  const post: FormattedPost | null = await getPost(id);
   
   if(!post){
     return <div>Post Not Found</div>
@@ -36,9 +38,7 @@ const Post = async ({ params }: Props) => {
 
   return (
     <div className="px-10 leadin-7">
-        <div className="md: flex gap-10 mb-5">
-            <Content post={post}/>
-        </div>
+        <Content post={post}/>
     </div>
   )
 };

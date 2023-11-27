@@ -37,7 +37,7 @@ export async function POST(req: Request) {
             userId: userId
         }
     })
-    return NextResponse.json(botResponse, {status: 201})
+    // return NextResponse.json(botResponse, {status: 201})
   }catch (e){
     if (e instanceof Error) {
         return NextResponse.json(

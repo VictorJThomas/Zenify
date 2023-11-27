@@ -43,8 +43,8 @@ const LeftPanel = () => {
   const isActive = (url: string) => pathname === `/${url}`;
 
   return (
-    <>
-      <aside className="h-screen w-[270px] py-[25px] px-[20px] flex-col justify-between self-stretch flex-shrink-0 bg-zinc-200  rounded-r-xl">
+    <div className="flex fixed flex-col h-screen">
+      <aside className="h-screen z-[1] w-[270px] py-[25px] px-[20px] flex-col justify-between self-stretch flex-shrink-0 bg-slate-200 bg-opacity-30 rounded-r-xl" >
         <ProfileCard />
         <div>
           {menu.map((item) => (
@@ -66,7 +66,7 @@ const LeftPanel = () => {
           <LogoutButton />
         </div>
       </aside>
-    </>
+    </div>
   );
 };
 

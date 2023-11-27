@@ -24,6 +24,7 @@ const Card = ({
   const options = { year: "numeric", month: "long", day: "numeric" } as any;
   const formattedDate = date.toLocaleDateString("en-US", options)
 
+
   return (
     <div className={className}>
       <Link
@@ -31,18 +32,17 @@ const Card = ({
         href={`${process.env.NEXT_PUBLIC_URL}/dashboard/post/${id}`}
       >
         <div className={`relative w-auto mb-3 ${imageHeight}`}>
-          image
-          {/* <Image
+          <Image
             fill
             alt="tech"
-            placeholder="blur"
             src={image}
             sizes="(max-width: 480px) 100vw,
                   (max-width: 768px) 75vw,
                   (max-width: 1060px) 50vw,
                   33vw"
+            className="rounded-xl"
             style={{ objectFit: "cover" }}
-          /> */}
+          />
         </div>
       </Link>
       <div className="basis-full">
