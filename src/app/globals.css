@@ -3,7 +3,10 @@
 @tailwind utilities;
 
 body {
-    background-color: rgb(232, 232, 232);
+    /* background-color: rgb(232, 232, 232); */
+    /* background-color: #FBC3BC; */
+    /* background-color: #272626; */
+    
 }
 
 /* Landing Page Css */
