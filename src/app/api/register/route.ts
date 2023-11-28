@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {
-    const { name, email, password, confirmPassWord } = await request.json();
+    const { name, email, password, confirmPassword } = await request.json();
 
     if (password.length < 6)
       return NextResponse.json(
@@ -15,7 +15,8 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     
-    if (!email || !password ||!confirmPassWord ){
+
+    if ( !name || !email || !password || !confirmPassword ){
       return NextResponse.json(
         { message: "missing fields"},
         { status: 400 }
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (password !== confirmPassWord){
+    /*if (password !== confirmPassWord){
       return NextResponse.json(
         {
           message: "The passwords not match",
@@ -42,7 +43,7 @@ export async function POST(request: Request) {
           status: 400,
         }
       );
-    }
+    }*/
 
     const userFound = await prisma.user.findUnique({
       where: {
