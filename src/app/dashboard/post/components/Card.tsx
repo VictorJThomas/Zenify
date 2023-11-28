@@ -59,10 +59,10 @@ const Card = ({
 
         <div className={`${isSmallCard ? "my-3" : "flex my-4"} gap-3`}>
           <h5 className="font-semibold text-xs">{author}</h5>
-          <h6 className="text-black text-xs">{formattedDate}</h6>
+          <h6 className="dark:text-white text-xs">{formattedDate}</h6>
         </div>
         <p
-          className={`text-black ${
+          className={` dark:text-white font-semibold ${
             isLongForm ? "line-clamp-5" : "line-clamp-3"
           }`}
         >

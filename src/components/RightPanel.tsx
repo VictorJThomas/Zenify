@@ -77,7 +77,7 @@ const RightPanel = () => {
   };
 
   return (
-    <aside className="sticky top-0 right-0 w-[290px] bg-slate-100 bg-opacity-30 h-screen py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  rounded-l-xl">
+    <aside className="sticky top-0 right-0 w-[290px] bg-slate-100 dark:bg-[#28231E] dark:bg-opacity-30 bg-opacity-30 h-screen py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  rounded-l-xl">
       <div className="flex flex-2 gap-4 m-4 justify-center">
         <div className="font-semibold text-xl pt-2">Diary</div>
         <div className="">
