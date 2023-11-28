@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import LeftPanel from "@/components/LeftPanel";
 import RightPanel from "@/components/RightPanel";
 import { useEffect, useRef, useState } from "react";
 import { MdOutlineDarkMode, MdLightMode } from "react-icons/md";
-import { RiComputerLine } from "react-icons/ri";
 
 export default function DashboardLayout({
   children,
@@ -12,27 +12,54 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") ? localStorage.getItem("theme") : "system"
-  )
-  const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const [theme, setTheme] = useState("system");
 
-  const toggleSidebar = () => {
-    setIsSidebarVisible(!isSidebarVisible);
-  };
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) setTheme(storedTheme);
+  }, []);
 
-  const closeSidebar = () => {
-    setIsSidebarVisible(false);
-  };
+  useEffect(() => {
+    const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-  const sidebarRef = useRef<HTMLDivElement | null>(null);
+    const onWindowMatch = () => {
+      if (theme === "system") {
+        if (localStorage.theme === "dark" || (!("theme" in localStorage) && darkQuery.matches)) {
+          document.documentElement.classList.add("dark");
+          setTheme("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+          setTheme("light");
+        }
+      }
+    };
 
-  const onWindowMatch = () => {
-    localStorage.theme === "dark" ||
-    (!("theme" in localStorage) && darkQuery.matches)
-      ? document.documentElement.classList.add("dark")
-      : document.documentElement.classList.remove("dark");
-  };
+    onWindowMatch();
+
+    const darkQueryListener = (e: MediaQueryListEvent) => {
+      if (theme === "system") {
+        if (e.matches) {
+          document.documentElement.classList.add("dark");
+          setTheme("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+          setTheme("light");
+        }
+      }
+    };
+
+    darkQuery.addEventListener("change", darkQueryListener);
+
+    window.addEventListener("storage", () => {
+      const storedTheme = localStorage.getItem("theme");
+      if (storedTheme) setTheme(storedTheme);
+    });
+
+    return () => {
+      darkQuery.removeEventListener("change", darkQueryListener);
+      window.removeEventListener("storage", () => {});
+    };
+  }, [theme]);
 
   useEffect(() => {
     switch (theme) {
@@ -46,10 +73,21 @@ export default function DashboardLayout({
         break;
       default:
         localStorage.removeItem("theme");
-        onWindowMatch()
         break;
     }
+  }, [theme]);
 
+  const toggleSidebar = () => {
+    setIsSidebarVisible(!isSidebarVisible);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
+
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (
         sidebarRef.current &&
@@ -66,27 +104,7 @@ export default function DashboardLayout({
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSidebarVisible, theme]);
-
-  useEffect(() => {
-    onWindowMatch()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  darkQuery.addEventListener("change", (e) => {
-    if(!("theme" in localStorage ) || theme === "system"){
-      if(e.matches){
-        document.documentElement.classList.add("dark")
-        localStorage.setItem("teme", "dark")
-        setTheme("dark")
-      }else{
-        document.documentElement.classList.remove("dark")
-        localStorage.setItem("teme", "light")
-        setTheme("light")
-      }
-    }
-  })
+  }, [isSidebarVisible]);
 
   const options = [
     {
@@ -96,10 +114,6 @@ export default function DashboardLayout({
     {
       icon: <MdOutlineDarkMode />,
       text: "dark",
-    },
-    {
-      icon: <RiComputerLine />,
-      text: "system",
     },
   ];
 

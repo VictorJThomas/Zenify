@@ -84,7 +84,7 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
         } h-full w-full overflow-y-auto overflow-x-hidden outline-none`}
       >
         <div className="flex items-center justify-center h-full">
-          <div className="w-[500px] bg-zinc-200 bg-opacity-70 p-4 rounded-md shadow-lg"  ref={(node) => node && node.classList.add("modal-content-form")}>
+          <div className="w-[500px] bg-[#8C7A69] dark:bg-[#BB8768] dark:bg-opacity-90 bg-opacity-90 p-4 rounded-md shadow-lg"  ref={(node) => node && node.classList.add("modal-content-form")}>
             <div className="relative">
               <div className="flex justify-between items-center border-b-2 pb-4">
                 <h5 className="text-xl font-medium leading-normal text-neutral-800">
@@ -128,7 +128,7 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
                   >
                     <HiPhoto
                       size={60}
-                      className="text-sky-500 rounded-md hover:ring-2 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
+                      className="text-black rounded-md hover:ring-2 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
                     />
                   </CldUploadButton>
                   <textarea

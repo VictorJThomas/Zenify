@@ -62,7 +62,7 @@ const Card = ({
           <h6 className="dark:text-white text-xs">{formattedDate}</h6>
         </div>
         <p
-          className={` dark:text-white font-semibold ${
+          className={`dark:text-white font-semibold ${
             isLongForm ? "line-clamp-5" : "line-clamp-3"
           }`}
         >

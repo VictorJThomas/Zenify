@@ -24,12 +24,12 @@ const QuoteCard = ({ className, quotes }: QuoteProps) => {
 
   return (
     <div className={className}>
-      <div className="">
+      <div className="pt-20">
         {quote && (
           <>
             <blockquote>
-              <p>{quote.text}</p>
-              <footer>{quote.author}</footer>
+              <p className="text-xl font-semibold">{quote.text}</p>
+              <footer className="text-lg">{quote.author}</footer>
             </blockquote>
           </>
         )}

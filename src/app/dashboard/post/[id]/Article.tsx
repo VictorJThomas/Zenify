@@ -8,7 +8,7 @@ const Article = ({content}: Props) => {
     const sanitizedContent = sanitize(content);
     return (
         <div>
-            <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+            <div className='dark:text-white' dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
         </div>
     )
 }

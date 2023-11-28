@@ -49,7 +49,7 @@ const DiaryView: React.FC<ModalProps> = ({ isOpen, onClose, diary }) => {
         }`}
       >
         <div className="relative w-auto translate-y-[-50px] transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] pt-40 ">
-          <div className="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col border-none  text-current shadow-lg outline-none bg-zinc-200 bg-opacity-30 rounded-md">
+          <div className="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col border-none  text-current shadow-lg outline-none bg-[#8C7A69] dark:bg-[#BB8768] dark:bg-opacity-90 bg-opacity-90 rounded-md">
             <div className="flex flex-shrink-0  items-center justify-between p-4 d shadow-lg">
               <div
                 className=" rounded-md w-full"

@@ -37,10 +37,10 @@ const SecondSection = ({ className, posts }: MainSectionProps) => {
       <div className="sm:flex justify-between gap-8">
         <Card
           post={posts[3]}
-          className="sm:flex basis-2/3 justify-between items-center gap-3 mt-7  bg-opacity-80 mb-5"
+          className="sm:flex basis-2/3 justify-between items-center gap-3 mt-7 bg-opacity-80 mb-5"
           imageHeight="h-80"
         />
-        <QuoteCard quotes={quotes} className="basis-1/3 p-10 m-4 bg-amber-600 "/>
+        <QuoteCard quotes={quotes} className="basis-1/3 p-10 m-4 text-white bg-[#AF695C]"/>
       </div>
 
       {/* CARDS ROW */}

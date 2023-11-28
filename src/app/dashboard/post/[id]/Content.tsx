@@ -13,10 +13,10 @@ const Content = ({ post }: Props) => {
 
   return (
     <div className="prose w-full max-w-full mb-10">
-      <h5 className="text-wh-300">{`Home > ${post.category} > ${post.title}`}</h5>
+      <h5 className="dark:text-gray-100">{`Home > ${post.category} > ${post.title}`}</h5>
       <div className="flex gap-3">
-        <h5 className="font-semibold text-xs">By {post.author}</h5>
-        <h6 className="text-wh-300 text-xs">{formattedDate}</h6>
+        <h5 className="font-semibold text-xs dark:text-gray-100">By {post.author}</h5>
+        <h6 className="dark:text-gray-200 text-xs">{formattedDate}</h6>
       </div>
       <div className="relative w-auto mt-2 mb-12 h-[600px]">
         <Image
