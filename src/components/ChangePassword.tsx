@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useSearchParams } from 'next/navigation'
 import { AxiosRequestConfig } from 'axios'
 
-function ResetPassword() {
+function ChangePassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const searchParams = useSearchParams();
@@ -79,4 +79,4 @@ function ResetPassword() {
   );
 }
 
-export default ResetPassword;
+export default ChangePassword;
