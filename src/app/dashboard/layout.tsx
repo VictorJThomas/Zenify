@@ -1,4 +1,3 @@
-'use client'
 "use client";
 
 import LeftPanel from "@/components/LeftPanel";
@@ -57,9 +56,9 @@ export default function DashboardLayout({
             className={`flex-shrink-0 p-4 flex-col ${
               isSidebarVisible ? "w-[1245px] ml-64" : "w-[1500px]"
             }  align-center self-stretch py-[40px] px-[30px] rounded-xl bg-slate-100 bg-opacity-30 overflow-y-auto`}
-            //style={{zIndex: 1}} 
-              >
-             <div className="flex items-center justify-between">
+            style={{ zIndex: 1 }}
+          >
+            <div className="flex items-center justify-between">
               <button
                 className="rounded px-5 mx-10 my-5 py-2 text-xs font-medium uppercase leading-tight text-black transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-lg focus:bg-neutral-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-neutral-500"
                 onClick={toggleSidebar}
@@ -81,13 +80,16 @@ export default function DashboardLayout({
               </button>
 
               {/* Switch button */}
-              <button className="rounded px-4 py-2 bg-blue-500 text-white">Switch</button>
+              <button className="rounded px-4 py-2 bg-blue-500 text-white">
+                Switch
+              </button>
             </div>
+
             {children}
           </main>
           <RightPanel />
         </div>
-      </main>
+      </div>
     </div>
   );
 }
