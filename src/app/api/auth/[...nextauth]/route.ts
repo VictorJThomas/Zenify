@@ -51,18 +51,43 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/login"
+    signIn: "/login",
+
+    error: "/login"
   },
   session: {
     strategy: "jwt",
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.user = user;
-      return token;
+      const dbUser = await prisma.user.findFirst({
+        where:{
+          email: token.email,
+        },
+      })
+
+      if(!dbUser) {
+        token.id = user!.id
+        return token
+      }
+
+      return{
+        id: dbUser.id,
+        name: dbUser.name,
+        email: dbUser.email,
+        role: dbUser.role,
+        picture: dbUser.image,
+        createAt: dbUser.createdAt,
+      }
     },
-    async session({ session, token }) {
-      session.user = token.user as any;
+    async session({ token, session }) {
+      if (token){
+        session.user.id = token.id
+        session.user.name = token.name
+        session.user.email = token.email
+        session.user.image = token.picture
+        session.user.role = token.role
+      }
       return session;
     },
   },

@@ -57,7 +57,7 @@ export default function DashboardLayout({
             className={`flex-shrink-0 p-4 flex-col ${
               isSidebarVisible ? "w-[1245px] ml-64" : "w-[1500px]"
             }  align-center self-stretch py-[40px] px-[30px] rounded-xl bg-slate-100 bg-opacity-30 overflow-y-auto`}
-            style={{zIndex: 1}}
+            //style={{zIndex: 1}}
           >
              <div className="flex items-center justify-between">
     <button

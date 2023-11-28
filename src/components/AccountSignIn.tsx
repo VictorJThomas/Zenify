@@ -16,13 +16,13 @@ function AccountSignIn() {
   const onSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      const response = await axios.put("/api/settings/change-password", {
+      const response = await axios.put("/api/settings/resetpassword", {
         currentPassword: currentPassword,
         password: password,
         confirmPassword: confirmPassword,
         user: user,
       });
-      toast.success("Updated!");
+      toast.success("Password Reset!");
       console.log(response);
     } catch (e) {
       console.error(e);
