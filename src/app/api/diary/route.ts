@@ -1,51 +1,36 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { getUserId } from "@/actions/getUserId";
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-interface Params {
-  params: { id: string };
-}
-
-export async function GET() {
+export async function GET(request: Request) {  
   try {
-    const diaries = await prisma.diary.findMany();
-    return NextResponse.json(diaries, { status: 201 });
-  } catch (e) {
-    if (e instanceof Error) {
-      return NextResponse.json(
-        {
-          message: e.message,
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-  }
-}
+    const id = await getUserId()
 
-export async function GETBYID(request: Request, { params }: Params) {
-  try {
-    const diary = await prisma.diary.findFirst({
+    const diaries = await prisma.diary.findMany({
       where: {
-        id: String(params.id),
+        userId: id
       },
+      orderBy:{ 
+        createAt: 'desc'
+      }
     });
-    if (!diary)
-      return NextResponse.json({ message: "diary not found" }, { status: 404 });
-    return NextResponse.json(diary, { status: 201 });
+    return NextResponse.json({diaries},{ status: 201 });
   } catch (error) {
+    console.error('Error fetching diaries:', error);
     if (error instanceof Error) {
       return NextResponse.json(
         {
-          message: error.message,
+          message: 'Internal server error.'
         },
         {
           status: 500,
         }
       );
     }
+  } finally {
+    await prisma.$disconnect()
   }
 }
 
@@ -53,83 +38,53 @@ export async function POST(request: Request) {
   try {
     const { image, content, user } = await request.json();
 
+    const userFound = await prisma.user.findUnique({
+      where: {
+        id: user.id,
+      },
+    });
+
+    if (!userFound) {
+      return NextResponse.json(
+        {
+          message: "User not found",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+
+    const userId = userFound.id;
+
+    const mood = await prisma.mood.findMany({
+      where: {
+        userId: userId
+      },
+      orderBy: {
+        createAt: 'desc'
+      },
+      take: 1
+    })
+
+    const lastMood = mood[0]?.mood
+
     const diary = await prisma.diary.create({
       data: {
         image: image,
         content: content,
-        userId: user,
-      },
-    });
-    return NextResponse.json(diary, { status: 201 });
-  } catch (e) {
-    if (e instanceof Error) {
-      return NextResponse.json(
-        {
-          message: e.message,
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-  }
-}
-
-export async function PUT(request: Request, { params }: Params) {
-  try {
-    const { image, content } = await request.json();
-
-    const updatedDiary = await prisma.diary.update({
-      where: {
-        id: String(params.id),
-      },
-      data: {
-        image: image,
-        content: content,
-      },
-    });
-    if (!updatedDiary)
-      return NextResponse.json({ message: "diary not found" }, { status: 404 });
-    return NextResponse.json(updatedDiary);
-  } catch (e) {
-    if (e instanceof Error) {
-      return NextResponse.json(
-        {
-          message: e.message,
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-  }
-}
-
-export async function DELETE(request: Request, { params }: Params) {
-  try {
-    const deletediary = await prisma.diary.delete({
-      where: {
-        id: String(params.id),
+        userId: userId,
+        mood: lastMood
       },
     });
 
-    if (!deletediary)
-      return NextResponse.json({ message: "diary not found" }, { status: 404 });
-    return NextResponse.json;
-  } catch (e) {
-    if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      if ((e.code = "P2025"))
-        return NextResponse.json(
-          {
-            message: "diary not found",
-          },
-          {
-            status: 404,
-          }
-        );
+    const response = { diary };
+    return NextResponse.json(response, { status: 201 });
+  } catch (error) {
+    if (error instanceof Error) {
       return NextResponse.json(
         {
-          message: e.message,
+          message: error.message,
         },
         {
           status: 500,

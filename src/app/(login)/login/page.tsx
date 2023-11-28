@@ -26,26 +26,21 @@ const LoginPage: React.FC<{}> = () => {
       router.push("/dashboard");
     }
     const init = async () => {
-      const { Datepicker, Input, initTE } = await import("tw-elements");
-      initTE({ Datepicker, Input });
+      const { Input, initTE } = await import("tw-elements");
+      initTE({ Input });
     };
     init();
   });
 
   const loginUser = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const res = await signIn("credentials", { ...data, redirect: false });
+    event.preventDefault()
+    const res = await signIn('credentials',
+      { ...data, redirect: false }
+    )
+    if (res?.error) setError(res.error as string);
 
-    if (res?.error) {
-      setError(res.error as string);
-      toast.error(error);
-    }
-
-    if (res?.ok) {
-      toast.success("Successfully toasted!");
-      router.push("/chat");
-    }
-  };
+    if (res?.ok) return router.push("/chat");
+  }
 
   return (
     <section className="gradient-form h-full bg-neutral-200 dark:bg-neutral-700">
@@ -104,13 +99,11 @@ const LoginPage: React.FC<{}> = () => {
                           data-te-ripple-init
                           data-te-ripple-color="light"
                           style={{
-                            background:
-                              "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
-                          }}
-                        >
+                            background: "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)"
+                          }}>
                           Log in
                         </button>
-                        <a href="#!">Forgot password?</a>
+                        <a href="/forgotPassword">Forgot password?</a>
                       </div>
                       <div className="flex mb-4 items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
                         <p className="mx-4 mb-0 text-center font-semibold">
@@ -123,7 +116,7 @@ const LoginPage: React.FC<{}> = () => {
                         <Link
                           type="button"
                           href="/register"
-                          className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                          className="inline-block rounded border-2 border-red-300 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-red-800 transition duration-150 ease-in-out hover:border-red-200 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-red-600 focus:border-red-600 focus:text-red-800 focus:outline-none focus:ring-0 active:border-red-600 active:text-red-800 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                           data-te-ripple-init
                           data-te-ripple-color="light"
                         >
@@ -135,13 +128,9 @@ const LoginPage: React.FC<{}> = () => {
                 </div>
                 <div
                   className="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
-                  style={{
-                    background:
-                      "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
-                  }}
-                >
+                  style={{ background: "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)" }}>
                   <div className="px-4 py-6 text-white md:mx-6 md:p-12">
-                    <h4 className="mb-6 text-xl font-semibold">
+                    <h4 className="mb-6 text-xl font-bold">
                       Welcome to Zenify - Your Personal Journal Companion
                     </h4>
                     <p className="text-sm mb-8">
