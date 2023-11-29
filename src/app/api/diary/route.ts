@@ -16,6 +16,7 @@ export async function GET(request: Request) {
         createAt: 'desc'
       }
     });
+    prisma.$disconnect
     return NextResponse.json({diaries},{ status: 201 });
   } catch (error) {
     console.error('Error fetching diaries:', error);
@@ -77,7 +78,8 @@ export async function POST(request: Request) {
         mood: lastMood
       },
     });
-
+    
+    prisma.$disconnect
     const response = { diary };
     return NextResponse.json(response, { status: 201 });
   } catch (error) {

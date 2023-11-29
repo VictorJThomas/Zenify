@@ -37,7 +37,7 @@ export async function POST(req: Request) {
             userId: userId
         }
     })
-    // return NextResponse.json(botResponse, {status: 201})
+    prisma.$disconnect
   }catch (e){
     if (e instanceof Error) {
         return NextResponse.json(
