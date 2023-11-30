@@ -1,9 +1,7 @@
-import { GooglePaLM } from "langchain/llms/googlepalm";
-import { OpenAI } from "langchain/llms/openai";
-// import { AIMessage, HumanMessage, SystemMessage } from "langchain/schema";
-import { StructuredOutputParser } from "langchain/output_parsers";
 import { z } from "zod";
+import { OpenAI } from "langchain/llms/openai";
 import { PromptTemplate } from "langchain/prompts";
+import { StructuredOutputParser } from "langchain/output_parsers";
 
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
@@ -42,6 +40,7 @@ export const analyze = async (userMessage: string) => {
   const model = new OpenAI({
     temperature: 1,
   });
+
   const responses = await model.call(input);
 
   const parsedResult = await parser.parse(responses);
