@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 
 const ChatPage = () => {
   const { data: session } = useSession();
-  const user = session?.user
+  const user = session?.user;
 
   const [message, setMessage] = useState<string>("");
   const [history, setHistory] = useState<Message[]>([]);
@@ -33,9 +33,7 @@ const ChatPage = () => {
     const response = await sendMessage(message);
     setLoading(false);
 
-    setHistory((prevHistory) => [
-      ...prevHistory, response
-    ]);
+    setHistory((prevHistory) => [...prevHistory, response]);
 
     setMessage("");
 
@@ -46,7 +44,7 @@ const ChatPage = () => {
     try {
       const response = await axios.post("/api/chat", {
         userMessage: userMessage,
-        user: user
+        user: user,
       });
       return response.data;
     } catch (error) {
@@ -95,7 +93,7 @@ const ChatPage = () => {
                       {message.role === "user" ? "You" : "AI Assistant"}
                     </p>
                     {typeof message.content === "string" ? (
-                      message.content 
+                      message.content
                     ) : (
                       <>
                         <p>Mood: {message.content.mood}</p>

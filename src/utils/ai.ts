@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { OpenAI } from "langchain/llms/openai";
-import { PromptTemplate } from "langchain/prompts";
 import { StructuredOutputParser } from "langchain/output_parsers";
 
+// Define el esquema de salida usando Zod
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
     mood: z
@@ -18,24 +18,21 @@ const parser = StructuredOutputParser.fromZodSchema(
   })
 );
 
+// Función para obtener un prompt formateado en formato JSON
 const getPrompt = async (userMessage: string) => {
-  const formatInstructions = parser.getFormatInstructions();
-  const prompt = new PromptTemplate({
-    template:
-      "You are a chatbot for a mental health app, people will tell you about their mood and feelings and you have to identify their condition (sad, has anxiety, happiness, rage, depression, loneliness, trust, or any other) and give some advice in order to help. If the input is in spanish, translate your response. Try not to create a large response (800 characters as much). First, show the diagnose, then the advices. Avoid special characters Follow the instructions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}",
-    inputVariables: ["entry"],
-    partialVariables: { format_instructions: formatInstructions },
-  });
-
-  const input = await prompt.format({
+  const formattedPrompt = {
     entry: userMessage,
-  });
+    format_instructions: parser.getFormatInstructions(),
+  };
 
-  return input;
+  const prompt = JSON.stringify(formattedPrompt);
+  return prompt;
 };
 
+// Función para analizar el mensaje del usuario
 export const analyze = async (userMessage: string) => {
   const input = await getPrompt(userMessage);
+
   // OpenAI GooglePaLM
   const model = new OpenAI({
     temperature: 1,
@@ -43,7 +40,9 @@ export const analyze = async (userMessage: string) => {
 
   const responses = await model.call(input);
 
+  // Analizar las respuestas utilizando el analizador estructurado definido
   const parsedResult = await parser.parse(responses);
+
   try {
     return parsedResult;
   } catch (e) {
