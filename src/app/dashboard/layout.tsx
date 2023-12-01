@@ -24,7 +24,10 @@ export default function DashboardLayout({
 
     const onWindowMatch = () => {
       if (theme === "system") {
-        if (localStorage.theme === "dark" || (!("theme" in localStorage) && darkQuery.matches)) {
+        if (
+          localStorage.theme === "dark" ||
+          (!("theme" in localStorage) && darkQuery.matches)
+        ) {
           document.documentElement.classList.add("dark");
           setTheme("dark");
         } else {
