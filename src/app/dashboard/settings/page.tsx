@@ -5,10 +5,13 @@ import ProfilePictureAndName from "@/components/ProfilePictureAndName"
 
 const SettingsPage = () => {
     return (
-        <div>Account Management
+        <div className="px-10">
+            <h1 className="text-xl">Account Management</h1>
                 <ProfilePictureAndName/>
-                <PersonalInformation/>
-                <AccountSignIn/>
+                <div className="flex content-end justify-end gap-4">
+                    <PersonalInformation/>
+                    <AccountSignIn/>
+                </div>
         </div>
     )
 }

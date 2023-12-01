@@ -23,7 +23,7 @@ const LoginPage: React.FC<{}> = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push("/dashboard");
+      router.push("/dashboard/chat");
     }
     const init = async () => {
       const { Input, initTE } = await import("tw-elements");
@@ -36,15 +36,16 @@ const LoginPage: React.FC<{}> = () => {
     event.preventDefault();
     const res = await signIn("credentials", { ...data, redirect: false });
 
+    if (res?.ok) {
+      toast.success("Successfully sign in!");
+      router.push("/dashboard/chat");
+    }
+
     if (res?.error) {
       setError(res.error as string);
       toast.error(error);
     }
 
-    if (res?.ok) {
-      toast.success("Successfully sign in!");
-      router.push("/chat");
-    }
   };
 
   return (

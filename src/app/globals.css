@@ -9,6 +9,15 @@ body {
     
 }
 
+::-webkit-scrollbar{
+    background-color: #9A6547;
+    border-radius: 20px;
+}
+
+
+
+
+
 /* Landing Page Css */
 .landing-container {
     padding: 0;

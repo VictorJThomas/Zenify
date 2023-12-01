@@ -1,6 +1,4 @@
-import { GooglePaLM } from "langchain/llms/googlepalm";
 import { OpenAI } from "langchain/llms/openai";
-// import { AIMessage, HumanMessage, SystemMessage } from "langchain/schema";
 import { StructuredOutputParser } from "langchain/output_parsers";
 import { z } from "zod";
 import { PromptTemplate } from "langchain/prompts";
@@ -38,7 +36,6 @@ const getPrompt = async (userMessage: string) => {
 
 export const analyze = async (userMessage: string) => {
   const input = await getPrompt(userMessage);
-  // OpenAI GooglePaLM
   const model = new OpenAI({
     temperature: 1,
   });

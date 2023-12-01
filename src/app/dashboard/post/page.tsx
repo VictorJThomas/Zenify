@@ -26,21 +26,16 @@ const getPosts = async () => {
       category: mood
     }
   })
-
+  prisma.$disconnect
   return posts
 }
 
 const PostPage = async () => {
   const posts = await getPosts();
-  const formatPosts = () => {
-    
-  }
-
   return (
     <div className="w-full px-10 max-h-[50%]">
       <h1 className="text-6xl">Welcome!</h1>
       <Tags />
-      {/* <MainSection posts={posts}/> */}
       <SecondSection posts={posts} />
     
     </div>

@@ -5,6 +5,7 @@ import { Send } from "react-feather";
 import axios from "axios";
 import { Message } from "@/types";
 import { useSession } from "next-auth/react";
+import { MdOutlineThumbDownAlt, MdThumbUpOffAlt  } from "react-icons/md";
 
 const ChatPage = () => {
   const { data: session } = useSession();
@@ -12,8 +13,9 @@ const ChatPage = () => {
 
   const [message, setMessage] = useState<string>("");
   const [history, setHistory] = useState<Message[]>([]);
-  const lastMessageRef = useRef<HTMLDivElement | null>(null);
+  const [diagnosed, setDiagnosed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const lastMessageRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToBottom = () => {
     if (lastMessageRef.current) {
@@ -33,9 +35,11 @@ const ChatPage = () => {
     const response = await sendMessage(message);
     setLoading(false);
 
-    setHistory((prevHistory) => [
-      ...prevHistory, response
-    ]);
+    setHistory((prevHistory) => [...prevHistory, response]);
+
+    if(response.role === "assistant" && response.content.diagnose){
+      setDiagnosed(true)
+    }
 
     setMessage("");
 
@@ -49,9 +53,33 @@ const ChatPage = () => {
         user: user
       });
       return response.data;
+      
     } catch (error) {
       console.error("Error sending message:", error);
       return { role: "assistant", content: "An error occurred." };
+    }
+  };
+
+  const handleThumbClick = async (accept: boolean) => {
+    if (accept) {
+      try {
+        const response = await sendMessage("diagnose") 
+        const { mood, advice } = response.content;
+
+        const adviceMessage: Message = {
+          role: "assistant",
+          content: {
+            mood: mood,
+            advice: advice,
+          },
+        };
+  
+        setHistory((prevHistory) => [...prevHistory, adviceMessage]);
+      } catch (error) {
+        console.error("Error getting diagnosis:", error);
+      }
+    } else {
+      setDiagnosed(false);
     }
   };
 
@@ -61,19 +89,19 @@ const ChatPage = () => {
   }, []);
 
   return (
-    <main className="h-screen bg-gradient-to-r from-indigo-200 to-red-200 p-6 flex flex-col">
-      <div className="flex flex-col gap-8 w-full items-center flex-grow max-h-full ">
-        <h1 className="text-4xl text-transparent font-extralight bg-clip-text bg-gradient-to-r from-[#4F80CF] to-[#70160A]">
-          ChatBot
+    <div className="h-full flex flex-col">
+      <div className="flex flex-col gap-8 w-full items-center flex-grow max-h-full">
+        <h1 className="text-4xl text-black dark:white font-semibold bg-clip-text">
+          ZenBot
         </h1>
         <form
-          className="bg-zinc-200 bg-opacity-50 rounded-2xl border-purple-700 border-opacity-5 border lg:w-3/4 flex-grow flex flex-col bg-[url('/images/bg.png')] bg-cover max-h-full overflow-clip"
+          className="bg-slate-100 bg-opacity-30 rounded-2xl border-[#28231E] border-opacity-5 border lg:w-3/4 flex-grow flex flex-col bg-cover max-h-full overflow-clip"
           onSubmit={(e) => {
             e.preventDefault();
             handleUserMessage();
           }}
         >
-          <div className="overflow-y-scroll flex flex-col gap-5 p-10 h-full">
+          <div className="overflow-y-visible flex flex-col gap-5 p-10 h-full">
             {history.map((message: Message, idx) => {
               const isLastMessage = idx === history.length - 1;
               return (
@@ -91,8 +119,8 @@ const ChatPage = () => {
                         : "rounded-tr-xl rounded-b-xl"
                     }`}
                   >
-                    <p className="text-sm font-medium text-[#3B71CA] mb-2">
-                      {message.role === "user" ? "You" : "AI Assistant"}
+                    <p className="text-sm font-medium text-[#28231E] mb-2">
+                      {message.role === "user" ? "You" : "ZenBot AI Assistant"}
                     </p>
                     {typeof message.content === "string" ? (
                       message.content 
@@ -100,6 +128,23 @@ const ChatPage = () => {
                       <>
                         <p>Mood: {message.content.mood}</p>
                         <p>Advice: {message.content.advice}</p>
+                        {/* Render thumbs up and thumbs down buttons if diagnosed */}
+                        {diagnosed && (
+                          <div className="flex gap-2 mt-4">
+                            <button
+                              onClick={() => handleThumbClick(true)}
+                              className="flex items-center justify-center w-8 h-8 rounded-full bg-green-500 text-white hover:bg-green-600 focus:outline-none"
+                            >
+                              <MdThumbUpOffAlt />
+                            </button>
+                            <button
+                              onClick={() => handleThumbClick(false)}
+                              className="flex items-center justify-center w-8 h-8 rounded-full bg-red-500 text-white hover:bg-red-600 focus:outline-none"
+                            >
+                              <MdOutlineThumbDownAlt />
+                            </button>
+                          </div>
+                        )}
                       </>
                     )}
                   </div>
@@ -114,8 +159,12 @@ const ChatPage = () => {
                 aria-label="chat input"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type a message"
-                className="w-full h-full overflow-hidden rounded-3xl border text-black border-slate-900/10 bg-white pl-6 pr-24 py-[25px] text-base placeholder:text-slate-400 focus:border-[#3B71CA] focus:outline-none focus:ring-4 focus:ring-[#3B71CA]/10 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
+                placeholder={
+                  diagnosed
+                    ? "You've received a diagnosis. Click thumbs up or down."
+                    : "Type a message"
+                }
+                className="w-full h-full overflow-hidden rounded-3xl border text-black border-slate-900/10 bg-white pl-6 pr-24 py-[25px] text-base placeholder:text-orange-950 focus:border-[#28231E] focus:outline-none focus:ring-4 focus:ring-[#28231E]/10 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
@@ -128,10 +177,12 @@ const ChatPage = () => {
                   e.preventDefault();
                   handleUserMessage();
                 }}
-                className="flex w-14 h-14 items-center justify-center rounded-full px-3 text-sm bg-[#3B71CA] font-semibold text-white hover:bg-[#3B71CA]  active:bg-[#3F74CA] absolute right-2 bottom-2 disabled:bg-[#B6CDF7] disabled:text-[#488DDA]"
+                className={`flex w-14 h-14 items-center justify-center rounded-full px-3 text-sm bg-[#28231E] font-semibold text-white hover:bg-[#28231E]  active:bg-[#28231E] absolute right-2 bottom-2 disabled:bg-[#B55B40] disabled:text-white ${
+                  diagnosed ? "cursor-not-allowed" : ""
+                }`}
                 type="submit"
                 aria-label="Send"
-                disabled={!message || loading}
+                disabled={!message || loading || diagnosed}
               >
                 <Send />
               </button>
@@ -139,7 +190,7 @@ const ChatPage = () => {
           </div>
         </form>
       </div>
-    </main>
+    </div>
   );
 };
 

@@ -30,7 +30,7 @@ const LeftPanel = () => {
     },
     {
       name: "ChatBot",
-      url: "chat",
+      url: "dashboard/chat",
       icon: <CiChat1 />,
     },
     {
@@ -50,8 +50,8 @@ const LeftPanel = () => {
           {menu.map((item) => (
             <Link key={item.url} href={`/${item.url}`}>
               <button
-                className={`my-2 w-full rounded-lg p-2 text-left text-lg font-medium hover:bg-blue-100 flex items-center ${
-                  isActive(item.url) ? "bg-blue-100" : ""
+                className={`my-2 w-full rounded-lg p-2 text-left text-lg font-medium dark:hover:bg-[#543727] hover:bg-blue-100 flex items-center ${
+                  isActive(item.url) ? "bg-blue-100 dark:bg-[#543727]" : ""
                 }`}
               >
                 {item.icon}

@@ -97,5 +97,7 @@ export async function PUT(request: Request) {
         }
       );
     }
+  } finally {
+    prisma.$disconnect
   }
 }

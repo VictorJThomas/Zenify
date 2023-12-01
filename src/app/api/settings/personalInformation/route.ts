@@ -4,40 +4,41 @@ import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 export async function PUT(request: Request) {
-    try {
-      const { name, user }  = await request.json();
-  
-      const updatedUser = await prisma.user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          name,
-        },
-      });
-  
-      return NextResponse.json(updatedUser);
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === "P2025") {
-          return NextResponse.json(
-            {
-              message: "User not found",
-            },
-            {
-              status: 404,
-            }
-          );
-        }
-  
+  try {
+    const { name, user } = await request.json();
+
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        name,
+      },
+    });
+
+    return NextResponse.json(updatedUser);
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: error.message,
+            message: "User not found",
           },
           {
-            status: 500,
+            status: 404,
           }
         );
       }
+      return NextResponse.json(
+        {
+          message: error.message,
+        },
+        {
+          status: 500,
+        }
+      );
     }
+  } finally {
+    prisma.$disconnect
   }
+}
