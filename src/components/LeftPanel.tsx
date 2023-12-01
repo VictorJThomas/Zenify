@@ -5,7 +5,7 @@ import LogoutButton from "./LogoutButton";
 import Link from "next/link";
 import { RiFocusLine, RiHome2Line } from "react-icons/ri";
 import { BsPeople } from "react-icons/bs";
-import { CiChat1 } from "react-icons/ci";
+import { CiChat1, CiChat2 } from "react-icons/ci";
 import { SlSettings } from "react-icons/sl";
 import { usePathname } from "next/navigation";
 
@@ -32,6 +32,11 @@ const LeftPanel = () => {
       name: "ChatBot",
       url: "dashboard/chat",
       icon: <CiChat1 />,
+    },
+    {
+      name: "Chat",
+      url: "dashboard/chats",
+      icon: <CiChat2 />,
     },
     {
       name: "Settings",

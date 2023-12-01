@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import CredentialProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
+import { fetchRedis } from "@/helpers/redis";
+import { db } from "@/utils/chatDB";
 
 const prisma = new PrismaClient();
 
@@ -53,7 +55,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
 
-    error: "/login"
+    error: "/login",
   },
   session: {
     strategy: "jwt",
@@ -61,32 +63,43 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       const dbUser = await prisma.user.findFirst({
-        where:{
+        where: {
           email: token.email,
         },
-      })
+      });
 
-      if(!dbUser) {
-        token.id = user!.id
-        return token
+      if (!dbUser) {
+        token.id = user!.id;
+        return token;
       }
 
-      return{
+      const redisKey = `user:${dbUser.id}`;
+
+      await db.set(redisKey, JSON.stringify({
         id: dbUser.id,
         name: dbUser.name,
         email: dbUser.email,
         role: dbUser.role,
         picture: dbUser.image,
         createAt: dbUser.createdAt,
-      }
+      }));
+
+      return {
+        id: dbUser.id,
+        name: dbUser.name,
+        email: dbUser.email,
+        role: dbUser.role,
+        picture: dbUser.image,
+        createAt: dbUser.createdAt,
+      };
     },
     async session({ token, session }) {
-      if (token){
-        session.user.id = token.id
-        session.user.name = token.name
-        session.user.email = token.email
-        session.user.image = token.picture
-        session.user.role = token.role
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.image = token.picture;
+        session.user.role = token.role;
       }
       return session;
     },

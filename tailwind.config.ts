@@ -15,6 +15,13 @@ const config: Config = {
         md: "1060px",
       },
     },
+    container: {
+      center: true,
+      padding: '1.5rem',
+      screens: {
+        '2xl': '1360px'
+      },
+    }
   },
   plugins: [
     require("@tailwindcss/forms")({
