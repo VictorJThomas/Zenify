@@ -1,144 +1,95 @@
-import bcrypt from "bcrypt";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { getUserId } from "@/actions/getUserId";
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-interface Params {
-    params: { id: string};
-}
+export async function GET(request: Request) {  
+  try {
+    const id = await getUserId()
 
-export async function GET() {
-    try {
-        const diaries = await prisma.diary.findMany()
-        return NextResponse.json(diaries, {status: 201});
-    } catch (error) {
-        if (error instanceof Error){
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
+    const diaries = await prisma.diary.findMany({
+      where: {
+        userId: id
+      },
+      orderBy:{ 
+        createAt: 'desc'
+      }
+    });
+    return NextResponse.json({diaries},{ status: 201 });
+  } catch (error) {
+    console.error('Error fetching diaries:', error);
+    if (error instanceof Error) {
+      return NextResponse.json(
+        {
+          message: 'Internal server error.'
+        },
+        {
+          status: 500,
         }
+      );
     }
+  } finally {
+    await prisma.$disconnect()
+  }
 }
 
-export async function GETBYID(request:Request, { params }: Params) {
-    try {
-        const diary = await prisma.diary.findFirst({
-            where: {
-                id: String(params.id),
-            },
-        });
-        if (!diary) return NextResponse.json({message: "diary not found"}, {status: 404});
-        return NextResponse.json(diary, {status: 201});
-    } catch (error) {
-        if (error instanceof Error){
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
+export async function POST(request: Request) {
+  try {
+    const { image, content, user } = await request.json();
+
+    const userFound = await prisma.user.findUnique({
+      where: {
+        id: user.id,
+      },
+    });
+
+    if (!userFound) {
+      return NextResponse.json(
+        {
+          message: "User not found",
+        },
+        {
+          status: 404,
         }
+      );
     }
-}
 
-export async function POST(request:Request) {
-    try {
-        const {img, content, user } = await request.json()
+    const userId = userFound.id;
 
-        const diary = await prisma.diary.create({
-            data: {
-                img : img,
-                content : content,
-                userId : user,
-            },
-            });
-            return NextResponse.json(diary, {status: 201}
-            )
-    } catch (error) {
-        if (error instanceof Error){
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
+    const mood = await prisma.mood.findMany({
+      where: {
+        userId: userId
+      },
+      orderBy: {
+        createAt: 'desc'
+      },
+      take: 1
+    })
+
+    const lastMood = mood[0]?.mood
+
+    const diary = await prisma.diary.create({
+      data: {
+        image: image,
+        content: content,
+        userId: userId,
+        mood: lastMood
+      },
+    });
+
+    const response = { diary };
+    return NextResponse.json(response, { status: 201 });
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        {
+          message: error.message,
+        },
+        {
+          status: 500,
         }
+      );
     }
+  }
 }
-
-export async function PUT(request:Request, { params }: Params) {
-    try {
-        const {img, content } = await request.json();
-
-        const updatedDiary = await prisma.diary.update({
-            where: {
-                id: String(params.id),
-            },
-            data: {
-                img: img,
-                content: content,
-            }
-        });
-        if (!updatedDiary) return NextResponse.json({message: "diary not found"}, {status: 404});
-        return NextResponse.json(updatedDiary);
-    } catch (error) {
-        if (error instanceof Error){
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
-        }
-    }
-}
-
-export async function DELETE(request:Request, { params }: Params) {
-    try {
-        const deletediary = await prisma.diary.delete({
-            where: {
-                id : String(params.id),
-            },
-        });
-    
-        if (!deletediary) return NextResponse.json({message: "diary not found"}, {status: 404});
-        return NextResponse.json
-    } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code = "P2025")
-            return NextResponse.json(
-                {
-                    message: "diary not found",
-                },
-                {
-                    status : 404,
-                }
-            );
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status : 500
-                }
-            )
-        }
-    }
-}
-
-
-
-
-

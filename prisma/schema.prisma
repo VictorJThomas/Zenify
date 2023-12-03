@@ -16,36 +16,28 @@ model User {
   email          String?   @unique
   emailVerified  DateTime?
   hashedPassword String?
+  active         Boolean   @default(false)
   image          String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-
-  conversationIds String[]       @db.ObjectId
-  conversations   Conversation[] @relation(fields: [conversationIds], references: [id])
-
-  seenMessageIds String[]  @db.ObjectId
-  seenMessages   Message[] @relation("Seen", fields: [seenMessageIds], references: [id])
+  role UserRole @default(CLIENT)
 
   accounts Account[]
-  posts    Post[]
   moods    Mood[]
   diaries  Diary[]
   sessions Session[]
-  messages Message[]
 }
 
 model Post {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
-  userId   String   @map("user_id") @db.ObjectId
-  user     User     @relation(fields: [userId], references: [id])
-  content  String?
+  content  String  @db.String
   title    String
-  image    String?
-  moods    Mood[]
-
-  @@unique([userId, id])
+  image    String
+  category String
+  snippet  String   @db.String
+  author   String
 }
 
 model Account {
@@ -68,36 +60,6 @@ model Account {
   @@map("accounts")
 }
 
-model Conversation {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt     DateTime @default(now())
-  lastMessageAt DateTime @default(now())
-  name          String?
-  isGroup       Boolean?
-
-  messagesIds String[]  @db.ObjectId
-  messages    Message[]
-
-  userIds String[] @db.ObjectId
-  users   User[]   @relation(fields: [userIds], references: [id])
-}
-
-model Message {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  body      String?
-  image     String?
-  createdAt DateTime @default(now())
-
-  seenIds String[] @db.ObjectId
-  seen    User[]   @relation("Seen", fields: [seenIds], references: [id])
-
-  conversationId String       @db.ObjectId
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-
-  senderId String @db.ObjectId
-  sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
-}
-
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique @map("session_token")
@@ -108,9 +70,10 @@ model Session {
   @@map("sessions")
 }
 
-enum Role {
-  USER
-  PSICOLOGO
+enum UserRole {
+  ADMIN
+  CLIENT
+  PSYCHOLOGIST
 }
 
 model Diary {
@@ -119,28 +82,22 @@ model Diary {
   updateAt DateTime @updatedAt
   image    String?
   content  String
-  userId   String   @db.ObjectId
-  user     User     @relation(fields: [userId], references: [id])
-  moods    Mood[]
+
+  userId String @map("user_id") @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  mood String?
 
   @@unique([userId, id])
 }
 
 model Mood {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  createAt   DateTime @default(now())
-  updateAt   DateTime @updatedAt
-  userId     String   @db.ObjectId
-  user       User     @relation(fields: [userId], references: [id])
-  postId     String   @db.ObjectId
-  post       Post     @relation(fields: [postId], references: [id])
-  diaryId    String   @db.ObjectId
-  diary      Diary    @relation(fields: [diaryId], references: [id])
-  mood       String
-  moodRecord Int
-  content    String
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  userId   String   @db.ObjectId
+  user     User     @relation(fields: [userId], references: [id])
+  mood     String   @default("Neutral")
 
-  @@unique([diaryId, id])
-  @@unique([userId, id])
-  @@unique([postId, id])
+  @@index([userId])
 }

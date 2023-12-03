@@ -1,12 +1,50 @@
-const PostPage = () => {
-    return (
-        <div className="w-full">
-            <h1 className="font-semibold text-xl">Post Page</h1>
-            <p className="">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officia nam porro expedita cupiditate accusamus labore vero aliquam velit quasi vel?</p>
-            <p className="">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officia nam porro expedita cupiditate accusamus labore vero aliquam velit quasi vel?</p>
-            <p className="">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officia nam porro expedita cupiditate accusamus labore vero aliquam velit quasi vel?</p>
-        </div>
-    )
+import { prisma } from "@/utils/prisma";
+import MainSection from "./components/MainSection";
+import SecondSection from "./components/SecondSection";
+import Tags from "./components/Tags";
+import { Post } from "@prisma/client";
+import { getUserId } from "@/actions/getUserId";
+
+export const revalidate = 60;
+
+const getPosts = async () => {
+  const id = await getUserId()
+
+  const moodFound = await prisma.mood.findFirst({
+    where: {
+      userId: id
+    },
+    orderBy: {
+      createAt: 'desc'
+    }
+  })
+
+  const mood = moodFound?.mood
+
+  const posts: Array<Post> = await prisma.post.findMany({
+    where: {
+      category: mood
+    }
+  })
+
+  return posts
 }
 
-export default PostPage
+const PostPage = async () => {
+  const posts = await getPosts();
+  const formatPosts = () => {
+    
+  }
+
+  return (
+    <div className="w-full px-10 max-h-[50%]">
+      <h1 className="text-6xl">Welcome!</h1>
+      <Tags />
+      {/* <MainSection posts={posts}/> */}
+      <SecondSection posts={posts} />
+    
+    </div>
+  );
+};
+
+export default PostPage;
