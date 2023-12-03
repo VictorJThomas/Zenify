@@ -1,4 +1,5 @@
 interface User {
+  picture: string | StaticImport;
   name: string;
   email: string;
   image: string;

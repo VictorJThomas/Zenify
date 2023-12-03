@@ -132,11 +132,11 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
                     />
                   </CldUploadButton>
                   <textarea
-                    className="resize-none w-full overflow-hidden bg-white py-4 px-4 text-base placeholder:text-slate-400 focus:border-[#3B71CA] focus:outline-none focus:ring-4 focus:ring-[#3B71CA]/10 rounded-3xl shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] hover:ring-2"
+                    className="resize-none w-full overflow-hidden bg-white py-4 px-4 text-base text-black placeholder:text-slate-400 focus:border-[#3B71CA] focus:outline-none focus:ring-4 focus:ring-[#3B71CA]/10 rounded-3xl shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] hover:ring-2"
                     placeholder="Write about your day..."
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                  ></textarea>
+                  />
                 </div>
               </div>
               <div className="flex justify-end pt-4 border-t-2">

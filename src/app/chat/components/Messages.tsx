@@ -6,6 +6,7 @@ import { cn, toPusherKey } from "@/utils/utils";
 import { Message } from "@/utils/validations/message";
 import Image from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
+import imageDefaultUser from "~/assets/imageDefaultUser.svg"
 
 interface MessagesProps {
   initialMessages: Message[];
@@ -44,6 +45,8 @@ const Messages: FC<MessagesProps> = ({
   const formatTimestamp = (timestamp: number) => {
     return format(timestamp, "HH:mm");
   };
+
+  console.log("Partner image:", chatPartner.picture);
 
   return (
     <div
@@ -104,7 +107,7 @@ const Messages: FC<MessagesProps> = ({
                 <Image
                   fill
                   src={
-                    isCurrentUser ? (sessionImg as string) : chatPartner.image
+                    isCurrentUser ? (sessionImg as string) : (chatPartner.picture || imageDefaultUser)
                   }
                   alt="Profile picture"
                   referrerPolicy="no-referrer"

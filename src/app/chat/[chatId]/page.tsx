@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import Messages from '../components/Messages'
 import ChatInput from '../components/ChatInput'
+import imageDefaultUser from "~/assets/imageDefaultUser.svg"
 
 export async function generateMetadata({
     params,
@@ -68,17 +69,18 @@ export async function generateMetadata({
     }
   
     const chatPartnerId = user.id === userId1 ? userId2 : userId1
-    // new
   
     const chatPartnerRaw = (await fetchRedis(
       'get',
       `user:${chatPartnerId}`
     )) as string
+
+    
     const chatPartner = JSON.parse(chatPartnerRaw) as User
     const initialMessages = await getChatMessages(chatId)
   
     return (
-      <div className='flex-1 ml-40 justify-between flex flex-col h-full max-h-[calc(100vh-6rem)]'>
+      <div className='flex-1 ml-40 justify-between flex flex-col'>
         <div className='flex sm:items-center justify-between py-3 border-b-2 border-gray-200'>
           <div className='relative flex items-center space-x-4'>
             <div className='relative'>
@@ -86,7 +88,7 @@ export async function generateMetadata({
                 <Image
                   fill
                   referrerPolicy='no-referrer'
-                  src={chatPartner.image}
+                  src={chatPartner.picture || imageDefaultUser}
                   alt={`${chatPartner.name} profile picture`}
                   className='rounded-full'
                 />
@@ -104,7 +106,7 @@ export async function generateMetadata({
             </div>
           </div>
         </div>
-        <div className='pb-96'>
+        <div className='overflow-y-hidden bg-scroll h-[47rem]'>
           <Messages
             chatId={chatId}
             chatPartner={chatPartner}
@@ -113,7 +115,9 @@ export async function generateMetadata({
             initialMessages={initialMessages}
           />
         </div>
-        <ChatInput chatId={chatId} chatPartner={chatPartner} />
+        <div className='h-18'>
+          <ChatInput chatId={chatId} chatPartner={chatPartner} />
+        </div>
       </div>
     )
   }
