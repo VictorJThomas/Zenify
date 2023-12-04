@@ -1,178 +1,156 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-"use client";
-
-import LeftPanel from "@/components/LeftPanel";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { Icons } from "@/app/chat/components/Icons";
+import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
+import { fetchRedis } from "@/helpers/redis";
+import { SidebarOption } from "@/types/typing";
+import { getServerSession } from "next-auth";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ReactNode } from "react";
+import { Plus, Newspaper, Focus, Users, Bot, Settings } from "lucide-react";
 import RightPanel from "@/components/RightPanel";
-import { useEffect, useRef, useState } from "react";
-import { MdOutlineDarkMode, MdLightMode } from "react-icons/md";
+import imageDefaultUser from "~/assets/imageDefaultUser.svg";
+import SidebarChatList from "../chat/components/SidebarChatList";
+import FriendRequestSidebarOptions from "../chat/components/FriendRequestSidebarOptions";
+import SignOutButton from "../chat/components/SignOutButton";
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-  const [theme, setTheme] = useState("system");
+interface ChatsLayoutProps {
+  children: ReactNode;
+}
 
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) setTheme(storedTheme);
-  }, []);
+const sidebarOptions: SidebarOption[] = [
+  {
+    id: 1,
+    name: "Add friend",
+    href: `${process.env.NEXT_PUBLIC_URL}/chat/add`,
+    Icon: <Plus className="h-4 w-4 text-black" />,
+  },
+  {
+    id: 2,
+    name: "Posts",
+    href: `${process.env.NEXT_PUBLIC_URL}/dashboard/post`,
+    Icon: <Newspaper className="h-4 w-4 text-black" />,
+  },
+  {
+    id: 3,
+    name: "Focus Mode",
+    href: `${process.env.NEXT_PUBLIC_URL}/dashboard/focus`,
+    Icon: <Focus className="h-4 w-4 text-black" />,
+  },
+  {
+    id: 4,
+    name: "Professionals",
+    href: `${process.env.NEXT_PUBLIC_URL}/dashboard/professionals`,
+    Icon: <Users className="h-4 w-4 text-black" />,
+  },
+  {
+    id: 5,
+    name: "ChatBot",
+    href: `${process.env.NEXT_PUBLIC_URL}/dashboard/chat`,
+    Icon: <Bot className="h-4 w-4 text-black" />,
+  },
+  {
+    id: 6,
+    name: "Settings",
+    href: `${process.env.NEXT_PUBLIC_URL}/dashboard/settings`,
+    Icon: <Settings className="h-4 w-4 text-black" />,
+  },
+];
 
-  useEffect(() => {
-    const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+const ChatsLayout = async ({ children }: ChatsLayoutProps) => {
+  const session = await getServerSession(authOptions);
+  if (!session) notFound();
 
-    const onWindowMatch = () => {
-      if (theme === "system") {
-        if (localStorage.theme === "dark" || (!("theme" in localStorage) && darkQuery.matches)) {
-          document.documentElement.classList.add("dark");
-          setTheme("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-          setTheme("light");
-        }
-      }
-    };
+  const friends = await getFriendsByUserId(session.user.id);
+  console.log("friends", friends);
 
-    onWindowMatch();
-
-    const darkQueryListener = (e: MediaQueryListEvent) => {
-      if (theme === "system") {
-        if (e.matches) {
-          document.documentElement.classList.add("dark");
-          setTheme("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-          setTheme("light");
-        }
-      }
-    };
-
-    darkQuery.addEventListener("change", darkQueryListener);
-
-    window.addEventListener("storage", () => {
-      const storedTheme = localStorage.getItem("theme");
-      if (storedTheme) setTheme(storedTheme);
-    });
-
-    return () => {
-      darkQuery.removeEventListener("change", darkQueryListener);
-      window.removeEventListener("storage", () => {});
-    };
-  }, [theme]);
-
-  useEffect(() => {
-    switch (theme) {
-      case "dark":
-        document.documentElement.classList.add("dark");
-        localStorage.setItem("theme", "dark");
-        break;
-      case "light":
-        document.documentElement.classList.remove("dark");
-        localStorage.setItem("theme", "light");
-        break;
-      default:
-        localStorage.removeItem("theme");
-        break;
-    }
-  }, [theme]);
-
-  const toggleSidebar = () => {
-    setIsSidebarVisible(!isSidebarVisible);
-  };
-
-  const closeSidebar = () => {
-    setIsSidebarVisible(false);
-  };
-
-  const sidebarRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
-      ) {
-        closeSidebar();
-      }
-    };
-
-    if (isSidebarVisible) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [isSidebarVisible]);
-
-  const options = [
-    {
-      icon: <MdLightMode />,
-      text: "light",
-    },
-    {
-      icon: <MdOutlineDarkMode />,
-      text: "dark",
-    },
-  ];
+  const unseenRequestCount = (
+    (await fetchRedis(
+      "smembers",
+      `user:${session.user.id}:incoming_friend_requests`
+    )) as User[]
+  ).length;
 
   return (
-    <div>
-      <div className="relative bg-gradient-to-tr dark:text-white from-[#EDA982] dark:from-[#BB8768] from-5% via-[#F9F4ED] dark:via-[#8C7A69] via-50% to-[#EF9A80] dark:to-[#CC856F] to-100%">
-        <div className="flex items-start gap-4 w-full justify-between align-center relative ">
-          {!isSidebarVisible ? (
-            <div></div>
-          ) : (
-            <div className="left-0 top-0" ref={sidebarRef}>
-              {isSidebarVisible && <LeftPanel />}
-            </div>
-          )}
+    <div className="w-full flex items-start justify-between h-screen relative">
+      <aside className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-hidden border-r border-gray-200 bg-white px-6">
+        <Link href="/dashboard" className="flex h-16 shrink-0 items-center">
+          <Icons.Logo className="h-8 w-auto text-indigo-600" />
+        </Link>
 
-          <main
-            className={`flex-shrink-0 p-4 flex-col ${
-              isSidebarVisible ? "w-[1245px] ml-64" : "w-[1500px]"
-            }  align-center self-stretch py-[40px] px-[30px] rounded-xl bg-slate-100 dark:bg-[#28231E] dark:bg-opacity-30 bg-opacity-30 overflow-y-scroll`}
-            style={{ zIndex: 0 }}
-          >
-            <div className="flex items-center justify-between">
-              <button
-                className="rounded  px-5 py-2 text-xl font-medium uppercase leading-tight text-black transition duration-150 ease-in-out dark:hover:bg-[#543727] hover:bg-neutral-200 hover:shadow-lg focus:bg-neutral-300 focus:shadow-lg focus:outline-none focus:ring-0 dark:focus:bg-[#543727] active:bg-neutral-500"
-                onClick={toggleSidebar}
-              >
-                <span className="block [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-black">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="h-5 w-5"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </span>
-              </button>
+        {friends.length > 0 ? (
+          <div className="text-xs font-semibold leading-6 text-gray-400">
+            Your chats
+          </div>
+        ) : ""}
 
-              <div className="rounded p-8 text-2xl flex gap-4 justify-between text-black">
-                {options.map((option) => (
-                  <button
-                    key={option.text}
-                    onClick={() => setTheme(option.text)}
-                    className={`${theme === option.text && "text-white"}`}
-                  >
-                    {option.icon}
-                  </button>
-                ))}
+        <nav className="flex flex-1 flex-col">
+          <ul role="list" className="flex flex-1 flex-col gap-y-7">
+            <li>
+              <SidebarChatList sessionId={session.user.id} friends={friends} />
+            </li>
+            <li>
+              <div className="text-xs font-semibold leading-6 text-gray-400">
+                Overview
               </div>
-            </div>
-            {children}
-          </main>
-          <RightPanel />
-        </div>
-      </div>
+              <ul role="list" className="-mx-2 mt-2 space-y-1">
+                <li>
+                  <FriendRequestSidebarOptions
+                    sessionId={session.user.id}
+                    initialUnseenRequestCount={unseenRequestCount}
+                  />
+                </li>
+                {sidebarOptions.map((option) => {
+                  return (
+                    <li key={option.id}>
+                      <Link
+                        href={option.href}
+                        className="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                      >
+                        <span className="text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white">
+                          {option.Icon}
+                        </span>
+
+                        <span className="truncate">{option.name}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </li>
+
+            <li className="-ml-4 mt-auto flex items-center">
+              <div className="flex flex-1 items-center gap-x-4 px-2 py-3 text-sm font-semibold leading-6 text-gray-900">
+                <div className="relative h-8 w-8 bg-gray-50">
+                  <Image
+                    fill
+                    referrerPolicy="no-referrer"
+                    className="rounded-full"
+                    src={session.user.image || imageDefaultUser}
+                    alt="Your profile picture"
+                  />
+                </div>
+                <span className="sr-only">Your profile</span>
+                <div className="flex flex-col">
+                  <span aria-hidden="true">{session.user.name}</span>
+                  <span className="text-xs text-zinc-400" aria-hidden="true">
+                    {session.user.email}
+                  </span>
+                </div>
+              </div>
+              <SignOutButton className="h-full aspect-square" />
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main className="max-h-screen flex-shrink-0 align-center self-stretch container pl-40 -mt-48 md:py-12">
+        {children}
+      </main>
+      <RightPanel />
     </div>
   );
-}
+};
+
+export default ChatsLayout;

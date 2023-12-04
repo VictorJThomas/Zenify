@@ -80,7 +80,7 @@ export async function generateMetadata({
     const initialMessages = await getChatMessages(chatId)
   
     return (
-      <div className='flex-1 ml-40 justify-between flex flex-col'>
+      <div className='flex-1 justify-between pr-20 flex flex-col'>
         <div className='flex sm:items-center justify-between py-3 border-b-2 border-gray-200'>
           <div className='relative flex items-center space-x-4'>
             <div className='relative'>
