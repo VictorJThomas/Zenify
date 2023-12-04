@@ -36,7 +36,7 @@ function PersonalInformation() {
   const role = getCurrentRol();
   
   return (
-    <div className="w-full dark:text-black bg-slate-100 bg-opacity-50 rounded-2xl p-4">
+    <div className="w-full dark:text-white text-black bg-slate-100 bg-opacity-50 rounded-2xl p-4">
       <h1 className="font-semibold text-center pt-4">Account Datails</h1>
       <div className="pt-4 p-4">
         <h4 className="pb-2 font-semibold">Email account:</h4>

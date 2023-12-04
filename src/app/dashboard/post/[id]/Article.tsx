@@ -7,7 +7,7 @@ type Props = {
 const Article = ({content}: Props) => {
     const sanitizedContent = sanitize(content);
     return (
-        <div>
+        <div className='custon-scroll-container'>
             <div className='dark:text-white' dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
         </div>
     )

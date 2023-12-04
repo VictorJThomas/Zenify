@@ -58,12 +58,11 @@ const sidebarOptions: SidebarOption[] = [
   },
 ];
 
-const ChatsLayout = async ({ children }: ChatsLayoutProps) => {
+const DashboardLayout = async ({ children }: ChatsLayoutProps) => {
   const session = await getServerSession(authOptions);
   if (!session) notFound();
 
   const friends = await getFriendsByUserId(session.user.id);
-  console.log("friends", friends);
 
   const unseenRequestCount = (
     (await fetchRedis(
@@ -72,9 +71,10 @@ const ChatsLayout = async ({ children }: ChatsLayoutProps) => {
     )) as User[]
   ).length;
 
+
   return (
     <div className="w-full flex items-start justify-between h-screen relative">
-      <aside className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-hidden border-r border-gray-200 bg-white px-6">
+      <aside className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-hidden border-r border-gray-200 px-6">
         <Link href="/dashboard" className="flex h-16 shrink-0 items-center">
           <Icons.Logo className="h-8 w-auto text-indigo-600" />
         </Link>
@@ -145,7 +145,7 @@ const ChatsLayout = async ({ children }: ChatsLayoutProps) => {
         </nav>
       </aside>
 
-      <main className="max-h-screen flex-shrink-0 align-center self-stretch container pl-40 -mt-48 md:py-12">
+      <main id="main-content" className="max-h-screen flex-shrink-0 align-center self-stretch container pl-40 pr-10 -mt-48 md:py-12 text-black">
         {children}
       </main>
       <RightPanel />
@@ -153,4 +153,4 @@ const ChatsLayout = async ({ children }: ChatsLayoutProps) => {
   );
 };
 
-export default ChatsLayout;
+export default DashboardLayout;

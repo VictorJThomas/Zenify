@@ -12,7 +12,7 @@ const Content = ({ post }: Props) => {
   const formattedDate = date.toLocaleDateString("en-US", options);
 
   return (
-    <div className="prose w-full max-w-full mb-10">
+    <div className="prose w-full max-w-full mb-10 custom-scroll-container">
       <h5 className="dark:text-gray-100">{`Home > ${post.category} > ${post.title}`}</h5>
       <div className="flex gap-3">
         <h5 className="font-semibold text-xs dark:text-gray-100">By {post.author}</h5>

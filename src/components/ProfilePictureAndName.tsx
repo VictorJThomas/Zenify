@@ -23,7 +23,7 @@ function ProfilePictureAndName() {
       <div className="flex flex-2 gap-4 m-4 justify-center">
         <div>
           <button
-            className="rounded-full bg-zinc-300 p-1 text-xs font-medium uppercase leading-normal text-white shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-0 active:bg-primary-800"
+            className="rounded-full bg-zinc-300 p-1 text-xs font-medium uppercase leading-normal shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-0 active:bg-primary-800"
             data-te-toggle="modal"
             data-te-target="#uploadpicture"
             data-te-ripple-init

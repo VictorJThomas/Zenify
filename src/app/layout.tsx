@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import {Montserrat} from "next/font/google"
 import "tw-elements/dist/css/tw-elements.min.css";
 import ToasterContext from "@/context/ToasterContext";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -21,8 +22,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
         <Provider>
-          <ToasterContext />
-          {children}
+          <ThemeProvider>
+            <ToasterContext />
+            {children}
+          </ThemeProvider>
         </Provider>
       </body>
     </html>
