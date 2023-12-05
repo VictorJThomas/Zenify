@@ -25,6 +25,7 @@ model User {
   accounts Account[]
   moods    Mood[]
   diaries  Diary[]
+  focuses Focus[]
   sessions Session[]
 }
 
@@ -74,6 +75,26 @@ enum UserRole {
   ADMIN
   CLIENT
   PSYCHOLOGIST
+}
+
+enum FocusStatus {
+  PROCESS
+  FAILED
+  SUCCESS
+}
+
+model Focus {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  goalTitle    String
+  goalDescription     String?
+  goalTime DateTime
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  status FocusStatus @default(PROCESS)
+
+  userId   String   @db.ObjectId
+  user     User     @relation(fields: [userId], references: [id])
+  @@unique([userId, id])
 }
 
 model Diary {

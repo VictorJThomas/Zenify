@@ -1,16 +1,21 @@
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { CldImage, CldUploadButton } from "next-cloudinary";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { HiPhoto } from "react-icons/hi2";
+interface ImageProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onFocusCreated?: () => void;
+}
 
-function UploadPicture() {
+function UploadPicture({ onFocusCreated, isOpen, onClose }: ImageProps) {
   const [image, setImage] = useState("zenify/iuwojntnxlltocmrurfd");
   const { data: session } = useSession();
   const user = session?.user;
-  
-  const submitRef = useRef<HTMLButtonElement | null>(null)
+
+  const submitRef = useRef<HTMLButtonElement | null>(null);
 
   const onSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -19,11 +24,16 @@ function UploadPicture() {
         image: image,
         user: user,
       });
-      toast.success("Updated!");
-      console.log(response);
+      if (onFocusCreated) {
+        onFocusCreated();
+
+        setImage("");
+      }
+      toast.success("User Image Updated!");
       if (submitRef.current) {
         submitRef.current.click();
       }
+      console.log(response);
     } catch (e) {
       console.error(e);
     }
@@ -38,96 +48,109 @@ function UploadPicture() {
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isOpen &&
+        event.target instanceof HTMLElement &&
+        !event.target.closest(".modal-content-form")
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
   return (
-    <div
-      data-te-modal-init
-      className="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
-      id="uploadpicture"
-      aria-labelledby="ModalWithIconLabel"
-      aria-hidden="true"
-    >
+    <div>
+      {isOpen && (
+        <div className="fixed inset-0 z-[1055] h-full w-full overflow-y-auto overflow-x-hidden backdrop-filter backdrop-blur-lg opacity-50"></div>
+      )}
       <div
-        data-te-modal-dialog-ref
-        className="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]"
+        className={`fixed left-0 top-0 z-[1055] ${
+          isOpen ? "block" : "hidden"
+        } h-full w-full overflow-y-auto overflow-x-hidden outline-none`}
       >
-        <div className="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
-            <div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
-            <h5
-                className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
-                id="ModalWithIconLabel"
-            >
-                Upload a Image
-            </h5>
-            <button
-                type="button"
-                className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
-                data-te-modal-dismiss
-                aria-label="Close"
-            >
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="h-6 w-6"
-                >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                />
-                </svg>
-            </button>
-            </div>
-            <div
-            className="relative flex-auto p-4 bg-zinc-100"
-            data-te-modal-body-ref
-            >
-            <CldImage
-                width="960"
-                height="600"
-                src={image}
-                sizes="100vw"
-                className="p-4 rounded-sm"
-                alt={image}
-            />
-            <div className="flex gap-2 ">
-                <CldUploadButton
-                options={{ maxFiles: 1 }}
-                onUpload={handleUpload}
-                uploadPreset="muujlg2u"
-                >
-                <HiPhoto
-                    size={60}
-                    className="text-sky-500 rounded-md hover:ring-2 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
-                />
-                </CldUploadButton>
-            </div>
-            <div className="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+        <div className="flex items-center justify-center h-full">
+          <div
+            className="w-[500px] bg-zinc-200 bg-opacity-90 p-4 rounded-md shadow-lg"
+            ref={(node) => node && node.classList.add("modal-content-form")}
+          >
+            <div className="relative">
+              <div className="flex justify-between items-center border-b-2 pb-4">
+                <h5 className="text-xl font-medium leading-normal text-neutral-800">
+                  Upload a Image
+                </h5>
                 <button
-                ref={submitRef}
-                type="button"
-                className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
-                data-te-modal-dismiss
-                data-te-ripple-init
-                data-te-ripple-color="light"
+                  type="button"
+                  className="hover:opacity-75 opacity-100 focus:opacity-100"
+                  onClick={onClose}
                 >
-                Close
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
                 </button>
-                <button
-                type="button"
-                className="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] disabled:opacity-50"
-                data-te-ripple-init
-                data-te-ripple-color="light"
-                onClick={onSubmit}
-                disabled={image == "zenify/iuwojntnxlltocmrurfd"}
-                >
-                Save changes
-                </button>
+              </div>
+              <div className="p-4">
+                <CldImage
+                  width="960"
+                  height="600"
+                  src={image}
+                  sizes="100vw"
+                  className="p-4 rounded-s"
+                  alt={image}
+                />
+                <div className="flex gap-2 ">
+                  <CldUploadButton
+                    options={{ maxFiles: 1 }}
+                    onUpload={handleUpload}
+                    uploadPreset="muujlg2u"
+                  >
+                    <HiPhoto
+                      size={60}
+                      className="text-indigo-600 rounded-md hover:ring-2 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
+                    />
+                  </CldUploadButton>
+                </div>
+                <div className="flex justify-end pt-4 border-t-2">
+                  <button
+                    ref={submitRef}
+                    type="button"
+                    className="mr-2 inline-block rounded px-6 py-2.5 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out"
+                    onClick={onClose}
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="button"
+                    className="rounded bg-indigo-400 px-6 pb-2 pt-2.5 text-xs font-medium uppercase text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-indigo-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-indigo-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:ring-0 active:bg-indigo-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                    onClick={onSubmit}
+                    disabled={image == "zenify/iuwojntnxlltocmrurfd"}
+                  >
+                    Save changes
+                  </button>
+                </div>
+              </div>
+              <div/>
             </div>
-            </div>
-        </div>  
+          </div>
+        </div>
       </div>
     </div>
   );
