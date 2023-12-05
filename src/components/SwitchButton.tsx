@@ -37,7 +37,7 @@ const SwitchButton = () => {
   return (
     <div className="flex items-center">
       <div
-        className={`${client ? 'bg-[#543727]' : 'bg-[#B88265]'} h-6 w-12 rounded-full cursor-pointer`}
+        className={`${client ? 'bg-indigo-800' : 'bg-indigo-600'} h-6 w-12 rounded-full cursor-pointer`}
         onClick={handleSwitch}
       >
         <div
@@ -45,8 +45,8 @@ const SwitchButton = () => {
         />
       </div>
       <div className="ml-3">
-        <span className={`${psychologist ? 'text-[#543727]' : 'text-[#B88265]'} font-medium`}>Psicologo</span>
-        <span className={`${client ? 'text-[#543727]' : 'text-[#B88265]'} font-medium ml-2`}>Usuario</span>
+        <span className={`${psychologist ? 'text-gray-800' : 'text-gray-300'} font-medium`}>Psicologo</span>
+        <span className={`${client ? 'text-gray-800' : 'text-gray-300'} font-medium ml-2`}>Usuario</span>
       </div>
     </div>
   );

@@ -75,12 +75,12 @@ const RightPanel = () => {
   };
 
   return (
-    <aside className="top-0 right-0 w-[290px] bg-slate-100 dark:bg-[#28231E] dark:bg-opacity-30 bg-opacity-30 h-screen py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  rounded-l-xl">
+    <aside className="top-0 right-0 w-[290px] dark:bg-opacity-30 bg-opacity-30 h-screen py-[25px] px-[20px] flex-col justify-between items-center self-stretch flex-shrink-0  rounded-l-xl">
       <div className="flex flex-2 gap-4 m-4 justify-center">
         <div className="font-semibold text-xl pt-2">Diary</div>
         <div className="">
           <button
-            className="rounded-full bg-zinc-300 bg-opacity-40 p-3 text-xs font-medium uppercase leading-normal text-black shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] transition duration-150 ease-in-out hover:text-white focus:text-white active:text-white hover:bg-zinc-600 focus:bg-zinc-600 focus:outline-none focus:ring-0 active:bg-zinc-800"
+            className="rounded-full bg-indigo-400 p-3 text-xs font-medium uppercase leading-normal text-white shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] transition duration-150 ease-in-out hover:text-white focus:text-white active:text-white hover:bg-indigo-600 focus:bg-indigo-600 focus:outline-none focus:ring-0 active:bg-indigo-600"
             onClick={openFormModal}
           >
             <AiOutlinePlusSquare size="30" />

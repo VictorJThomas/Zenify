@@ -37,7 +37,6 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
         setImage("zenify/iuwojntnxlltocmrurfd")
       }
       toast.success("Created!");
-      console.log(response);
       if (submitRef.current) {
         submitRef.current.click();
       }
@@ -84,7 +83,7 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
         } h-full w-full overflow-y-auto overflow-x-hidden outline-none`}
       >
         <div className="flex items-center justify-center h-full">
-          <div className="w-[500px] bg-[#8C7A69] dark:bg-[#BB8768] dark:bg-opacity-90 bg-opacity-90 p-4 rounded-md shadow-lg"  ref={(node) => node && node.classList.add("modal-content-form")}>
+          <div className="w-[500px] bg-zinc-200 bg-opacity-90 p-4 rounded-md shadow-lg"  ref={(node) => node && node.classList.add("modal-content-form")}>
             <div className="relative">
               <div className="flex justify-between items-center border-b-2 pb-4">
                 <h5 className="text-xl font-medium leading-normal text-neutral-800">
@@ -117,10 +116,10 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
                   height="600"
                   src={image}
                   sizes="100vw"
-                  className="p-4 rounded-sm"
+                  className="p-4 rounded-s"
                   alt={image}
                 />
-                <div className="flex gap-2 ">
+                <div className="flex gap-2">
                   <CldUploadButton
                     options={{ maxFiles: 1 }}
                     onUpload={handleUpload}
@@ -128,7 +127,7 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
                   >
                     <HiPhoto
                       size={60}
-                      className="text-black rounded-md hover:ring-2 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
+                      className="text-indigo-600 rounded-md hover:ring-2 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
                     />
                   </CldUploadButton>
                   <textarea
@@ -150,7 +149,7 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
                 </button>
                 <button
                   type="button"
-                  className="inline-block rounded bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 focus:bg-primary-600 focus:outline-none focus:ring-0 active:bg-primary-700"
+                  className="rounded bg-indigo-400 px-6 pb-2 pt-2.5 text-xs font-medium uppercase text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-indigo-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-indigo-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:ring-0 active:bg-indigo-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                   onClick={onSubmit}
                   disabled={!content}
                 >

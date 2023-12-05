@@ -1,5 +1,4 @@
 import AccountSignIn from "@/components/AccountSignIn";
-import LightDarkSwitch from "@/components/LightDarkSwitch";
 import PersonalInformation from "@/components/PersonalInformation";
 import ProfilePictureAndName from "@/components/ProfilePictureAndName";
 
@@ -12,7 +11,6 @@ const SettingsPage = () => {
         <PersonalInformation />
         <AccountSignIn />
       </div>
-      <LightDarkSwitch />
     </div>
   );
 };

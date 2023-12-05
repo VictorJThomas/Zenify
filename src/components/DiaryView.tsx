@@ -49,16 +49,12 @@ const DiaryView: React.FC<ModalProps> = ({ isOpen, onClose, diary }) => {
         }`}
       >
         <div className="relative w-auto translate-y-[-50px] transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] pt-40 ">
-          <div className="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col border-none  text-current shadow-lg outline-none bg-[#8C7A69] dark:bg-[#BB8768] dark:bg-opacity-90 bg-opacity-90 rounded-md">
+          <div className="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col border-none  text-current shadow-lg outline-none bg-zinc-200 bg-opacity-90 rounded-md">
             <div className="flex flex-shrink-0  items-center justify-between p-4 d shadow-lg">
               <div
                 className=" rounded-md w-full"
                 ref={(node) => node && node.classList.add("modal-content")}
               >
-                <h2 className="text-2xl font-bold mb-4">{diary?.content}</h2>
-                <p className="text-gray-700 mb-4">
-                  {diary?.createAt.toLocaleDateString()}
-                </p>
                 <CldImage
                   width="960"
                   height="600"
@@ -67,9 +63,13 @@ const DiaryView: React.FC<ModalProps> = ({ isOpen, onClose, diary }) => {
                   className="rounded-md"
                   alt={diary.content}
                 />
+                <p className="text-lg font-bold mt-4">{diary?.content}</p>
+                <p className="text-zinc-900 my-4 font-extralight">
+                  {diary?.createAt.toLocaleDateString()}
+                </p>
                 <div className="flex flex-shrink-0 flex-wrap items-center justify-end pt-2">
                     <button
-                    className="inline-block rounded-md bg-primary-100 px-2 pb-2 pt-2 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+                    className="rounded bg-indigo-400 px-6 pb-2 pt-2.5 text-xs font-medium uppercase text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-indigo-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-indigo-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:ring-0 active:bg-indigo-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                     onClick={onClose}
                     >
                     Close

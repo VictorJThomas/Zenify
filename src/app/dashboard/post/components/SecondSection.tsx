@@ -34,7 +34,7 @@ const SecondSection = ({ className, posts }: MainSectionProps) => {
 
   return (
     <section>
-      <div className="sm:flex justify-between gap-8">
+      <div className="sm:flex custon-scroll-container justify-between gap-8">
         <Card
           post={posts[3]}
           className="sm:flex basis-2/3 justify-between items-center gap-3 mt-7 bg-opacity-80 mb-5"
@@ -42,8 +42,6 @@ const SecondSection = ({ className, posts }: MainSectionProps) => {
         />
         <QuoteCard quotes={quotes} className="basis-1/3 p-10 m-4 text-white bg-[#AF695C]"/>
       </div>
-
-      {/* CARDS ROW */}
       <div className="sm:flex justify-between gap-8">
         <Card
           post={posts[0]}
@@ -61,7 +59,6 @@ const SecondSection = ({ className, posts }: MainSectionProps) => {
           imageHeight="h-80"
         />
       </div>
-      {/* <hr className="border-slate-200 border-2 px-4" /> */}
     </section>
   );
 };

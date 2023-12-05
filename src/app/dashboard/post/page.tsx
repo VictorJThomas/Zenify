@@ -8,36 +8,35 @@ import { getUserId } from "@/actions/getUserId";
 export const revalidate = 60;
 
 const getPosts = async () => {
-  const id = await getUserId()
+  const id = await getUserId();
 
   const moodFound = await prisma.mood.findFirst({
     where: {
-      userId: id
+      userId: id,
     },
     orderBy: {
-      createAt: 'desc'
-    }
-  })
+      createAt: "desc",
+    },
+  });
 
-  const mood = moodFound?.mood
+  const mood = moodFound?.mood;
 
   const posts: Array<Post> = await prisma.post.findMany({
     where: {
-      category: mood
-    }
-  })
-  prisma.$disconnect
-  return posts
-}
+      category: mood,
+    },
+  });
+  prisma.$disconnect;
+  return posts;
+};
 
 const PostPage = async () => {
   const posts = await getPosts();
   return (
-    <div className="w-full px-10 max-h-[50%]">
+    <div className="w-full overflow-y-auto px-10 max-h-[60rem]">
       <h1 className="text-6xl">Welcome!</h1>
       <Tags />
       <SecondSection posts={posts} />
-    
     </div>
   );
 };
