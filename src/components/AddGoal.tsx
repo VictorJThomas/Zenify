@@ -33,7 +33,6 @@ function AddGoal({ onFocusCreated, isOpen, onClose }: FocusFormProps) {
       });
       if (onFocusCreated) {
         onFocusCreated();
-
         setGoalTitle("");
         setGoalDescription("");
         setGoalTime("");
@@ -116,7 +115,12 @@ function AddGoal({ onFocusCreated, isOpen, onClose }: FocusFormProps) {
                 ></textarea>
               </div>
               <div>
-                <h1>Aqui ute va a pone la hora</h1>
+              <textarea
+                  className="resize-none w-full overflow-hidden bg-white py-4 px-4 text-base placeholder:text-slate-400 focus:border-[#3B71CA] focus:outline-none focus:ring-4 focus:ring-[#3B71CA]/10 rounded-3xl shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] hover:ring-2"
+                  placeholder="Put the time"
+                  value={goalTime}
+                  onChange={(e) => setGoalTime(e.target.value)}
+                ></textarea>
               </div>
               <div className="p-4">
                 <textarea

@@ -3,8 +3,10 @@
 import AddGoal from "@/components/AddGoal";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 import { Focus } from "@prisma/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import GoalList from "@/components/GoalList";
+import GoalDetails from "@/components/GoalDetails";
 
 type FocusType = {
     id: string;
@@ -20,7 +22,7 @@ type FocusType = {
 
 const FocusPage = () => {
     const [goals, setGoals] = useState<FocusType[]>([]);
-    const [selectedGoals, setSelectedGoals] = useState<Focus | null>(null);
+    const [selectedGoals, setSelectedGoal] = useState<Focus | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isFormModalOpen, setIsFormModalOpen] = useState(false);
 
@@ -48,6 +50,25 @@ const FocusPage = () => {
         }
       };
 
+      useEffect(() => {
+        loadGoals()
+        const init = async () => {
+          const { Modal, Ripple, initTE } = await import("tw-elements");
+          initTE({ Modal, Ripple });
+        };
+        init();
+      }, []);
+
+    const handleCardClick = (goal: Focus) => {
+      setSelectedGoal(goal);
+      setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+      setSelectedGoal(null);
+      setIsModalOpen(false);
+    };
+
     const handleFocusCreated = () => {
         loadGoals();
       };
@@ -70,6 +91,20 @@ const FocusPage = () => {
             </div>
             <AddGoal isOpen={isFormModalOpen} onClose={() => setIsFormModalOpen(false)} onFocusCreated={handleFocusCreated}/>
           </div>
+          <div className="overflow-y-scroll max-h-[700px] scroll-smooth focus:scroll-auto snap-mandatory snap-y p-4">
+        {goals.map((goal) => (
+          <GoalList
+            key={goal.id}
+            goal={goal}
+            onCardClick={() => handleCardClick(goal)}
+          />
+        ))}
+      </div>
+      <GoalDetails
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        goal={selectedGoals}
+      />
         </aside>
       );
 }
