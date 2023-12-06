@@ -1,8 +1,6 @@
 import { getUserId } from "@/actions/getUserId";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/utils/prisma";
 import { NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
 
 export async function GET(request: Request) {  
   try {

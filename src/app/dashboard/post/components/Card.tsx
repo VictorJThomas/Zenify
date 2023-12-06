@@ -18,7 +18,7 @@ const Card = ({
   isLongForm = false,
   post,
 }: Props) => {
-  const {id, title, author, createAt, image, snippet} = post || {}
+  const {id, title, author, createAt, image, snippet} = post 
 
   const date = new Date(createAt)
   const options = { year: "numeric", month: "long", day: "numeric" } as any;

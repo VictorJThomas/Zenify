@@ -1,7 +1,6 @@
 export type Message = {
     role: "user" | "assistant";
-    content: string | {mood: string; advice: string};
-    links?: string[];
+    content: string | {mood: string, advice: string} ;
 };
 
 export type FormattedPost = {
