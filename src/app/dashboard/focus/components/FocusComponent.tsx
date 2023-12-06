@@ -6,6 +6,7 @@ interface Task {
   text: string;
   time: number;
   unit: string; // "hour", "minute", "second"
+  completed: boolean;
 }
 
 interface FocusPageState {
@@ -50,10 +51,30 @@ const FocusPage: React.FC<FocusPageProps> = () => {
           timer: prevState.timer - 1,
         }));
       }, 1000);
+    } else if (state.timer === 0 && state.runningTaskIndex !== null) {
+      handleTaskCompletion();
     }
 
     return () => clearInterval(interval);
-  }, [state.timer, state.runningTaskIndex]);
+  }, [state.timer, state.runningTaskIndex, state.tasks]);
+
+  const handleTaskCompletion = (): void => {
+    const updatedTasks: Task[] = [...state.tasks];
+    updatedTasks[state.runningTaskIndex!] = {
+      ...updatedTasks[state.runningTaskIndex!],
+      completed: true,
+    };
+
+    const nextImageIndex = (state.currentImageIndex + 1) % images.length;
+
+    setState((prevState) => ({
+      ...prevState,
+      tasks: updatedTasks,
+      runningTaskIndex: null,
+      timer: initialTime,
+      currentImageIndex: nextImageIndex,
+    }));
+  };
 
   const handleNextImage = (): void => {
     const newIndex: number = (state.currentImageIndex + 1) % images.length;
@@ -79,6 +100,7 @@ const FocusPage: React.FC<FocusPageProps> = () => {
         text: state.newTask.trim(),
         time: timeInSeconds,
         unit: state.newTaskUnit,
+        completed: false,
       };
 
       const updatedTasks: Task[] = [...state.tasks, newTask];
@@ -89,7 +111,7 @@ const FocusPage: React.FC<FocusPageProps> = () => {
         newTaskTime: initialTime,
         newTaskUnit: "second",
         runningTaskIndex: null,
-        timer: initialTime,
+        timer: timeInSeconds,
       }));
     }
   };
@@ -103,7 +125,7 @@ const FocusPage: React.FC<FocusPageProps> = () => {
       newTaskUnit: unit,
       editTaskIndex: index,
       runningTaskIndex: null,
-      timer: initialTime,
+      timer: time,
     }));
   };
 
@@ -133,6 +155,7 @@ const FocusPage: React.FC<FocusPageProps> = () => {
         text: state.newTask.trim(),
         time: timeInSeconds,
         unit: state.newTaskUnit,
+        completed: false,
       };
 
       setState((prevState) => ({
@@ -143,7 +166,7 @@ const FocusPage: React.FC<FocusPageProps> = () => {
         newTaskUnit: "second",
         editTaskIndex: null,
         runningTaskIndex: null,
-        timer: initialTime,
+        timer: timeInSeconds,
       }));
     }
   };
@@ -199,12 +222,13 @@ const FocusPage: React.FC<FocusPageProps> = () => {
           &gt;
         </button>
       </div>
+
       {/* Todo List */}
       <div className="mt-4">
         <h2 className="text-xl font-bold mb-2">Todo List</h2>
         <ul>
           {state.tasks.map((task, index) => (
-            <li key={index} className="mb-2">
+            <li key={index} className={task.completed ? "line-through" : ""}>
               {task.text} - Tiempo restante: {formatTime(task.time)}
               <button
                 onClick={() => handleEditTask(index)}
