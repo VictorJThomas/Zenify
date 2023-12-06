@@ -17,6 +17,7 @@ const ChatPage = () => {
   const [diagnosed, setDiagnosed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const lastMessageRef = useRef<HTMLDivElement | null>(null);
+  const [charCount, setCharCount] = useState<number>(0);
 
   const scrollToBottom = () => {
     if (lastMessageRef.current) {
@@ -25,7 +26,7 @@ const ChatPage = () => {
   };
 
   const handleUserMessage = async () => {
-    if (message === "") return;
+    if (message === "" || charCount === 350) return;
 
     setHistory((prevHistory) => [
       ...prevHistory,
@@ -159,27 +160,34 @@ const ChatPage = () => {
 
         {/* Input area */}
         <div className="h-18">
-          <div className="border-t border-gray-200 px-4 pt-4  py-4 sm:mb-0">
+          <div className="border-t border-gray-200 pt-4 py-4 sm:mb-0">
             <div className="relative flex-2 overflow-hidden rounded-lg shadow-sm ring-1 h-20 py-auto ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
               <textarea
                 aria-label="chat input"
                 value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                onChange={(e) => {
+                  const inputText = e.target.value;
+                  if (inputText.length <= 350) {
+                    setMessage(inputText);
+                    setCharCount(inputText.length);
+                  }
+                }}
                 placeholder={
                   diagnosed
                     ? "You've received a diagnosis. Click thumbs up or down."
                     : "Type a message"
                 }
-                className="block w-full resize-none border-0 bg-transparent text-gray-900 h-full placeholder:text-gray-400 focus:ring-0 sm:py-1.5 sm:text-sm sm:leading-6"
+                className="block w-full resize-none bg-transparent pl-2 pr-20 text-gray-900 h-full placeholder:text-gray-400 sm:py-1.5 sm:text-sm "
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
                     handleUserMessage();
                   }
                 }}
+                disabled={charCount === 350}
               />
               <div className="absolute right-0  bottom-0 flex justify-between pb-5 pl-3 pr-2">
-                <div className="flex-shrin-0 rounded-md bg-indigo-600">
+                <div className="flex-shrink-0 rounded-md bg-indigo-600 ml-2">
                   <Button
                     onClick={(e) => {
                       e.preventDefault();
@@ -194,6 +202,14 @@ const ChatPage = () => {
                 </div>
               </div>
             </div>
+            <div className="text-xs text-gray-500 mt-2">
+              {`${charCount} de 350 caracteres`}
+            </div>
+            {charCount === 350 && (
+              <div className="text-xs text-red-500 mt-1">
+                Maximum characters reached
+              </div>
+            )}
           </div>
         </div>
       </form>

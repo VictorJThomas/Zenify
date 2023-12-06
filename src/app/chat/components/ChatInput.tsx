@@ -31,7 +31,7 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
   };
 
   return (
-    <div className="border-t border-gray-200 px-4 pt-4  py-4 sm:mb-0">
+    <div className="border-t border-gray-200 pt-4 py-4 sm:mb-0">
       <div className="relative flex-2 overflow-hidden rounded-lg shadow-sm ring-1 h-20 py-auto ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
         <textarea
           ref={textareaRef}
@@ -51,7 +51,7 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
             setInput(e.target.value)
           }
           placeholder={`Message ${chatPartner.name}`}
-          className="block w-full resize-none border-0 bg-transparent text-gray-900 h-full placeholder:text-gray-400 focus:ring-0 sm:py-1.5 sm:text-sm sm:leading-6"
+          className="block w-full resize-none bg-transparent pl-2 pr-20 text-gray-900 h-full placeholder:text-gray-400 sm:py-1.5 sm:text-sm"
         />
 
         {/* <div
@@ -67,7 +67,7 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
         </div> */}
 
         <div className="absolute right-0  bottom-0 flex justify-between pb-5 pl-3 pr-2">
-          <div className="flex-shrin-0 rounded-md bg-black">
+          <div className="flex-shrin-0 rounded-md bg-indigo-600 ml-2">
             <Button isLoading={isLoading} onClick={sendMessage} className="default" type="submit">
               Post
             </Button>
