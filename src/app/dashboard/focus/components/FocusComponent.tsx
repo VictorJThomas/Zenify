@@ -200,31 +200,25 @@ const FocusPage: React.FC<FocusPageProps> = () => {
 
   return (
     <div className="max-w-screen-md mx-auto p-4">
-      {/* Imagen actual */}
-      <img
-        src={images[state.currentImageIndex]}
-        alt={`Landscape picture ${state.currentImageIndex + 1}`}
-        className="w-full"
-      />
-
       {/* Botones para cambiar la imagen */}
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={handlePrevImage}
-          className="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded"
-        >
+      <div className="flex justify-between absolute w-full mt-4">
+        <button onClick={handlePrevImage} className="button-blur">
           &lt;
         </button>
-        <button
-          onClick={handleNextImage}
-          className="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded"
-        >
+        <button onClick={handleNextImage} className="button-blur">
           &gt;
         </button>
       </div>
 
+      {/* Imagen actual */}
+      <img
+        src={images[state.currentImageIndex]}
+        alt={`Landscape picture ${state.currentImageIndex + 1}`}
+        className="w-full relative z-0"
+      />
+
       {/* Todo List */}
-      <div className="mt-4">
+      <div className="relative z-10 mt-4">
         <h2 className="text-xl font-bold mb-2">Todo List</h2>
         <ul>
           {state.tasks.map((task, index) => (
