@@ -1,10 +1,10 @@
-import { Focus } from "@prisma/client";
+
 import { useEffect } from "react";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  goal: Focus | null;
+  goal: any;
 }
 
 const GoalDetails: React.FC<ModalProps> = ({ isOpen, onClose, goal }) => {

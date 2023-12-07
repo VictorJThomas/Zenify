@@ -1,8 +1,6 @@
-import { Focus } from "@prisma/client";
-import DiaryCard from "./DiaryCard";
 import GoalCard from "./GoalCard";
 
-function GoalList({ goal, onCardClick }: { goal: Focus, onCardClick: () => void }) {
+function GoalList({ goal, onCardClick }: { goal: any, onCardClick: () => void }) {
 
   return (
     <div className="snap-center" onClick={onCardClick}>
