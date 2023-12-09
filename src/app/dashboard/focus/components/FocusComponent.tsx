@@ -27,6 +27,11 @@ const FocusPage: React.FC<FocusPageProps> = () => {
     "https://res.cloudinary.com/dewtlb5rq/image/upload/v1701703755/wallpaper3_vsmmzo.png",
     "https://res.cloudinary.com/dewtlb5rq/image/upload/v1701703754/walpppaer2_gibqye.png",
     "https://res.cloudinary.com/dewtlb5rq/image/upload/v1701703753/wallapper1_lvz6ww.png",
+    "https://res.cloudinary.com/dewtlb5rq/image/upload/v1702070574/Create_a_high_resolution_artwork_of_lofi_1_k3sd9a.jpg",
+    "https://res.cloudinary.com/dewtlb5rq/image/upload/v1702070574/wallaperOfice_qg2bii.jpg",
+    "https://res.cloudinary.com/dewtlb5rq/image/upload/v1702070574/girldWallpaper_lmjbjt.jpg",
+    "https://res.cloudinary.com/dewtlb5rq/image/upload/v1702070574/wallpaper_Boy_alone_in_the_room_nyxwfl.jpg",
+    "https://res.cloudinary.com/dewtlb5rq/image/upload/v1702070573/boywall_cnssw5.jpg",
   ];
 
   const initialTime = 60; // Initial time for each task in seconds
@@ -60,6 +65,7 @@ const FocusPage: React.FC<FocusPageProps> = () => {
   }, [state.timer, state.runningTaskIndex, state.tasks]);
 
   const handleTaskCompletion = (): void => {
+    toast.success("Tiempo para terminar la tarea culminado");
     const updatedTasks: Task[] = [...state.tasks];
     updatedTasks[state.runningTaskIndex!] = {
       ...updatedTasks[state.runningTaskIndex!],
@@ -96,6 +102,7 @@ const FocusPage: React.FC<FocusPageProps> = () => {
           : state.newTaskUnit === "minute"
           ? state.newTaskTime * 60
           : state.newTaskTime;
+      toast.success("Tarea agregada correctamente");
 
       const newTask: Task = {
         text: state.newTask.trim(),
@@ -131,7 +138,9 @@ const FocusPage: React.FC<FocusPageProps> = () => {
   };
 
   const handleStartTask = (): void => {
-    if (state.runningTaskIndex === null && state.timer > 0) {
+    if (state.tasks.length === 0) {
+      toast.error("No tienes tareas por completar");
+    } else if (state.runningTaskIndex === null && state.timer > 0) {
       setState((prevState) => ({
         ...prevState,
         runningTaskIndex:
@@ -139,6 +148,8 @@ const FocusPage: React.FC<FocusPageProps> = () => {
             ? state.editTaskIndex
             : state.tasks.length - 1,
       }));
+    } else {
+      toast.error("La tare ya esta en proceso");
     }
   };
 
@@ -150,6 +161,7 @@ const FocusPage: React.FC<FocusPageProps> = () => {
           : state.newTaskUnit === "minute"
           ? state.newTaskTime * 60
           : state.newTaskTime;
+      toast.success("Tarea actualizada correctamente");
 
       const updatedTasks: Task[] = [...state.tasks];
       updatedTasks[state.editTaskIndex!] = {
@@ -175,6 +187,7 @@ const FocusPage: React.FC<FocusPageProps> = () => {
   const handleDeleteTask = (index: number): void => {
     const updatedTasks: Task[] = state.tasks.filter((_, i) => i !== index);
     setState((prevState) => ({ ...prevState, tasks: updatedTasks }));
+    toast.success("Tarea Eliminada Correctamente 👍🗑");
   };
 
   const handleNewTaskChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -194,23 +207,19 @@ const FocusPage: React.FC<FocusPageProps> = () => {
   };
 
   const formatTime = (time: number): string => {
-    const minutes = Math.floor(time / 60);
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
     const seconds = time % 60;
-    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+
+    const formattedHours = hours > 0 ? `${hours}:` : "";
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+
+    return `${formattedHours}${formattedMinutes}:${formattedSeconds}`;
   };
 
   return (
     <div className="max-w-screen-md mx-auto p-4">
-      {/* Botones para cambiar la imagen */}
-      <div className="flex justify-between absolute w-full mt-4">
-        <button onClick={handlePrevImage} className="button-blur">
-          &lt;
-        </button>
-        <button onClick={handleNextImage} className="button-blur">
-          &gt;
-        </button>
-      </div>
-
       {/* Imagen actual */}
       <img
         src={images[state.currentImageIndex]}
@@ -218,25 +227,34 @@ const FocusPage: React.FC<FocusPageProps> = () => {
         className="w-full relative z-0"
       />
 
-      {/* Todo List */}
       <div className="relative z-10 mt-4">
-        <h2 className="text-xl font-bold mb-2">Todo List</h2>
+        <h2 className="text-xl font-bold mb-2">Tareas</h2>
         <ul>
           {state.tasks.map((task, index) => (
-            <li key={index} className={task.completed ? "line-through" : ""}>
-              {task.text} - Tiempo restante: {formatTime(task.time)}
-              <button
-                onClick={() => handleEditTask(index)}
-                className="ml-2 text-blue-500"
-              >
-                Editar
-              </button>
-              <button
-                onClick={() => handleDeleteTask(index)}
-                className="ml-2 text-red-500"
-              >
-                Eliminar
-              </button>
+            <li
+              key={index}
+              className={`flex items-center justify-between p-2 border-b ${
+                task.completed ? "line-through" : ""
+              }`}
+            >
+              <div>
+                <span>{task.text}</span> - Tiempo restante:{" "}
+                {formatTime(task.time)}
+              </div>
+              <div className="flex items-center">
+                <button
+                  onClick={() => handleEditTask(index)}
+                  className="text-blue-500 hover:underline mr-2 transition duration-300 ease-in-out"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleDeleteTask(index)}
+                  className="text-red-500 hover:underline transition duration-300 ease-in-out"
+                >
+                  Eliminar
+                </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -265,31 +283,27 @@ const FocusPage: React.FC<FocusPageProps> = () => {
             <option value="second">Segundos</option>
           </select>
           {state.editTaskIndex !== null ? (
-            <>
-              <button
-                onClick={handleUpdateTask}
-                className="bg-blue-500 text-white px-4 py-2 rounded"
-              >
-                Actualizar Tarea
-              </button>
-            </>
+            <button
+              onClick={handleUpdateTask}
+              className="bg-blue-500 text-white px-4 py-2 rounded transition duration-300 ease-in-out"
+            >
+              Actualizar Tarea
+            </button>
           ) : (
-            <>
-              <button
-                onClick={handleAddTask}
-                className="bg-green-500 text-white px-4 py-2 rounded"
-              >
-                Agregar Tarea
-              </button>
-              {state.tasks.length > 0 && (
-                <button
-                  onClick={handleStartTask}
-                  className="bg-green-500 text-white px-4 py-2 ml-2 rounded"
-                >
-                  Iniciar Tarea
-                </button>
-              )}
-            </>
+            <button
+              onClick={handleAddTask}
+              className="bg-green-500 text-white px-4 py-2 rounded transition duration-300 ease-in-out"
+            >
+              Agregar Tarea
+            </button>
+          )}
+          {state.tasks.length > 0 && (
+            <button
+              onClick={handleStartTask}
+              className="bg-green-500 text-white px-4 py-2 ml-2 rounded transition duration-300 ease-in-out"
+            >
+              Iniciar Tarea
+            </button>
           )}
         </div>
       </div>
@@ -298,7 +312,17 @@ const FocusPage: React.FC<FocusPageProps> = () => {
       {state.runningTaskIndex !== null && (
         <div className="mt-4">
           <h2 className="text-xl font-bold mb-2">Temporizador</h2>
-          <p>Tiempo restante: {formatTime(state.timer)}</p>
+          <div className="flex items-center space-x-4">
+            <div className="bg-gray-800 text-white p-4 rounded-full shadow-lg">
+              <span className="text-2xl">{formatTime(state.timer)}</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm text-gray-600">Tiempo restante</span>
+              <span className="text-lg font-bold">
+                {formatTime(state.timer)}
+              </span>
+            </div>
+          </div>
         </div>
       )}
     </div>

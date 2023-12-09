@@ -90,6 +90,8 @@
   animation: spin 8s infinite linear;
 }
 
+
+
 @keyframes spin {
   100% {
     transform: rotate(360deg);

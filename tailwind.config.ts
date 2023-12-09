@@ -12,16 +12,16 @@ const config: Config = {
       screens: {
         xs: "480px",
         sm: "768px",
-        md: "1060px",
+        md: "2200px",
       },
     },
     container: {
       center: true,
-      padding: '1.5rem',
+      padding: "1.5rem",
       screens: {
-        '2xl': '1360px'
+        "2xl": "1360px",
       },
-    }
+    },
   },
   plugins: [
     require("@tailwindcss/forms")({
