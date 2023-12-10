@@ -12,7 +12,7 @@ const config: Config = {
       screens: {
         xs: "480px",
         sm: "768px",
-        md: "1060px",
+        mmd: "2200px",
       },
     },
     container: {

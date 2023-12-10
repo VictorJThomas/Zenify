@@ -1,7 +1,11 @@
-const FocusPage = () => {
-    return (
-        <div>Focus Page</div>
-    )
+import FocusComponent from "./components/FocusComponent";
+
+function FocusPage() {
+  return (
+    <div>
+      <FocusComponent />
+    </div>
+  );
 }
 
-export default FocusPage
+export default FocusPage;
