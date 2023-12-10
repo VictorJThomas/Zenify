@@ -1,4 +1,5 @@
 import { LucideProps, UserPlus } from 'lucide-react'
+import zendLogo from "~/assets/zend_logo.svg"
 
 export const Icons = {
   Logo: (props: LucideProps) => (

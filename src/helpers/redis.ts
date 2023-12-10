@@ -1,9 +1,7 @@
-import { Redis } from "@upstash/redis";
+const upstashRedisRestUrl = process.env.UPSTASH_REDIS_REST_URL 
+const authToken = process.env.UPSTASH_REDIS_REST_TOKEN 
 
-const upstashRedisRestUrl = "https://us1-select-phoenix-41475.upstash.io" //process.env.UPSTASH_REDIS_REST_URL
-const authToken = "AaIDASQgZTFiNjYwNzMtZDc1Zi00YjgzLTg0YjEtNDk4NDM2YzUwYWI4MjA0N2E4NGFlMzE1NGFiYzk3NTY4MjZjNWViNzIzZGY=" //process.env.UPSTASH_REDIS_TOKEN
-
-type Command = 'zrange' | 'sismember' | 'get' | 'smembers' | 'set'
+type Command = 'zrange' | 'sismember' | 'get' | 'smembers' | 'set' | 'spro'
 
 export async function fetchRedis(
   command: Command,

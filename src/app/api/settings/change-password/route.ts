@@ -1,9 +1,8 @@
 import bcrypt from "bcrypt";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/utils/prisma";
 
 export async function PUT(request: Request) {
   try {

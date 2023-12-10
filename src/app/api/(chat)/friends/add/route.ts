@@ -1,4 +1,3 @@
-import { getUserId } from '@/actions/getUserId'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { fetchRedis } from '@/helpers/redis'
 import { db } from '@/utils/chatDB'

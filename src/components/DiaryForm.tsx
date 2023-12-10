@@ -87,7 +87,7 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
             <div className="relative">
               <div className="flex justify-between items-center border-b-2 pb-4">
                 <h5 className="text-xl font-medium leading-normal text-neutral-800">
-                  Create a Diary Entry
+                  Crear entrada de diario
                 </h5>
                 <button
                   type="button"
@@ -132,7 +132,7 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
                   </CldUploadButton>
                   <textarea
                     className="resize-none w-full overflow-hidden bg-white py-4 px-4 text-base text-black placeholder:text-slate-400 focus:border-[#3B71CA] focus:outline-none focus:ring-4 focus:ring-[#3B71CA]/10 rounded-3xl shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)] hover:ring-2"
-                    placeholder="Write about your day..."
+                    placeholder="Escribe sobre tu dia..."
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                   />
@@ -145,7 +145,7 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
                   className="mr-2 inline-block rounded px-6 py-2.5 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out"
                   onClick={onClose}
                 >
-                  Close
+                  Cerrar
                 </button>
                 <button
                   type="button"
@@ -153,7 +153,7 @@ function DiaryForm({ onDiaryCreated, isOpen, onClose }: DiaryFormProps) {
                   onClick={onSubmit}
                   disabled={!content}
                 >
-                  Save changes
+                  Guardar
                 </button>
               </div>
             </div>

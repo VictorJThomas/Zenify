@@ -1,5 +1,4 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { Icons } from "@/app/chat/components/Icons";
 import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
 import { fetchRedis } from "@/helpers/redis";
 import { SidebarOption } from "@/types/typing";
@@ -14,6 +13,7 @@ import imageDefaultUser from "~/assets/imageDefaultUser.svg";
 import SidebarChatList from "../chat/components/SidebarChatList";
 import FriendRequestSidebarOptions from "../chat/components/FriendRequestSidebarOptions";
 import SignOutButton from "../chat/components/SignOutButton";
+import icono_del_logo from "~/assets/icono_del_logo.svg"
 
 interface ChatsLayoutProps {
   children: ReactNode;
@@ -76,7 +76,7 @@ const DashboardLayout = async ({ children }: ChatsLayoutProps) => {
     <div className="w-full flex items-start justify-between h-screen relative">
       <aside className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-hidden border-r border-gray-200 px-6">
         <Link href="/dashboard" className="flex h-16 shrink-0 items-center">
-          <Icons.Logo className="h-8 w-auto text-indigo-600" />
+          <Image alt="logo" width={34} className="h-12 w-auto text-indigo-600" src={icono_del_logo}/>
         </Link>
 
         {friends.length > 0 ? (

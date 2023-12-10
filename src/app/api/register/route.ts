@@ -1,9 +1,7 @@
 import bcrypt from "bcrypt";
-import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { isValidEmail } from "@/utils/isValidEMail";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/utils/prisma";
 
 export async function POST(request: Request) {
   try {
