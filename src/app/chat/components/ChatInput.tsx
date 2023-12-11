@@ -50,7 +50,7 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
           onChange={(e: { target: { value: SetStateAction<string> } }) =>
             setInput(e.target.value)
           }
-          placeholder={`Message ${chatPartner.name}`}
+          placeholder={`Escribele a ${chatPartner.name}`}
           className="block w-full resize-none bg-transparent pl-2 pr-20 text-gray-900 h-full placeholder:text-gray-400 sm:py-1.5 sm:text-sm"
         />
 

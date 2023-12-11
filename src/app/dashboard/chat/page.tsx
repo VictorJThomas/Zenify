@@ -146,7 +146,7 @@ const ChatPage = () => {
                     ) : (
                       <>
                         {/* <p>Mood: {message.content.mood}</p> */}
-                        <p>Advice: {message.content.advice}</p>
+                        <p>{message.content.advice}</p>
                       </>
                     )}
                   </div>
