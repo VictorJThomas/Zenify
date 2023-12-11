@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
+import Image from "next/image";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import toast from "react-hot-toast";
 
@@ -223,7 +225,7 @@ const FocusPage: React.FC<FocusPageProps> = () => {
   return (
     <div className="max-w-screen-md mx-auto p-4">
       {/* Imagen actual */}
-      <img
+      <Image
         src={images[state.currentImageIndex]}
         alt={`Landscape picture ${state.currentImageIndex + 1}`}
         className="w-full relative z-0"
