@@ -22,37 +22,37 @@ interface ChatsLayoutProps {
 const sidebarOptions: SidebarOption[] = [
   {
     id: 1,
-    name: "Add friend",
+    name: "Añadir amigo",
     href: `${process.env.NEXT_PUBLIC_URL}/chat/add`,
     Icon: <Plus className="h-4 w-4 text-black" />,
   },
   {
     id: 2,
-    name: "Posts",
+    name: "Artículos",
     href: `${process.env.NEXT_PUBLIC_URL}/dashboard/post`,
     Icon: <Newspaper className="h-4 w-4 text-black" />,
   },
   {
     id: 3,
-    name: "Focus Mode",
+    name: "Modo Focus",
     href: `${process.env.NEXT_PUBLIC_URL}/dashboard/focus`,
     Icon: <Focus className="h-4 w-4 text-black" />,
   },
   {
     id: 4,
-    name: "Professionals",
+    name: "Profesionales",
     href: `${process.env.NEXT_PUBLIC_URL}/dashboard/professionals`,
     Icon: <Users className="h-4 w-4 text-black" />,
   },
   {
     id: 5,
-    name: "ChatBot",
+    name: "ZenBot",
     href: `${process.env.NEXT_PUBLIC_URL}/dashboard/chat`,
     Icon: <Bot className="h-4 w-4 text-black" />,
   },
   {
     id: 6,
-    name: "Settings",
+    name: "Configuración",
     href: `${process.env.NEXT_PUBLIC_URL}/dashboard/settings`,
     Icon: <Settings className="h-4 w-4 text-black" />,
   },
