@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-"use client";
-
-=======
->>>>>>> main
 import FocusComponent from "./components/FocusComponent";
 
 function FocusPage() {
@@ -13,8 +8,7 @@ function FocusPage() {
   );
 }
 
-<<<<<<< HEAD
+
+
 export default FocusPage;
-=======
-export default FocusPage;
->>>>>>> main
+

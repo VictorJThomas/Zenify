@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect, ChangeEvent } from "react";
 import toast from "react-hot-toast";
 
@@ -329,8 +331,4 @@ const FocusPage: React.FC<FocusPageProps> = () => {
   );
 };
 
-<<<<<<< HEAD
 export default FocusPage;
-=======
-export default FocusPage;
->>>>>>> main

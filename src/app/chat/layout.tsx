@@ -75,7 +75,7 @@ const ChatsLayout = async ({ children }: ChatsLayoutProps) => {
   return (
     <div className="w-full flex items-start justify-between h-screen relative">
       <aside className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-hidden border-r border-gray-200 bg-white px-6">
-        <Link href="/chat" className="flex h-16 shrink-0 items-center">
+        <Link href={`/chat`} className="flex h-16 shrink-0 items-center">
           {/* <Icons.Logo className="h-8 w-auto text-indigo-600" /> */}
           <Image alt="logo" width={34} className="h-12 w-auto text-indigo-600" src={icono_del_logo}/>
         </Link>

@@ -30,11 +30,11 @@ const ProfessionalsPage = () => {
       {pros.map((professional) => (
         <div
           key={professional.id}
-          className="relative bg-zinc-50 border border-zinc-200 p-3 m-3 rounded-md"
+          className="relative bg-zinc-50 border border-zinc-200 p-1 m-3 rounded-md"
         >
-          <div className="relative sm:flex">
-            <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
-              <div className="relative h-6 w-6">
+          <div className="relative sm:flex gap-3">
+            <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4 pt-3">
+              <div className="relative h-8 w-8">
                 <Image
                   referrerPolicy="no-referrer"
                   className="rounded-full"
@@ -44,12 +44,12 @@ const ProfessionalsPage = () => {
                 />
               </div>
             </div>
-            <h4 className="text-lg text-black font-semibold">
+            <h4 className="text-lg text-gray-700 font-semibold pt-4">
               {professional.name}
             </h4>
-          </div>
-          <div className="right-4 inset-y-0 flex items-center">
-            <ChatRequest email={professional.email || ""} />
+            <div className="right-4 text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group pt-4 rounded text-sm font-semibold">
+              <ChatRequest email={professional.email || ""} />
+            </div>
           </div>
         </div>
       ))}

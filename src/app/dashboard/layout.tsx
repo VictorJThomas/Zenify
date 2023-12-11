@@ -75,7 +75,7 @@ const DashboardLayout = async ({ children }: ChatsLayoutProps) => {
   return (
     <div className="w-full flex items-start justify-between h-screen relative">
       <aside className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-hidden border-r border-gray-200 px-6">
-        <Link href="/dashboard" className="flex h-16 shrink-0 items-center">
+        <Link href="/chat" className="flex h-16 shrink-0 items-center">
           <Image alt="logo" width={34} className="h-12 w-auto text-indigo-600" src={icono_del_logo}/>
         </Link>
 
