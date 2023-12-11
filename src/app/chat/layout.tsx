@@ -14,6 +14,7 @@ import SignOutButton from "./components/SignOutButton";
 import { Plus, Newspaper, Focus, Users, Bot, Settings } from "lucide-react";
 import RightPanel from "@/components/RightPanel";
 import imageDefaultUser from "~/assets/imageDefaultUser.svg";
+import icono_del_logo from "~/assets/icono_del_logo.svg"
 
 interface ChatsLayoutProps {
   children: ReactNode;
@@ -22,37 +23,37 @@ interface ChatsLayoutProps {
 const sidebarOptions: SidebarOption[] = [
   {
     id: 1,
-    name: "Add friend",
+    name: "Añadir amigo",
     href: `${process.env.NEXT_PUBLIC_URL}/chat/add`,
     Icon: <Plus className="h-4 w-4 text-black" />,
   },
   {
     id: 2,
-    name: "Posts",
+    name: "Artículos",
     href: `${process.env.NEXT_PUBLIC_URL}/dashboard/post`,
     Icon: <Newspaper className="h-4 w-4 text-black" />,
   },
   {
     id: 3,
-    name: "Focus Mode",
+    name: "Modo Focus",
     href: `${process.env.NEXT_PUBLIC_URL}/dashboard/focus`,
     Icon: <Focus className="h-4 w-4 text-black" />,
   },
   {
     id: 4,
-    name: "Professionals",
+    name: "Profesionales",
     href: `${process.env.NEXT_PUBLIC_URL}/dashboard/professionals`,
     Icon: <Users className="h-4 w-4 text-black" />,
   },
   {
     id: 5,
-    name: "ChatBot",
+    name: "ZenBot",
     href: `${process.env.NEXT_PUBLIC_URL}/dashboard/chat`,
     Icon: <Bot className="h-4 w-4 text-black" />,
   },
   {
     id: 6,
-    name: "Settings",
+    name: "Configuración",
     href: `${process.env.NEXT_PUBLIC_URL}/dashboard/settings`,
     Icon: <Settings className="h-4 w-4 text-black" />,
   },
@@ -63,7 +64,6 @@ const ChatsLayout = async ({ children }: ChatsLayoutProps) => {
   if (!session) notFound();
 
   const friends = await getFriendsByUserId(session.user.id);
-  console.log("friends", friends);
 
   const unseenRequestCount = (
     (await fetchRedis(
@@ -75,13 +75,14 @@ const ChatsLayout = async ({ children }: ChatsLayoutProps) => {
   return (
     <div className="w-full flex items-start justify-between h-screen relative">
       <aside className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-hidden border-r border-gray-200 bg-white px-6">
-        <Link href="/dashboard" className="flex h-16 shrink-0 items-center">
-          <Icons.Logo className="h-8 w-auto text-indigo-600" />
+        <Link href="/chat" className="flex h-16 shrink-0 items-center">
+          {/* <Icons.Logo className="h-8 w-auto text-indigo-600" /> */}
+          <Image alt="logo" width={34} className="h-12 w-auto text-indigo-600" src={icono_del_logo}/>
         </Link>
 
         {friends.length > 0 ? (
           <div className="text-xs font-semibold leading-6 text-gray-400">
-            Your chats
+            Tus chats
           </div>
         ) : ""}
 
@@ -131,7 +132,7 @@ const ChatsLayout = async ({ children }: ChatsLayoutProps) => {
                     alt="Your profile picture"
                   />
                 </div>
-                <span className="sr-only">Your profile</span>
+                <span className="sr-only">Tu perfil</span>
                 <div className="flex flex-col">
                   <span aria-hidden="true">{session.user.name}</span>
                   <span className="text-xs text-zinc-400" aria-hidden="true">

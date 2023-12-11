@@ -13,4 +13,12 @@ export type FormattedPost = {
     author: string;
     image: string;
     snippet: string;
-  };
+};
+
+export type Professinals = {
+    id: string;
+    name?: string;
+    email?: string;
+    image?: string;
+    role: string;
+}

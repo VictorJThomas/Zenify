@@ -10,25 +10,25 @@ type MainSectionProps = {
 const SecondSection = ({ className, posts }: MainSectionProps) => {
   const quotes = [
     {
-      text: "The best and most beautiful things in the world cannot be seen or even touched - they must be felt with the heart.",
-      author: "Helen Keller",
+      "text": "La salud mental es tan importante como la física. Ambas contribuyen al bienestar general de una persona.",
+      "author": "Sigmund Freud"
     },
     {
-      text: "It is during our darkest moments that we must focus to see the light.",
-      author: "Aristotle Onassis",
+      "text": "La felicidad no es la ausencia de problemas, sino la habilidad de lidiar con ellos.",
+      "author": "Steve Maraboli"
     },
     {
-      text: "Whoever is happy will make others happy too.",
-      author: "Anne Frank",
+      "text": "No hay salud sin salud mental.",
+      "author": "David Satcher"
     },
     {
-      text: "Do not go gentle into that good night. Rage, rage against the dying of the light.",
-      author: "Dylan Thomas",
+      "text": "La salud mental no es un destino, sino un viaje. La salud mental es algo que todos debemos cuidar.",
+      "author": "Diane Abbott"
     },
     {
-      text: "The difference between ordinary and extraordinary is that little extra.",
-      author: "Jimmy Johnson",
-    },
+      "text": "Cuida de tu cuerpo. Es el único lugar que tienes para vivir.",
+      "author": "Jim Rohn"
+    }
   ];
 
   return (

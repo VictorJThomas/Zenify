@@ -2,6 +2,7 @@ import { chatHrefConstructor, cn } from '@/utils/utils'
 import Image from 'next/image'
 import { FC } from 'react'
 import { toast, type Toast } from 'react-hot-toast'
+import imageDefaultUser from "~/assets/imageDefaultUser.svg"
 
 interface UnseenChatToastProps {
   t: Toast
@@ -28,7 +29,7 @@ const UnseenChatToast: FC<UnseenChatToastProps> = ({
       )}>
       <a
         onClick={() => toast.dismiss(t.id)}
-        href={`/dashboard/chat/${chatHrefConstructor(sessionId, senderId)}`}
+        href={`/chat/${chatHrefConstructor(sessionId, senderId)}`}
         className='flex-1 w-0 p-4'>
         <div className='flex items-start'>
           <div className='flex-shrink-0 pt-0.5'>
@@ -37,7 +38,7 @@ const UnseenChatToast: FC<UnseenChatToastProps> = ({
                 fill
                 referrerPolicy='no-referrer'
                 className='rounded-full'
-                src={senderImg}
+                src={senderImg || imageDefaultUser}
                 alt={`${senderName} profile picture`}
               />
             </div>
@@ -54,7 +55,7 @@ const UnseenChatToast: FC<UnseenChatToastProps> = ({
         <button
           onClick={() => toast.dismiss(t.id)}
           className='w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500'>
-          Close
+          Cerrar
         </button>
       </div>
     </div>

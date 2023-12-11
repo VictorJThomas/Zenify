@@ -37,15 +37,15 @@ function PersonalInformation() {
   
   return (
     <div className="w-full dark:text-white text-black bg-slate-100 bg-opacity-50 rounded-2xl p-4">
-      <h1 className="font-semibold text-center pt-4">Account Datails</h1>
+      <h1 className="font-semibold text-center pt-4">Detalles de la cuenta</h1>
       <div className="pt-4 p-4">
-        <h4 className="pb-2 font-semibold">Email account:</h4>
+        <h4 className="pb-2 font-semibold">Correo Electrónico:</h4>
         <p className="pb-4">{session?.user.email}</p>
-        <h4 className="pb-2 font-semibold">Type account:</h4>
+        <h4 className="pb-2 font-semibold">Tipo de cuenta:</h4>
         <p className="pb-4">{role}</p>
-        <h4 className="pb-2 font-semibold">Change type</h4>
+        <h4 className="pb-2 font-semibold">Cambiar tipo</h4>
         <SwitchButton />
-        <h4 className="pb-2 font-semibold">Change user name:</h4>
+        <h4 className="pb-2 font-semibold">Cambiar nombre de usuario:</h4>
         <div className="flex flex-2 gap-4 pt-2">
           <div className="relative mb-4" data-te-input-wrapper-init>
             <input
@@ -55,7 +55,7 @@ function PersonalInformation() {
               onChange={(e) => setName(e.target.value)}
             />
             <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-black transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-black peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-black dark:peer-focus:text-black">
-              New user name
+              Nuevo nombre de usuario
             </label>
           </div>
         </div>
@@ -69,7 +69,7 @@ function PersonalInformation() {
           onClick={onSubmit}
           disabled={!name}
         >
-          Save changes
+          Guardar Cambios
         </button>
       </div>
     </div>

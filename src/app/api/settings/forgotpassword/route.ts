@@ -1,12 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { EmailTemplate } from "@/components/EmailTemplate";
 import jwt from "jsonwebtoken";
 
 const resend = new Resend("re_jB8xs4L8_27UJJwb37qe6kZqtLm6hfZr2");
-
-const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {

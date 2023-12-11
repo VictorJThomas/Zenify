@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send } from "react-feather";
 import axios from "axios";
 import { Message } from "@/types";
 import { useSession } from "next-auth/react";
-import { MdOutlineThumbDownAlt, MdThumbUpOffAlt } from "react-icons/md";
 import Button from "@/app/chat/components/Button";
 
 const ChatPage = () => {
@@ -85,7 +83,7 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-    const initialMessage = "Hello! How can I assist you today?";
+    const initialMessage = "¡Hola, soy ZenBot y estoy aquí para ayudarte! Cuéntame cómo te sientes el día de hoy.";
     setHistory([{ role: "assistant", content: initialMessage }]);
   }, []);
 
@@ -147,7 +145,7 @@ const ChatPage = () => {
                       message.content
                     ) : (
                       <>
-                        <p>Mood: {message.content.mood}</p>
+                        {/* <p>Mood: {message.content.mood}</p> */}
                         <p>Advice: {message.content.advice}</p>
                       </>
                     )}
@@ -175,7 +173,7 @@ const ChatPage = () => {
                 placeholder={
                   diagnosed
                     ? "You've received a diagnosis. Click thumbs up or down."
-                    : "Type a message"
+                    : "Escribe un mensaje"
                 }
                 className="block w-full resize-none bg-transparent pl-2 pr-20 text-gray-900 h-full placeholder:text-gray-400 sm:py-1.5 sm:text-sm "
                 onKeyDown={(e) => {
@@ -207,7 +205,7 @@ const ChatPage = () => {
             </div>
             {charCount === 350 && (
               <div className="text-xs text-red-500 mt-1">
-                Maximum characters reached
+                Máximo de caracteres alcanzado
               </div>
             )}
           </div>

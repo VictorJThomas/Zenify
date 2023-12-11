@@ -35,7 +35,7 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
     const chatHandler = (message: ExtendedMessage) => {
       const shouldNotify =
         pathname !==
-        `/chat/${chatHrefConstructor(sessionId, message.senderId)}`
+        `${process.env.NEXT_PUBLIC_URL}/chat/${chatHrefConstructor(sessionId, message.senderId)}`
 
       if (!shouldNotify) return
 
@@ -75,7 +75,7 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
 
   return (
     <ul role='list' className='max-h-[25rem] overflow-y-auto -mx-2 space-y-1'>
-      {activeChats.sort().map((friend) => {
+      {activeChats.slice(0, 4).sort().map((friend) => {
         const unseenMessagesCount = unseenMessages.filter((unseenMsg) => {
           return unseenMsg.senderId === friend.id
         }).length

@@ -29,9 +29,9 @@ function AccountSignIn() {
   };
   return (
     <div className="w-full dark:text-black bg-slate-100 bg-opacity-50 rounded-2xl p-4">
-      <h1 className="font-semibold text-center pt-4">Account Sign-In</h1>
+      <h1 className="font-semibold text-center pt-4">Inicio de sesión</h1>
       <div className="pt-4">
-        <h4 className="pb-2 font-semibold">Change password:</h4>
+        <h4 className="pb-2 font-semibold">Cambiar contraseña:</h4>
         <div className="flex flex-2 gap-4 m-4">
           <div className="relative mb-4" data-te-input-wrapper-init>
             <input
@@ -41,7 +41,7 @@ function AccountSignIn() {
               onChange={(e) => setCurrentPassword(e.target.value)}
             />
             <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-black transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-black peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-black dark:peer-focus:text-black">
-              Current Password
+              Contraseña actual
             </label>
           </div>
         </div>
@@ -54,7 +54,7 @@ function AccountSignIn() {
               onChange={(e) => setPassword(e.target.value)}
             />
             <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-black transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-black peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-black dark:peer-focus:text-black">
-              New Password
+              Nueva contraseña
             </label>
           </div>
         </div>
@@ -67,7 +67,7 @@ function AccountSignIn() {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-black transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-black peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-black dark:peer-focus:text-black">
-              Repeat Password
+              Confirmar contraseña
             </label>
           </div>
         </div>
@@ -81,7 +81,7 @@ function AccountSignIn() {
           onClick={onSubmit}
           disabled={!password}
         >
-          Save changes
+          Guardar cambios
         </button>
       </div>
     </div>

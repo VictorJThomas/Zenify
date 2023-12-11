@@ -32,12 +32,12 @@ const getPosts = async () => {
 const PostPage = async () => {
   const {posts, mood} = await getPosts();
   const moods = [
-    { mood: "Depression", value: "depression" },
-    { mood: "Loneliness", value: "loneliness" },
-    { mood: "Happiness", value: "happiness" },
-    { mood: "Anxiety", value: "anxiety" },
-    { mood: "Rage", value: "rage" },
-    { mood: "Sadness", value: "sadness" },
+    { mood: "Depresión", value: "depression" },
+    { mood: "Soledad", value: "loneliness" },
+    { mood: "Felicidad", value: "happiness" },
+    { mood: "Ansiedad", value: "anxiety" },
+    { mood: "Ira", value: "rage" },
+    { mood: "Tristeza", value: "sadness" },
   ];
 
   return (

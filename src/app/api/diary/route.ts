@@ -14,7 +14,6 @@ export async function GET(request: Request) {
         createAt: 'desc'
       }
     });
-    prisma.$disconnect
     return NextResponse.json({diaries},{ status: 201 });
   } catch (error) {
     console.error('Error fetching diaries:', error);
